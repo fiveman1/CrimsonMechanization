@@ -1,0 +1,15 @@
+[
+  {
+    "modid": "crimsonmechanization",
+    "name": "Crimson Mechanization",
+    "description": "A factory/fantasy tech mod.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["fiveman1", "TitanHawk17"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": []
+  }
+]
