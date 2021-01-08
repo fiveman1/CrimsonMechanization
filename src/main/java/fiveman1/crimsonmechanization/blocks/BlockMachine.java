@@ -26,8 +26,6 @@ public abstract class BlockMachine extends BlockBase implements ITileEntityProvi
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
-    public static boolean keepInventory = false;
-
     public BlockMachine(String name) {
         super(name);
         setSoundType(SoundType.METAL);
@@ -48,8 +46,13 @@ public abstract class BlockMachine extends BlockBase implements ITileEntityProvi
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(ACTIVE) ? state.getValue(FACING).getHorizontalIndex() + 0b100
-                : state.getValue(FACING).getHorizontalIndex();
+        // meta: 4 bits
+        // XAFF
+        // X: unused
+        // A: PropertyBool ACTIVE (true or false)
+        // F: PropertyDirection FACING (0 - 3, represent a direction north, east, south, or west)
+        int meta = state.getValue(FACING).getHorizontalIndex();
+        return state.getValue(ACTIVE) ? meta + 0b100 : meta;
     }
 
     @Override

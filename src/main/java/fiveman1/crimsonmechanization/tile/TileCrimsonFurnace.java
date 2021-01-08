@@ -8,9 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -19,7 +16,7 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TileCrimsonFurnace extends TileEntityBase implements ITickable {
+public class TileCrimsonFurnace extends TileMachine {
 
     public static final int INPUT_SLOTS = 1;
     public static final int OUTPUT_SLOTS = 1;
@@ -60,40 +57,38 @@ public class TileCrimsonFurnace extends TileEntityBase implements ITickable {
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
 
     @Override
-    public void update() {
-        if (!world.isRemote) {
-            if (progress < MAX_PROGRESS) {
-                if (!inputHandler.getStackInSlot(0).isEmpty() && hasAvailableOutput()) {
-                    if (!active) {
-                        IBlockState state = world.getBlockState(pos);
-                        world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, true), 3);
-                    }
-                    active = true;
-                    progress++;
-                    if (progress >= MAX_PROGRESS) {
-                        attemptSmelt();
-                    }
-                    if (inputHandler.getStackInSlot(0).getItem() != previousInput.getItem()) {
-                        progress = 1;
-                    }
-                    markDirty();
-                } else {
-                    active = false;
-                    progress = 0;
+    public void updateTile() {
+        if (progress < MAX_PROGRESS) {
+            if (!inputHandler.getStackInSlot(0).isEmpty() && hasAvailableOutput()) {
+                if (!active) {
+                    IBlockState state = world.getBlockState(pos);
+                    world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, true), 3);
                 }
+                active = true;
+                progress++;
+                if (progress >= MAX_PROGRESS) {
+                    attemptSmelt();
+                }
+                if (inputHandler.getStackInSlot(0).getItem() != previousInput.getItem()) {
+                    progress = 1;
+                }
+                markDirty();
             } else {
-                startSmelt();
+                active = false;
+                progress = 0;
             }
-            counter++;
-            if (counter > 40) {
-                IBlockState state = world.getBlockState(pos);
-                if (state.getValue(BlockMachine.ACTIVE) != active) {
-                    world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, active), 3);
-                }
-                counter = 0;
-            }
-            previousInput = inputHandler.getStackInSlot(0);
+        } else {
+            startSmelt();
         }
+        counter++;
+        if (counter > 40) {
+            IBlockState state = world.getBlockState(pos);
+            if (state.getValue(BlockMachine.ACTIVE) != active) {
+                world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, active), 3);
+            }
+            counter = 0;
+        }
+        previousInput = inputHandler.getStackInSlot(0);
     }
 
     private boolean insertOutput(ItemStack output, boolean simulate) {
@@ -116,11 +111,6 @@ public class TileCrimsonFurnace extends TileEntityBase implements ITickable {
         if (insertOutput(result.copy(), false)) {
             inputHandler.extractItem(0, 1, false);
         }
-    }
-
-    @Override
-    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-        return oldState.getBlock() != newState.getBlock();
     }
 
     @Override
