@@ -1,6 +1,7 @@
 package fiveman1.crimsonmechanization.blocks;
 
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -21,6 +22,7 @@ public abstract class BlockMachine extends BlockBase implements ITileEntityProvi
 
     public BlockMachine(String name) {
         super(name);
+        setSoundType(SoundType.METAL);
         setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
         this.inputSlots = inputSlots;
         this.outputSlots = outputSlots;

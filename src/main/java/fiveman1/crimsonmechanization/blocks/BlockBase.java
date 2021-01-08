@@ -15,7 +15,11 @@ public class BlockBase extends Block {
     private final String NAME;
 
     public BlockBase(String name) {
-        super(Material.ROCK);
+        this(name, Material.ROCK);
+    }
+
+    public BlockBase(String name, Material material) {
+        super(material);
         setRegistryName(CrimsonMechanization.MODID, name);
         setUnlocalizedName(CrimsonMechanization.MODID + "." + name);
         RegistryHandler.addBlockToRegistry(this);
