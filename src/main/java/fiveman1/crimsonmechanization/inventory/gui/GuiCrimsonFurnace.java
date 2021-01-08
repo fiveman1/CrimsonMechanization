@@ -6,7 +6,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 
 public class GuiCrimsonFurnace extends GuiBase {
 
-    private TileCrimsonFurnace te;
+    private final TileCrimsonFurnace te;
 
     public GuiCrimsonFurnace(TileCrimsonFurnace te, ContainerCrimsonFurnace container, InventoryPlayer playerInv, String name, int width, int height) {
         super(container, playerInv, name, width, height);

@@ -31,7 +31,7 @@ public class TileCrimsonFurnace extends TileMachine {
         super();
     }
 
-    private ItemStackHandler inputHandler = new ItemStackHandler(INPUT_SLOTS) {
+    private final ItemStackHandler inputHandler = new ItemStackHandler(INPUT_SLOTS) {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
             ItemStack result = FurnaceRecipes.instance().getSmeltingResult(stack);
@@ -43,13 +43,13 @@ public class TileCrimsonFurnace extends TileMachine {
             TileCrimsonFurnace.this.markDirty();
         }
     };
-    private ItemStackHandler outputHandler = new ItemStackHandler(OUTPUT_SLOTS) {
+    private final ItemStackHandler outputHandler = new ItemStackHandler(OUTPUT_SLOTS) {
         @Override
         protected void onContentsChanged(int slot) {
             TileCrimsonFurnace.this.markDirty();
         }
     };
-    private CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler);
+    private final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler);
 
     private boolean active = false;
     private int progress = 0;
@@ -123,6 +123,7 @@ public class TileCrimsonFurnace extends TileMachine {
             outputHandler.deserializeNBT((NBTTagCompound) compound.getTag("itemsOut"));
         }
         progress = compound.getInteger("progress");
+        counter = compound.getInteger("counter");
     }
 
     @Override
@@ -131,6 +132,7 @@ public class TileCrimsonFurnace extends TileMachine {
         compound.setTag("itemsIn", inputHandler.serializeNBT());
         compound.setTag("itemsOut", outputHandler.serializeNBT());
         compound.setInteger("progress", progress);
+        compound.setInteger("counter", counter);
         return compound;
     }
 
@@ -158,15 +160,10 @@ public class TileCrimsonFurnace extends TileMachine {
         }
     }
 
-    public void setField(int id, int value)
-    {
+    public void setField(int id, int value) {
         switch (id) {
             case 0:
                 progress = value;
         }
-    }
-
-    public boolean isActive() {
-        return active;
     }
 }

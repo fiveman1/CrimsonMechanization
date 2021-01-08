@@ -2,7 +2,6 @@ package fiveman1.crimsonmechanization.blocks;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -57,7 +56,7 @@ public abstract class BlockMachine extends BlockBase implements ITileEntityProvi
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[]{FACING, ACTIVE});
+        return new BlockStateContainer(this, FACING, ACTIVE);
     }
 
     protected static void removeItems(World worldIn, BlockPos pos, TileEntity tileentity) {

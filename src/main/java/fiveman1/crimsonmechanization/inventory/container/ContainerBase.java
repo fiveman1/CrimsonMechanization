@@ -1,6 +1,7 @@
 package fiveman1.crimsonmechanization.inventory.container;
 
 import fiveman1.crimsonmechanization.tile.TileEntityBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -15,7 +16,10 @@ public abstract class ContainerBase extends Container {
         addInventorySlots(playerInventory, xOffsetInventory, yOffsetInventory);
     }
 
-    protected abstract void addSlots();
+    @Override
+    public boolean canInteractWith(EntityPlayer playerIn) {
+        return te.canInteractWith(playerIn);
+    }
 
     protected void addInventorySlots(IInventory playerInventory, int xOffset, int yOffset) {
         int x;
@@ -36,4 +40,5 @@ public abstract class ContainerBase extends Container {
         }
     }
 
+    protected abstract void addSlots();
 }

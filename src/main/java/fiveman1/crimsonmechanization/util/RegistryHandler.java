@@ -17,8 +17,8 @@ import java.util.ArrayList;
 @Mod.EventBusSubscriber
 public class RegistryHandler {
 
-    public static ArrayList<BlockBase> BLOCKS = new ArrayList<>();
-    public static ArrayList<ItemBase> ITEMS = new ArrayList<>();
+    public static final ArrayList<BlockBase> BLOCKS = new ArrayList<>();
+    public static final ArrayList<ItemBase> ITEMS = new ArrayList<>();
 
     @SubscribeEvent
     public static void onBlockRegistry(RegistryEvent.Register<Block> event) {

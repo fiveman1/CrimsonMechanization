@@ -17,7 +17,7 @@ import net.minecraftforge.items.SlotItemHandler;
 public class ContainerCrimsonFurnace extends ContainerBase {
 
     private int progress;
-    private TileCrimsonFurnace furnace;
+    private final TileCrimsonFurnace furnace;
 
     public ContainerCrimsonFurnace(IInventory playerInventory, TileCrimsonFurnace tileCrimsonFurnace, int xOffsetInventory, int yOffsetInventory) {
         super(playerInventory, tileCrimsonFurnace, xOffsetInventory, yOffsetInventory);
@@ -59,10 +59,6 @@ public class ContainerCrimsonFurnace extends ContainerBase {
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer playerIn) {
-        return te.canInteractWith(playerIn);
-    }
-
     @SideOnly(Side.CLIENT)
     public void updateProgressBar(int id, int data)
     {

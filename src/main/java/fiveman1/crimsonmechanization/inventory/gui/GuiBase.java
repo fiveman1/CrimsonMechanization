@@ -11,7 +11,7 @@ public class GuiBase extends GuiContainer {
 
     protected final ResourceLocation background;
     protected final InventoryPlayer playerInventory;
-    private String NAME;
+    private final String NAME;
 
     public GuiBase(Container container, InventoryPlayer playerInv, String name, int width, int height) {
         super(container);
