@@ -16,10 +16,14 @@ import net.minecraft.world.World;
 public abstract class BlockMachine extends BlockBase implements ITileEntityProvider {
 
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
+    public static int inputSlots;
+    public static int outputSlots;
 
     public BlockMachine(String name) {
         super(name);
         setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        this.inputSlots = inputSlots;
+        this.outputSlots = outputSlots;
     }
 
     @Override

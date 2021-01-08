@@ -33,7 +33,6 @@ public class CrimsonMechanization {
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
         proxy.init(e);
-        RegistryHandler.initTileEntities();
     }
 
     @Mod.EventHandler
