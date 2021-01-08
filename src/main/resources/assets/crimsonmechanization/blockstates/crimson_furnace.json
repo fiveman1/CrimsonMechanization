@@ -1,7 +1,10 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "crimsonmechanization:crimson_furnace"
+    "model": "crimsonmechanization:crimson_furnace",
+    "textures": {
+      "front": "crimsonmechanization:blocks/crimson_forger_off"
+    }
   },
   "variants": {
     "normal": [{}],
@@ -13,6 +16,14 @@
       "east": {"y": 90},
       "up": {"x": -90},
       "down": {"x": 90}
+    },
+    "active": {
+      "false": {},
+      "true": {
+        "textures": {
+          "front": "crimsonmechanization:blocks/crimson_forger_on"
+        }
+      }
     }
   }
 }

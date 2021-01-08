@@ -33,5 +33,23 @@ public class BlockCrimsonFurnace extends BlockMachine {
         return true;
     }
 
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        if (!keepInventory) {
+            TileEntity tileentity = worldIn.getTileEntity(pos);
+            if (tileentity instanceof TileCrimsonFurnace) {
+                removeItems(worldIn, pos, tileentity);
+            }
+        }
+        super.breakBlock(worldIn, pos, state);
+    }
 
+   /* @Override
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+        TileEntity te = worldIn instanceof ChunkCache ? ((ChunkCache)worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
+        if (te instanceof TileCrimsonFurnace) {
+            return state.withProperty(FACING, state.getValue(FACING)).withProperty(ACTIVE, ((TileCrimsonFurnace) te).isActive());
+        }
+        return state.withProperty(FACING, state.getValue(FACING)).withProperty(ACTIVE, false);
+    }*/
 }

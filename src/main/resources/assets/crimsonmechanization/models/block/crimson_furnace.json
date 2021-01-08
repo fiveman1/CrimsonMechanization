@@ -6,7 +6,7 @@
     "up": "crimsonmechanization:blocks/machine_top",
     "east": "crimsonmechanization:blocks/machine_side",
     "west": "crimsonmechanization:blocks/machine_side",
-    "north": "crimsonmechanization:blocks/crimson_forger_off",
+    "north": "#front",
     "south": "crimsonmechanization:blocks/machine_side"
   }
 }

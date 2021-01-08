@@ -19,4 +19,13 @@ public class GuiCrimsonFurnace extends GuiBase {
         fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, 0x404040);
         fontRenderer.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
     }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+        int progress = te.getField(0);
+        if (progress > 0) {
+            drawTexturedModalRect(guiLeft + 76, guiTop + 35, 176, 0, progress * 23 / te.MAX_PROGRESS, 16);
+        }
+    }
 }

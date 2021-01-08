@@ -1,6 +1,5 @@
 package fiveman1.crimsonmechanization.inventory;
 
-import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
 import fiveman1.crimsonmechanization.inventory.gui.GuiCrimsonFurnace;
 import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +18,7 @@ public class GuiHandler implements IGuiHandler {
         BlockPos pos = new BlockPos(x, y, z);
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof TileCrimsonFurnace) {
-            return new ContainerCrimsonFurnace(player.inventory, (TileCrimsonFurnace) te, 8, 84);
+            return ((TileCrimsonFurnace) te).createContainer(player.inventory);
         }
         return null;
     }
@@ -31,7 +30,7 @@ public class GuiHandler implements IGuiHandler {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof TileCrimsonFurnace) {
             TileCrimsonFurnace tileCrimsonFurnace = (TileCrimsonFurnace) te;
-            return new GuiCrimsonFurnace(tileCrimsonFurnace, new ContainerCrimsonFurnace(player.inventory, tileCrimsonFurnace, 8, 84), player.inventory, tileCrimsonFurnace.name,176, 166);
+            return new GuiCrimsonFurnace(tileCrimsonFurnace, tileCrimsonFurnace.createContainer(player.inventory), player.inventory, tileCrimsonFurnace.name,176, 166);
         }
         return null;
     }

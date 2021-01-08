@@ -2,6 +2,8 @@ package fiveman1.crimsonmechanization.blocks;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -12,20 +14,24 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+
+import static net.minecraft.inventory.InventoryHelper.spawnItemStack;
 
 public abstract class BlockMachine extends BlockBase implements ITileEntityProvider {
 
-    public static final PropertyDirection FACING = PropertyDirection.create("facing");
-    public static int inputSlots;
-    public static int outputSlots;
+    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+    public static final PropertyBool ACTIVE = PropertyBool.create("active");
+
+    public static boolean keepInventory = false;
 
     public BlockMachine(String name) {
         super(name);
         setSoundType(SoundType.METAL);
-        setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
-        this.inputSlots = inputSlots;
-        this.outputSlots = outputSlots;
+        setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false));
     }
 
     @Override
@@ -35,22 +41,38 @@ public abstract class BlockMachine extends BlockBase implements ITileEntityProvi
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return getDefaultState().withProperty(FACING, EnumFacing.getFront(meta & 0b111));
-    }
-
-    @Override
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+        return meta >= 0b100
+                ? this.getDefaultState().withProperty(ACTIVE, true).withProperty(FACING, EnumFacing.getHorizontal(meta - 0b100))
+                : this.getDefaultState().withProperty(ACTIVE, false).withProperty(FACING, EnumFacing.getHorizontal(meta));
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(FACING).getIndex();
+        return state.getValue(ACTIVE) ? state.getValue(FACING).getHorizontalIndex() + 0b100
+                : state.getValue(FACING).getHorizontalIndex();
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING);
+        return new BlockStateContainer(this, new IProperty[]{FACING, ACTIVE});
+    }
+
+    protected static void removeItems(World worldIn, BlockPos pos, TileEntity tileentity) {
+        IItemHandler inventory = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            ItemStack itemstack = inventory.getStackInSlot(i);
+            if (!itemstack.isEmpty()) {
+                spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), itemstack);
+            }
+        }
+    }
+
+    @Override
+    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+        if (state.getValue(ACTIVE)) {
+            return 12;
+        }
+        return 0;
     }
 
     @Override
