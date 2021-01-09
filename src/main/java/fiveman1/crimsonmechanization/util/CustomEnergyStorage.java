@@ -28,8 +28,11 @@ public class CustomEnergyStorage extends EnergyStorage {
         this.energy = energy;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setCapacity(int newCapacity) {
+        if (energy > newCapacity) {
+            energy = newCapacity;
+        }
+        this.capacity = newCapacity;
     }
 
     public void setMaxReceive (int maxReceive) {

@@ -2,7 +2,6 @@ package fiveman1.crimsonmechanization.inventory.gui;
 
 import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
 import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
-import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -26,15 +25,14 @@ public class GuiCrimsonFurnace extends GuiBase {
         if (progress > 0) {
             drawTexturedModalRect(guiLeft + 76, guiTop + 35, 176, 0, progress * 23 / te.MAX_PROGRESS, 16);
         }
-        CustomEnergyStorage energyStorage = te.energyStorage;
-        drawEnergyBar(energyStorage.getEnergyStored(), energyStorage.getCapacity());
+        drawEnergyBar(te.getField(1), te.getField(2));
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         if (isMouseOverEnergyBar(mouseX, mouseY)) {
-            drawHoveringText("Energy: " + te.energyStorage.getEnergyStored(), mouseX, mouseY);
+            drawHoveringText("Energy: " + te.getField(1), mouseX, mouseY);
         }
     }
 
@@ -42,7 +40,8 @@ public class GuiCrimsonFurnace extends GuiBase {
         if (capacity > 0) {
             drawRect(guiLeft + 79, guiTop + 71, guiLeft + 167, guiTop + 78, 0xff404040);
             int width = energy * (166 - 80) / capacity;
-            drawGradientRect(guiLeft + 80, guiTop + 72, guiLeft + 80 + width, guiTop + 77, Color.red.getRGB(), Color.yellow.getRGB());
+            //drawGradientRect(guiLeft + 80, guiTop + 72, guiLeft + 80 + width, guiTop + 77, Color.red.getRGB(), Color.yellow.getRGB());
+            drawGradientRect(guiLeft + 80, guiTop + 72, guiLeft + 80 + width, guiTop + 77, Color.white.getRGB(), getRGB(0,128,255));
             drawRect(guiLeft + 80 + width, guiTop + 72, guiLeft + 166, guiTop + 77, Color.black.getRGB());
         }
     }

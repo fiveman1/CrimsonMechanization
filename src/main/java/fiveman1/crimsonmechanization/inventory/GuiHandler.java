@@ -30,7 +30,7 @@ public class GuiHandler implements IGuiHandler {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof TileCrimsonFurnace) {
             TileCrimsonFurnace tileCrimsonFurnace = (TileCrimsonFurnace) te;
-            return new GuiCrimsonFurnace(tileCrimsonFurnace, tileCrimsonFurnace.createContainer(player.inventory), player.inventory, tileCrimsonFurnace.name,176, 166);
+            return new GuiCrimsonFurnace(tileCrimsonFurnace, tileCrimsonFurnace.createContainer(player.inventory), player.inventory, tileCrimsonFurnace.name, 176, 166);
         }
         return null;
     }

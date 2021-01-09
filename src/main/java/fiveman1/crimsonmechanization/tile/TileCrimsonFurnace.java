@@ -56,6 +56,8 @@ public class TileCrimsonFurnace extends TileMachine {
     private int counter = 0;
     private int energyStored = 0;
     private int capacity = 0;
+    private int maxReceive = 0;
+    private int maxExtract = 0;
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
 
     @Override
@@ -95,11 +97,6 @@ public class TileCrimsonFurnace extends TileMachine {
             }
             counter = 0;
         }
-
-        // TODO: improve this
-        IBlockState state = world.getBlockState(pos);
-        world.notifyBlockUpdate(pos, state, state, 2);
-
         previousInput = inputHandler.getStackInSlot(0);
     }
 
@@ -166,6 +163,14 @@ public class TileCrimsonFurnace extends TileMachine {
         switch (id) {
             case 0:
                 return progress;
+            case 1:
+                return energyStored;
+            case 2:
+                return capacity;
+            case 3:
+                return maxReceive;
+            case 4:
+                return maxExtract;
             default:
                 return 0;
 
@@ -176,6 +181,14 @@ public class TileCrimsonFurnace extends TileMachine {
         switch (id) {
             case 0:
                 progress = value;
+            case 1:
+                energyStored = value;
+            case 2:
+                capacity = value;
+            case 3:
+                maxReceive = value;
+            case 4:
+                maxExtract = value;
         }
     }
 }

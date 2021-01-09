@@ -2,8 +2,12 @@ package fiveman1.crimsonmechanization.inventory.container;
 
 
 import fiveman1.crimsonmechanization.inventory.slot.SlotOutput;
+import fiveman1.crimsonmechanization.network.Messages;
+import fiveman1.crimsonmechanization.network.PacketGetEnergy;
 import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
+import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -14,7 +18,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerCrimsonFurnace extends ContainerBase {
+public class ContainerCrimsonFurnace extends ContainerBase implements IMachineContainer {
 
     private int progress;
     private final TileCrimsonFurnace furnace;
@@ -73,7 +77,24 @@ public class ContainerCrimsonFurnace extends ContainerBase {
             if (field != progress) {
                 listener.sendWindowProperty(this, 0, field);
             }
+            CustomEnergyStorage storage = furnace.energyStorage;
+            if (furnace.getField(1) != storage.getEnergyStored() ||
+            furnace.getField(2) != storage.getCapacity() ||
+            furnace.getField(3) != storage.getMaxReceive() ||
+            furnace.getField(4) != storage.getMaxExtract()) {
+                if (listener instanceof EntityPlayerMP) {
+                    Messages.INSTANCE.sendTo(new PacketGetEnergy(storage.getEnergyStored(), storage.getCapacity(), storage.getMaxReceive(), storage.getMaxExtract()), (EntityPlayerMP) listener);
+                }
+            }
         }
         progress = furnace.getField(0);
+    }
+
+    @Override
+    public void syncEnergy(int energy, int capacity, int maxReceive, int maxExtract) {
+        furnace.setField(1, energy);
+        furnace.setField(2, capacity);
+        furnace.setField(3, maxReceive);
+        furnace.setField(4, maxExtract);
     }
 }

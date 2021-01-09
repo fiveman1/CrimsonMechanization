@@ -75,4 +75,8 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     }
 
     public abstract void updateTile();
+
+    public abstract int getField(int id);
+
+    public abstract void setField(int id, int value);
 }
