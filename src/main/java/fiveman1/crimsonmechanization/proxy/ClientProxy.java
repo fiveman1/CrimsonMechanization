@@ -1,12 +1,11 @@
 package fiveman1.crimsonmechanization.proxy;
 
 import com.google.common.util.concurrent.ListenableFuture;
-import fiveman1.crimsonmechanization.blocks.BlockBase;
-import fiveman1.crimsonmechanization.items.ItemBase;
 import fiveman1.crimsonmechanization.util.RegistryHandler;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -22,11 +21,11 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        for (ItemBase item : RegistryHandler.ITEMS) {
-            item.initModel();
+        for (Item item : RegistryHandler.ITEMS) {
+            RegistryHandler.initItemModel(item);
         }
-        for (BlockBase block : RegistryHandler.BLOCKS) {
-            block.initModel();
+        for (Block block : RegistryHandler.BLOCKS) {
+            RegistryHandler.initBlockModel(block);
         }
     }
 

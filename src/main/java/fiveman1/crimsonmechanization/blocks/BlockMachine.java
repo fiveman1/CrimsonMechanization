@@ -8,6 +8,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -17,8 +18,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-
-import static net.minecraft.inventory.InventoryHelper.spawnItemStack;
 
 public abstract class BlockMachine extends BlockBase implements ITileEntityProvider {
 
@@ -64,7 +63,7 @@ public abstract class BlockMachine extends BlockBase implements ITileEntityProvi
         for (int i = 0; i < inventory.getSlots(); i++) {
             ItemStack itemstack = inventory.getStackInSlot(i);
             if (!itemstack.isEmpty()) {
-                spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), itemstack);
+                InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), itemstack);
             }
         }
     }
