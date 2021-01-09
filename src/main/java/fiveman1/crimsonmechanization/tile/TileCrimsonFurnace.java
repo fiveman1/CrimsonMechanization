@@ -54,25 +54,32 @@ public class TileCrimsonFurnace extends TileMachine {
     private boolean active = false;
     private int progress = 0;
     private int counter = 0;
+    private int energyStored = 0;
+    private int capacity = 0;
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
 
     @Override
     public void updateTile() {
         if (progress < MAX_PROGRESS) {
             if (!inputHandler.getStackInSlot(0).isEmpty() && hasAvailableOutput()) {
-                if (!active) {
-                    IBlockState state = world.getBlockState(pos);
-                    world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, true), 3);
+                if (energyStorage.getEnergyStored() >= ENERGY_RATE) {
+                    if (!active) {
+                        IBlockState state = world.getBlockState(pos);
+                        world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, true), 3);
+                    }
+                    active = true;
+                    progress++;
+                    energyStorage.consumeEnergy(ENERGY_RATE);
+                    if (progress >= MAX_PROGRESS) {
+                        attemptSmelt();
+                    }
+                    if (inputHandler.getStackInSlot(0).getItem() != previousInput.getItem()) {
+                        progress = 1;
+                    }
+                    markDirty();
+                } else {
+                    active = false;
                 }
-                active = true;
-                progress++;
-                if (progress >= MAX_PROGRESS) {
-                    attemptSmelt();
-                }
-                if (inputHandler.getStackInSlot(0).getItem() != previousInput.getItem()) {
-                    progress = 1;
-                }
-                markDirty();
             } else {
                 active = false;
                 progress = 0;
@@ -88,6 +95,11 @@ public class TileCrimsonFurnace extends TileMachine {
             }
             counter = 0;
         }
+
+        // TODO: improve this
+        IBlockState state = world.getBlockState(pos);
+        world.notifyBlockUpdate(pos, state, state, 2);
+
         previousInput = inputHandler.getStackInSlot(0);
     }
 

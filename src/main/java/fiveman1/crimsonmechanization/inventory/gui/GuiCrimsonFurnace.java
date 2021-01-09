@@ -2,8 +2,14 @@ package fiveman1.crimsonmechanization.inventory.gui;
 
 import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
 import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
+import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.awt.*;
+
+@SideOnly(Side.CLIENT)
 public class GuiCrimsonFurnace extends GuiBase {
 
     private final TileCrimsonFurnace te;
@@ -14,18 +20,34 @@ public class GuiCrimsonFurnace extends GuiBase {
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String s = getLocalizedName();
-        fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, 0x404040);
-        fontRenderer.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
-    }
-
-    @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
         int progress = te.getField(0);
         if (progress > 0) {
             drawTexturedModalRect(guiLeft + 76, guiTop + 35, 176, 0, progress * 23 / te.MAX_PROGRESS, 16);
         }
+        CustomEnergyStorage energyStorage = te.energyStorage;
+        drawEnergyBar(energyStorage.getEnergyStored(), energyStorage.getCapacity());
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        if (isMouseOverEnergyBar(mouseX, mouseY)) {
+            drawHoveringText("Energy: " + te.energyStorage.getEnergyStored(), mouseX, mouseY);
+        }
+    }
+
+    private void drawEnergyBar(int energy, int capacity) {
+        if (capacity > 0) {
+            drawRect(guiLeft + 79, guiTop + 71, guiLeft + 167, guiTop + 78, 0xff404040);
+            int width = energy * (166 - 80) / capacity;
+            drawGradientRect(guiLeft + 80, guiTop + 72, guiLeft + 80 + width, guiTop + 77, Color.red.getRGB(), Color.yellow.getRGB());
+            drawRect(guiLeft + 80 + width, guiTop + 72, guiLeft + 166, guiTop + 77, Color.black.getRGB());
+        }
+    }
+
+    private boolean isMouseOverEnergyBar(int mouseX, int mouseY) {
+        return mouseX >= guiLeft + 79 && mouseY >= guiTop + 71 && mouseX < guiLeft + 167 && mouseY < guiTop + 78;
     }
 }
