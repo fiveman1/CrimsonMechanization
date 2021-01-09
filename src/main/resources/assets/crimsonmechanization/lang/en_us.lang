@@ -6,6 +6,7 @@ tile.crimsonmechanization.crimson_block.name=Block of Crimson
 # Items
 item.crimsonmechanization.crimson_crystal.name=Crimson Crystal
 item.crimsonmechanization.crimson_dust.name=Crimson Dust
+item.crimsonmechanization.crimson_pickaxe.name=Crimson Pickaxe
 
 # Containers
 container.crimsonmechanization.crimson_furnace.name=Crimson Forger

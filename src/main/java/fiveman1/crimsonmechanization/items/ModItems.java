@@ -10,7 +10,7 @@ public class ModItems {
     public static Item itemCrimsonDust;
 
     public static void init() {
-        itemCrimsonDust = new CrimsonDust("crimson_dust");
+        itemCrimsonDust = new ItemCrimsonDust("crimson_dust");
         itemCrimsonCrystal = new ItemCrimsonCrystal("crimson_crystal");
         itemCrimsonPickaxe = new ItemCrimsonPickaxe("crimson_pickaxe");
     }
