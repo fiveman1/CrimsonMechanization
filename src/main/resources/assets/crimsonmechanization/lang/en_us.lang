@@ -8,5 +8,8 @@ item.crimsonmechanization.crimson_crystal.name=Crimson Crystal
 item.crimsonmechanization.crimson_dust.name=Crimson Dust
 item.crimsonmechanization.crimson_pickaxe.name=Crimson Pickaxe
 
+item.crimsonmechanization.plateCrimson.name=Crimson Plate
+item.crimsonmechanization.plateIron.name=Iron Plate
+
 # Containers
 container.crimsonmechanization.crimson_furnace.name=Crimson Forger

@@ -4,16 +4,23 @@ import net.minecraft.util.IStringSerializable;
 
 public enum EnumMaterial implements IStringSerializable {
 
+    // Vanilla
     IRON(0, "iron", "Iron"),
-    CRIMSON(1, "crimson", "Crimson");
+    GOLD(1, "gold", "Gold"),
+    DIAMOND(2, "diamond", "Diamond"),
+    EMERALD(3, "emerald", "Emerald"),
+    LAPIS(4, "lapis", "Lapis"),
+    // Modded
+    CRIMSON(16, "crimson", "Crimson");
 
-    private static final EnumMaterial[] META_LOOKUP = new EnumMaterial[values().length];
     private final int meta;
     private final String name;
     private final String unlocalizedName;
 
-    EnumMaterial(int metaIn, String nameIn, String unlocalizedNameIn)
-    {
+    public static final EnumMaterial[] values = values();
+    public static final EnumMaterial[] vanillaMaterials = {EnumMaterial.IRON, EnumMaterial.GOLD, EnumMaterial.DIAMOND, EnumMaterial.EMERALD, EnumMaterial.LAPIS};
+
+    EnumMaterial(int metaIn, String nameIn, String unlocalizedNameIn) {
         this.meta = metaIn;
         this.name = "_" + nameIn;
         this.unlocalizedName = unlocalizedNameIn;
@@ -34,24 +41,17 @@ public enum EnumMaterial implements IStringSerializable {
         return meta;
     }
 
-    public static EnumMaterial byMetadata(int meta)
-    {
-        if (meta < 0 || meta >= META_LOOKUP.length)
-        {
-            meta = 0;
+    public static EnumMaterial byMetadata(int meta) {
+        for (EnumMaterial enumMaterial : values) {
+            if (enumMaterial.getMetadata() == meta) {
+                return enumMaterial;
+            }
         }
-        return META_LOOKUP[meta];
+        // default, this typically shouldn't happen
+        return IRON;
     }
 
     public static int getLength() {
         return values().length;
-    }
-
-    static
-    {
-        for (EnumMaterial enumMaterial : values())
-        {
-            META_LOOKUP[enumMaterial.getMetadata()] = enumMaterial;
-        }
     }
 }

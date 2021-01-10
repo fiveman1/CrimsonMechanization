@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = CrimsonMechanization.MODID)
 public class RegistryHandler {
 
     public static final ArrayList<Block> BLOCKS = new ArrayList<>();

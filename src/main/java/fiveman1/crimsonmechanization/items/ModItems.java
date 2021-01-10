@@ -13,6 +13,6 @@ public class ModItems {
         itemCrimsonDust = new ItemCrimsonDust("crimson_dust");
         itemCrimsonCrystal = new ItemCrimsonCrystal("crimson_crystal");
         itemCrimsonPickaxe = new ItemCrimsonPickaxe("crimson_pickaxe");
-        itemPlate = new ItemPlate("plate", "plate");
+        itemPlate = new ItemPlate("plate");
     }
 }

@@ -6,7 +6,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModTileEntities {
 
+    public static final String title = CrimsonMechanization.MODID + ":";
+
     public static void init() {
-        GameRegistry.registerTileEntity(TileCrimsonFurnace.class, CrimsonMechanization.MODID + ":" + ModBlocks.blockCrimsonFurnace.getName());
+        GameRegistry.registerTileEntity(TileCrimsonFurnace.class, title + ModBlocks.blockCrimsonFurnace.getName());
     }
 }
