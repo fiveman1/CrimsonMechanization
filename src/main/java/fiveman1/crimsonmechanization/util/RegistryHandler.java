@@ -1,9 +1,7 @@
 package fiveman1.crimsonmechanization.util;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
-import fiveman1.crimsonmechanization.blocks.BlockBase;
 import fiveman1.crimsonmechanization.blocks.ModBlocks;
-import fiveman1.crimsonmechanization.items.ItemBase;
 import fiveman1.crimsonmechanization.items.ModItems;
 import fiveman1.crimsonmechanization.tile.ModTileEntities;
 import net.minecraft.block.Block;
@@ -45,14 +43,8 @@ public class RegistryHandler {
         for (Block block : BLOCKS) {
             event.getRegistry().register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
         }
-    }
-
-    public static void addBlockToRegistry(BlockBase block) {
-        BLOCKS.add(block);
-    }
-
-    public static void addItemToRegistry(ItemBase item) {
-        ITEMS.add(item);
+        event.getRegistry().register(ModItems.itemPlate);
+        ModItems.itemPlate.registerOreDictEntries();
     }
 
     @SideOnly(Side.CLIENT)
@@ -65,9 +57,26 @@ public class RegistryHandler {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
     }
 
+    @SideOnly(Side.CLIENT)
+    public static void initModels() {
+        for (Item item : RegistryHandler.ITEMS) {
+            RegistryHandler.initItemModel(item);
+        }
+        for (Block block : RegistryHandler.BLOCKS) {
+            RegistryHandler.initBlockModel(block);
+        }
+        ModItems.itemPlate.initModels();
+    }
+
     public static void initItem(Item item, String name) {
         item.setRegistryName(CrimsonMechanization.MODID, name);
         item.setUnlocalizedName(CrimsonMechanization.MODID + "." + name);
+        ITEMS.add(item);
+    }
+
+    public static void initItem(Item item, String registryName, String unlocalizedName) {
+        item.setRegistryName(CrimsonMechanization.MODID, registryName);
+        item.setUnlocalizedName(CrimsonMechanization.MODID + "." + unlocalizedName);
         ITEMS.add(item);
     }
 

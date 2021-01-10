@@ -4,5 +4,6 @@ public class BlockBart extends BlockBase {
 
     public BlockBart(String name) {
         super(name);
+        setBlockUnbreakable();
     }
 }

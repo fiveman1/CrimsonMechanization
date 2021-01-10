@@ -2,7 +2,7 @@
   {
     "modid": "crimsonmechanization",
     "name": "Crimson Mechanization",
-    "description": "A factory/fantasy tech mod.",
+    "description": "A tech mod.",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "",
