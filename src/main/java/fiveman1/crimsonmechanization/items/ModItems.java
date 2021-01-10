@@ -1,5 +1,6 @@
 package fiveman1.crimsonmechanization.items;
 
+import fiveman1.crimsonmechanization.items.materials.ItemPlate;
 import fiveman1.crimsonmechanization.items.tools.ItemCrimsonPickaxe;
 
 public class ModItems {

@@ -1,7 +1,6 @@
-package fiveman1.crimsonmechanization.items;
+package fiveman1.crimsonmechanization.items.materials;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
-import fiveman1.crimsonmechanization.materials.EnumMaterial;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -32,23 +31,17 @@ public class ItemMaterial extends Item {
         setCreativeTab(CreativeTabs.MATERIALS);
         oreDictTitle = name;
         for (EnumMaterial enumMaterial : EnumMaterial.values) {
-            if (!ignoreList.contains(enumMaterial)) {
-                values.add(enumMaterial);
-            }
+            values.add(enumMaterial);
         }
-    }
-
-    protected void addMaterialToIgnoreList(EnumMaterial enumMaterial) {
-        ignoreList.add(enumMaterial);
     }
 
     protected void addMaterialsToIgnoreList(EnumMaterial[] enumMaterials) {
         for (EnumMaterial enumMaterial : enumMaterials) {
-            addMaterialToIgnoreList(enumMaterial);
+            ignoreList.add(enumMaterial);
         }
     }
 
-    // make sure to call this after you use addMaterial(s)ToIgnoreList
+    // make sure to call this after you use addMaterialsToIgnoreList
     protected void rebuildValues() {
         values.clear();
         for (EnumMaterial enumMaterial : EnumMaterial.values) {

@@ -1,4 +1,4 @@
-package fiveman1.crimsonmechanization.materials;
+package fiveman1.crimsonmechanization.items.materials;
 
 import net.minecraft.util.IStringSerializable;
 
@@ -10,6 +10,8 @@ public enum EnumMaterial implements IStringSerializable {
     DIAMOND(2, "diamond", "Diamond"),
     EMERALD(3, "emerald", "Emerald"),
     LAPIS(4, "lapis", "Lapis"),
+    COAL(5, "coal", "Coal"),
+    REDSTONE(6, "redstone", "Redstone"),
     // Modded
     CRIMSON(16, "crimson", "Crimson");
 
