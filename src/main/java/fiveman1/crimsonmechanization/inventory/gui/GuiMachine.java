@@ -19,10 +19,15 @@ public class GuiMachine extends GuiBase {
 
     protected void drawEnergyBar(int energy, int capacity) {
         if (capacity > 0) {
+            // background
             drawRect(guiLeft + 79, guiTop + 71, guiLeft + 167, guiTop + 78, 0xff404040);
+
+            // energy bar
             int width = energy * (166 - 80) / capacity;
             //drawGradientRect(guiLeft + 80, guiTop + 72, guiLeft + 80 + width, guiTop + 77, Color.red.getRGB(), Color.yellow.getRGB());
             drawGradientRect(guiLeft + 80, guiTop + 72, guiLeft + 80 + width, guiTop + 77, Color.white.getRGB(), Color.cyan.getRGB());
+
+            // empty energy bar
             drawRect(guiLeft + 80 + width, guiTop + 72, guiLeft + 166, guiTop + 77, Color.black.getRGB());
         }
     }

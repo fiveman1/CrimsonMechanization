@@ -16,13 +16,13 @@ import javax.annotation.Nullable;
 
 public abstract class TileMachine extends TileEntityBase implements ITickable {
 
-    public final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
     protected int ENERGY_RATE = 20;
     protected int progress = 0;
     protected int energyStored = 0;
     protected int capacity = 0;
     protected int maxReceive = 0;
     protected int maxExtract = 0;
+    public final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
 
     public TileMachine(String name) {
         super(name);
@@ -105,12 +105,16 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         switch (id) {
             case 0:
                 progress = value;
+                return;
             case 1:
                 energyStored = value;
+                return;
             case 2:
                 capacity = value;
+                return;
             case 3:
                 maxReceive = value;
+                return;
             case 4:
                 maxExtract = value;
         }
