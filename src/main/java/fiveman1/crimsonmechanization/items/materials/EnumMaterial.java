@@ -12,15 +12,23 @@ public enum EnumMaterial implements IStringSerializable {
     LAPIS(4, "lapis", "Lapis"),
     COAL(5, "coal", "Coal"),
     REDSTONE(6, "redstone", "Redstone"),
+
     // Modded
-    CRIMSON(16, "crimson", "Crimson");
+    CRIMSON(16, "crimson", "Crimson"),
+    CRIMSON_IRON(17, "crimson_iron", "CrimsonIron"),
+    CRIMSON_STEEL(18, "crimson_steel", "CrimsonSteel"),
+
+    COPPER(32, "copper", "Copper"),
+    TIN(33, "tin", "Tin"),
+
+    BRONZE(64, "bronze", "Bronze");
 
     private final int meta;
     private final String name;
     private final String unlocalizedName;
 
     public static final EnumMaterial[] values = values();
-    public static final EnumMaterial[] vanillaMaterials = {EnumMaterial.IRON, EnumMaterial.GOLD, EnumMaterial.DIAMOND, EnumMaterial.EMERALD, EnumMaterial.LAPIS};
+    public static final EnumMaterial[] vanillaMaterials = {EnumMaterial.IRON, EnumMaterial.GOLD, EnumMaterial.DIAMOND, EnumMaterial.EMERALD, EnumMaterial.LAPIS, EnumMaterial.COAL, EnumMaterial.REDSTONE};
 
     EnumMaterial(int metaIn, String nameIn, String unlocalizedNameIn) {
         this.meta = metaIn;
@@ -49,11 +57,7 @@ public enum EnumMaterial implements IStringSerializable {
                 return enumMaterial;
             }
         }
-        // default, this typically shouldn't happen
+        // need a default, this typically shouldn't happen
         return IRON;
-    }
-
-    public static int getLength() {
-        return values().length;
     }
 }

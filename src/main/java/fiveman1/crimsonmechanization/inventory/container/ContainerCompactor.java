@@ -1,8 +1,7 @@
 package fiveman1.crimsonmechanization.inventory.container;
 
-
 import fiveman1.crimsonmechanization.inventory.slot.SlotOutput;
-import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
+import fiveman1.crimsonmechanization.tile.TileCompactor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -11,12 +10,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerCrimsonFurnace extends ContainerMachine {
-
-
-
-    public ContainerCrimsonFurnace(IInventory playerInventory, TileCrimsonFurnace tileCrimsonFurnace, int xOffsetInventory, int yOffsetInventory) {
-        super(playerInventory, tileCrimsonFurnace, xOffsetInventory, yOffsetInventory);
+public class ContainerCompactor extends ContainerMachine {
+    public ContainerCompactor(IInventory playerInventory, TileCompactor tileEntity, int xOffsetInventory, int yOffsetInventory) {
+        super(playerInventory, tileEntity, xOffsetInventory, yOffsetInventory);
     }
 
     protected void addSlots() {
@@ -34,8 +30,8 @@ public class ContainerCrimsonFurnace extends ContainerMachine {
             ItemStack currentItemStack = slot.getStack();
             itemstack = currentItemStack.copy();
 
-            if (index < TileCrimsonFurnace.SIZE) {
-                if (!this.mergeItemStack(currentItemStack, TileCrimsonFurnace.SIZE, inventorySlots.size(), true)) {
+            if (index < TileCompactor.SIZE) {
+                if (!this.mergeItemStack(currentItemStack, TileCompactor.SIZE, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
                 slot.onSlotChange(currentItemStack, itemstack);

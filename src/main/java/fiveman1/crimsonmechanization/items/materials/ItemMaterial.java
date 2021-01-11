@@ -1,6 +1,7 @@
 package fiveman1.crimsonmechanization.items.materials;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.util.RegistryHandler;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -12,13 +13,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class ItemMaterial extends Item {
 
-    private final String oreDictTitle;
-    protected static final ArrayList<EnumMaterial> ignoreList = new ArrayList<>();
-    private static final ArrayList<EnumMaterial> values = new ArrayList<>();
+    protected final ArrayList<EnumMaterial> values = new ArrayList<>();
 
+    private final String oreDictTitle;
 
     public ItemMaterial(String name) {
         // registry name ex: dust_material
@@ -30,25 +32,20 @@ public class ItemMaterial extends Item {
         setMaxDamage(0);
         setCreativeTab(CreativeTabs.MATERIALS);
         oreDictTitle = name;
-        for (EnumMaterial enumMaterial : EnumMaterial.values) {
-            values.add(enumMaterial);
-        }
+        Collections.addAll(values, EnumMaterial.values);
+        RegistryHandler.ITEM_MATERIALS.add(this);
     }
 
-    protected void addMaterialsToIgnoreList(EnumMaterial[] enumMaterials) {
-        for (EnumMaterial enumMaterial : enumMaterials) {
-            ignoreList.add(enumMaterial);
-        }
+    protected void removeMaterials(EnumMaterial[] enumMaterials) {
+        values.removeAll(Arrays.asList(enumMaterials));
     }
 
-    // make sure to call this after you use addMaterialsToIgnoreList
-    protected void rebuildValues() {
+    protected void addMaterials(EnumMaterial[] enumMaterials) {
+        values.addAll(Arrays.asList(enumMaterials));
+    }
+
+    protected void clearMaterials() {
         values.clear();
-        for (EnumMaterial enumMaterial : EnumMaterial.values) {
-            if (!ignoreList.contains(enumMaterial)) {
-                values.add(enumMaterial);
-            }
-        }
     }
 
     @Override

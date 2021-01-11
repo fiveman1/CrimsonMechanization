@@ -17,7 +17,12 @@ import javax.annotation.Nullable;
 public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     public final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
-    public static final int ENERGY_RATE = 20;
+    protected int ENERGY_RATE = 20;
+    protected int progress = 0;
+    protected int energyStored = 0;
+    protected int capacity = 0;
+    protected int maxReceive = 0;
+    protected int maxExtract = 0;
 
     public TileMachine(String name) {
         super(name);
@@ -34,12 +39,14 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         energyStorage.readFromNBT(compound);
+        progress = compound.getInteger("progress");
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
         energyStorage.writeToNBT(compound);
+        compound.setInteger("progress", progress);
         return compound;
     }
 
@@ -76,7 +83,36 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     public abstract void updateTile();
 
-    public abstract int getField(int id);
+    public int getField(int id) {
+        switch (id) {
+            case 0:
+                return progress;
+            case 1:
+                return energyStored;
+            case 2:
+                return capacity;
+            case 3:
+                return maxReceive;
+            case 4:
+                return maxExtract;
+            default:
+                return 0;
 
-    public abstract void setField(int id, int value);
+        }
+    }
+
+    public void setField(int id, int value) {
+        switch (id) {
+            case 0:
+                progress = value;
+            case 1:
+                energyStored = value;
+            case 2:
+                capacity = value;
+            case 3:
+                maxReceive = value;
+            case 4:
+                maxExtract = value;
+        }
+    }
 }

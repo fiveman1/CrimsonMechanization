@@ -1,7 +1,9 @@
 package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.blocks.BlockBase;
 import fiveman1.crimsonmechanization.blocks.ModBlocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModTileEntities {
@@ -9,6 +11,11 @@ public class ModTileEntities {
     public static final String title = CrimsonMechanization.MODID + ":";
 
     public static void init() {
-        GameRegistry.registerTileEntity(TileCrimsonFurnace.class, title + ModBlocks.blockCrimsonFurnace.getName());
+        register(TileCompactor.class, ModBlocks.blockCompactor);
+        register(TileCrimsonFurnace.class, ModBlocks.blockCrimsonFurnace);
+    }
+
+    private static void register(Class<? extends TileEntity> teClass, BlockBase block) {
+        GameRegistry.registerTileEntity(teClass, title + block.getName());
     }
 }

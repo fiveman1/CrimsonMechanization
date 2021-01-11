@@ -13,7 +13,8 @@
   {
     "x":
     {
-      "item": "crimsonmechanization:crimson_crystal"
+      "item": "crimsonmechanization:gem",
+      "data": 16
     }
   }
 }

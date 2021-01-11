@@ -1,19 +1,16 @@
 package fiveman1.crimsonmechanization.inventory.gui;
 
-import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
-import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
+import fiveman1.crimsonmechanization.tile.TileCompactor;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.inventory.Container;
 
-@SideOnly(Side.CLIENT)
-public class GuiCrimsonFurnace extends GuiMachine {
+public class GuiCompactor extends GuiMachine{
 
-    private final TileCrimsonFurnace te;
+    private final TileCompactor te;
 
-    public GuiCrimsonFurnace(TileCrimsonFurnace te, ContainerCrimsonFurnace container, InventoryPlayer playerInv, String name, int width, int height) {
+    public GuiCompactor(TileCompactor tileCompactor, Container container, InventoryPlayer playerInv, String name, int width, int height) {
         super(container, playerInv, name, width, height);
-        this.te = te;
+        te = tileCompactor;
     }
 
     @Override

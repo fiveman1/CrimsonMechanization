@@ -1,11 +1,11 @@
 package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.blocks.BlockMachine;
-import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
+import fiveman1.crimsonmechanization.inventory.container.ContainerCompactor;
+import fiveman1.crimsonmechanization.recipe.CompactorRecipeRegistry;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -16,37 +16,35 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TileCrimsonFurnace extends TileMachine {
+public class TileCompactor extends TileMachine {
 
     public static final int INPUT_SLOTS = 1;
     public static final int OUTPUT_SLOTS = 1;
     public static final int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
     public static final int MAX_PROGRESS = 1600;
 
-    public TileCrimsonFurnace(String name) {
+    public TileCompactor(String name) {
         super(name);
     }
 
-    public TileCrimsonFurnace() {
-        super();
-    }
+    public TileCompactor() {}
 
     private final ItemStackHandler inputHandler = new ItemStackHandler(INPUT_SLOTS) {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            ItemStack result = FurnaceRecipes.instance().getSmeltingResult(stack);
+            ItemStack result = getRecipeResult(stack);
             return !result.isEmpty();
         }
 
         @Override
         protected void onContentsChanged(int slot) {
-            TileCrimsonFurnace.this.markDirty();
+            markDirty();
         }
     };
     private final ItemStackHandler outputHandler = new ItemStackHandler(OUTPUT_SLOTS) {
         @Override
         protected void onContentsChanged(int slot) {
-            TileCrimsonFurnace.this.markDirty();
+            markDirty();
         }
     };
     private final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler);
@@ -54,6 +52,7 @@ public class TileCrimsonFurnace extends TileMachine {
     private boolean active = false;
     private int counter = 0;
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
+    private int previousEnergyStored = energyStorage.getEnergyStored();
 
     @Override
     public void updateTile() {
@@ -74,7 +73,7 @@ public class TileCrimsonFurnace extends TileMachine {
                         progress = ENERGY_RATE;
                     }
                     markDirty();
-                } else {
+                } else if (energyStorage.getEnergyStored() == previousEnergyStored) {
                     active = false;
                 }
             } else {
@@ -93,6 +92,7 @@ public class TileCrimsonFurnace extends TileMachine {
             counter = 0;
         }
         previousInput = inputHandler.getStackInSlot(0);
+        previousEnergyStored = energyStorage.getEnergyStored();
     }
 
     private boolean insertOutput(ItemStack output, boolean simulate) {
@@ -100,7 +100,7 @@ public class TileCrimsonFurnace extends TileMachine {
     }
 
     private boolean hasAvailableOutput() {
-        return insertOutput(FurnaceRecipes.instance().getSmeltingResult(inputHandler.getStackInSlot(0)).copy(), true);
+        return insertOutput(getRecipeResult(inputHandler.getStackInSlot(0)).copy(), true);
     }
 
     private void startSmelt() {
@@ -111,10 +111,14 @@ public class TileCrimsonFurnace extends TileMachine {
     }
 
     private void attemptSmelt() {
-        ItemStack result = FurnaceRecipes.instance().getSmeltingResult(inputHandler.getStackInSlot(0));
+        ItemStack result = getRecipeResult(inputHandler.getStackInSlot(0));
         if (insertOutput(result.copy(), false)) {
             inputHandler.extractItem(0, 1, false);
         }
+    }
+
+    private ItemStack getRecipeResult(ItemStack itemStack) {
+        return CompactorRecipeRegistry.getOutput(itemStack);
     }
 
     @Override
@@ -138,6 +142,7 @@ public class TileCrimsonFurnace extends TileMachine {
         return compound;
     }
 
+    @Override
     public IItemHandler getItemStackHandler(@Nullable EnumFacing facing) {
         if (facing == null) {
             return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(combinedHandler);
@@ -148,7 +153,7 @@ public class TileCrimsonFurnace extends TileMachine {
         }
     }
 
-    public ContainerCrimsonFurnace createContainer(InventoryPlayer playerInventory) {
-        return new ContainerCrimsonFurnace(playerInventory, this, 8, 84);
+    public ContainerCompactor createContainer(InventoryPlayer playerInventory) {
+        return new ContainerCompactor(playerInventory, this, 8, 84);
     }
 }

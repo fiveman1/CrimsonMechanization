@@ -3,6 +3,7 @@ package fiveman1.crimsonmechanization.util;
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.blocks.ModBlocks;
 import fiveman1.crimsonmechanization.items.ModItems;
+import fiveman1.crimsonmechanization.items.materials.ItemMaterial;
 import fiveman1.crimsonmechanization.tile.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -17,20 +18,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 
-@Mod.EventBusSubscriber(modid = CrimsonMechanization.MODID)
+@Mod.EventBusSubscriber
 public class RegistryHandler {
 
     public static final ArrayList<Block> BLOCKS = new ArrayList<>();
     public static final ArrayList<Item> ITEMS = new ArrayList<>();
+    public static final ArrayList<ItemMaterial> ITEM_MATERIALS = new ArrayList<>();
 
     @SubscribeEvent
     public static void onBlockRegistry(RegistryEvent.Register<Block> event) {
         ModBlocks.init();
-
         for (Block block : BLOCKS) {
             event.getRegistry().register(block);
         }
-
         ModTileEntities.init();
     }
 
@@ -43,8 +43,10 @@ public class RegistryHandler {
         for (Block block : BLOCKS) {
             event.getRegistry().register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
         }
-        event.getRegistry().register(ModItems.itemPlate);
-        ModItems.itemPlate.registerOreDictEntries();
+        for (ItemMaterial itemMaterial : ITEM_MATERIALS) {
+            event.getRegistry().register(itemMaterial);
+            itemMaterial.registerOreDictEntries();
+        }
     }
 
     @SideOnly(Side.CLIENT)
@@ -65,7 +67,9 @@ public class RegistryHandler {
         for (Block block : RegistryHandler.BLOCKS) {
             RegistryHandler.initBlockModel(block);
         }
-        ModItems.itemPlate.initModels();
+        for (ItemMaterial itemMaterial : ITEM_MATERIALS) {
+            itemMaterial.initModels();
+        }
     }
 
     public static void initItem(Item item, String name) {
