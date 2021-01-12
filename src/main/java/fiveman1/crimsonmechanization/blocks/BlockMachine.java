@@ -37,9 +37,10 @@ public abstract class BlockMachine extends BlockBase implements ITileEntityProvi
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return meta >= 0b100
+        /*return meta >= 0b100
                 ? this.getDefaultState().withProperty(ACTIVE, true).withProperty(FACING, EnumFacing.getHorizontal(meta - 0b100))
-                : this.getDefaultState().withProperty(ACTIVE, false).withProperty(FACING, EnumFacing.getHorizontal(meta));
+                : this.getDefaultState().withProperty(ACTIVE, false).withProperty(FACING, EnumFacing.getHorizontal(meta));*/
+        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
     }
 
     @Override
@@ -49,8 +50,9 @@ public abstract class BlockMachine extends BlockBase implements ITileEntityProvi
         // X: unused
         // A: PropertyBool ACTIVE (true or false)
         // F: PropertyDirection FACING (0 - 3, represent a direction north, east, south, or west)
-        int meta = state.getValue(FACING).getHorizontalIndex();
-        return state.getValue(ACTIVE) ? meta + 0b100 : meta;
+        /*int meta = state.getValue(FACING).getHorizontalIndex();
+        return state.getValue(ACTIVE) ? meta + 0b100 : meta;*/
+        return state.getValue(FACING).getHorizontalIndex();
     }
 
     @Override

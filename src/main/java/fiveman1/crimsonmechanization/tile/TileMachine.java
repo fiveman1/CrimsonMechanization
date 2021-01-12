@@ -16,6 +16,8 @@ import javax.annotation.Nullable;
 
 public abstract class TileMachine extends TileEntityBase implements ITickable {
 
+    // TODO: abstract more stuff
+
     public static final int PROGRESS_ID = 0;
     public static final int ENERGY_ID = 1;
     public static final int CAPACITY_ID = 2;
@@ -24,15 +26,13 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public static final int RECIPE_ENERGY_ID = 5;
 
     protected int ENERGY_RATE = 20;
-    protected int energyStored = 0;
-    protected int capacity = 0;
-    protected int maxReceive = 0;
-    protected int maxExtract = 0;
-    protected int recipeEnergy = 0;
-    protected int clientProgress = 0;
 
-    public int progress = 0;
-    public final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
+    // these MUST BE UPDATED WHEN CHANGED as they are used for the progress bar
+    protected int recipeEnergy = 0;
+    protected int progress = 0;
+    // these MUST BE UPDATED WHEN CHANGED as they are used for the progress bar
+
+    protected final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
 
     public TileMachine(String name) {
         super(name);
@@ -93,20 +93,18 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     public abstract void updateTile();
 
-    public abstract int getRecipeEnergy();
-
     public int getField(int id) {
         switch (id) {
             case PROGRESS_ID:
-                return clientProgress;
+                return progress;
             case ENERGY_ID:
-                return energyStored;
+                return energyStorage.getEnergyStored();
             case CAPACITY_ID:
-                return capacity;
+                return energyStorage.getCapacity();
             case MAX_RECEIVE_ID:
-                return maxReceive;
+                return energyStorage.getMaxReceive();
             case MAX_EXTRACT_ID:
-                return maxExtract;
+                return energyStorage.getMaxExtract();
             case RECIPE_ENERGY_ID:
                 return recipeEnergy;
             default:
@@ -118,19 +116,19 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public void setField(int id, int value) {
         switch (id) {
             case PROGRESS_ID:
-                clientProgress = value;
+                progress = value;
                 return;
             case ENERGY_ID:
-                energyStored = value;
+                energyStorage.setEnergy(value);
                 return;
             case CAPACITY_ID:
-                capacity = value;
+                energyStorage.setCapacity(value);
                 return;
             case MAX_RECEIVE_ID:
-                maxReceive = value;
+                energyStorage.setMaxReceive(value);
                 return;
             case MAX_EXTRACT_ID:
-                maxExtract = value;
+                energyStorage.setMaxExtract(value);
                 return;
             case RECIPE_ENERGY_ID:
                 recipeEnergy = value;

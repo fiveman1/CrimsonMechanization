@@ -51,8 +51,12 @@ public class TileCompactor extends TileMachine {
 
     private boolean active = false;
     private int counter = 0;
-    private ItemStack previousInput = inputHandler.getStackInSlot(0);
+    public ItemStack previousInput = inputHandler.getStackInSlot(0);
     private int previousEnergyStored = energyStorage.getEnergyStored();
+
+
+
+    // TODO: cache everything (recipe energy, output, current input, etc)
 
     @Override
     public void updateTile() {
@@ -61,17 +65,19 @@ public class TileCompactor extends TileMachine {
                 if (!active) {
                     IBlockState state = world.getBlockState(pos);
                     world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, true), 3);
+                    active = true;
                 }
-                active = true;
+                if (!ItemStack.areItemsEqual(inputHandler.getStackInSlot(0), previousInput)) {
+                    progress = 0;
+                }
                 progress += ENERGY_RATE;
                 energyStorage.consumeEnergy(ENERGY_RATE);
-                if (progress >= getRecipeEnergy()) {
+                getRecipeEnergy();
+                if (progress >= recipeEnergy) {
                     attemptSmelt();
                 }
-                if (inputHandler.getStackInSlot(0).getItem() != previousInput.getItem()) {
-                    progress = ENERGY_RATE;
-                }
                 markDirty();
+                energyStorage.consumeEnergy(ENERGY_RATE);
             } else if (energyStorage.getEnergyStored() == previousEnergyStored) {
                 active = false;
             }
@@ -91,10 +97,14 @@ public class TileCompactor extends TileMachine {
         previousEnergyStored = energyStorage.getEnergyStored();
     }
 
-    @Override
-    public int getRecipeEnergy() {
+    public void getRecipeEnergy() {
         EnergyRecipe result = CompactorRecipeRegistry.getRecipe(inputHandler.getStackInSlot(0));
-        return result != null ? result.getEnergyRequired() : 0xFFFFFFFF;
+        recipeEnergy = result != null ? result.getEnergyRequired() : 0;
+    }
+
+    private ItemStack getRecipeResult(ItemStack itemStack) {
+        // TODO: cache results to improve performance
+        return CompactorRecipeRegistry.getOutput(itemStack);
     }
 
     private boolean insertOutput(ItemStack output, boolean simulate) {
@@ -102,7 +112,11 @@ public class TileCompactor extends TileMachine {
     }
 
     private boolean hasAvailableOutput() {
-        return insertOutput(getRecipeResult(inputHandler.getStackInSlot(0)).copy(), true);
+        ItemStack input = inputHandler.getStackInSlot(0);
+        EnergyRecipe recipe = CompactorRecipeRegistry.getRecipe(input);
+        return recipe != null &&
+                recipe.getInput().getCount() <= input.getCount() &&
+                insertOutput(getRecipeResult(input).copy(), true);
     }
 
     private void attemptSmelt() {
@@ -115,10 +129,6 @@ public class TileCompactor extends TileMachine {
                 progress = 0;
             }
         }
-    }
-
-    private ItemStack getRecipeResult(ItemStack itemStack) {
-        return CompactorRecipeRegistry.getOutput(itemStack);
     }
 
     @Override

@@ -38,6 +38,8 @@ public class CompactorRecipeRegistry {
     public static void initRecipes() {
         addRecipe(new ItemStack(Items.BLAZE_POWDER, 5), new ItemStack(Items.BLAZE_ROD), 2000);
         addRecipe(new ItemStack(Items.DYE, 16, EnumDyeColor.WHITE.getDyeDamage()), new ItemStack(Items.BONE), 4000);
+
+        // auto generate ingot/gem -> plate recipes using oredict
         String[] oreNames = OreDictionary.getOreNames();
         for (String name : oreNames) {
             if (name.startsWith("ingot") || name.startsWith("gem")) {

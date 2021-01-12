@@ -17,7 +17,7 @@ public class GuiCompactor extends GuiMachine {
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
-        drawProgressBar(te.getField(TileMachine.PROGRESS_ID), te.getRecipeEnergy());
+        drawProgressBar(te.getField(TileMachine.PROGRESS_ID), te.getField(TileMachine.RECIPE_ENERGY_ID));
         drawEnergyBar(te.getField(TileMachine.ENERGY_ID), te.getField(TileMachine.CAPACITY_ID));
     }
 

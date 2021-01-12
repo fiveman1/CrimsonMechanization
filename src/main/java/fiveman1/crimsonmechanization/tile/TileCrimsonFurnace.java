@@ -55,7 +55,7 @@ public class TileCrimsonFurnace extends TileMachine {
     private int counter = 0;
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
     private int previousEnergyStored = energyStorage.getEnergyStored();
-    private FurnaceRecipes instance = FurnaceRecipes.instance();
+    private final FurnaceRecipes instance = FurnaceRecipes.instance();
 
     @Override
     public void updateTile() {
@@ -64,17 +64,19 @@ public class TileCrimsonFurnace extends TileMachine {
                 if (!active) {
                     IBlockState state = world.getBlockState(pos);
                     world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, true), 3);
+                    active = true;
                 }
-                active = true;
+                if (!ItemStack.areItemsEqual(inputHandler.getStackInSlot(0), previousInput)) {
+                    progress = 0;
+                }
                 progress += ENERGY_RATE;
                 energyStorage.consumeEnergy(ENERGY_RATE);
-                if (progress >= getRecipeEnergy()) {
+                getRecipeEnergy();
+                if (progress >= recipeEnergy) {
                     attemptSmelt();
                 }
-                if (inputHandler.getStackInSlot(0).getItem() != previousInput.getItem()) {
-                    progress = ENERGY_RATE;
-                }
                 markDirty();
+                energyStorage.consumeEnergy(ENERGY_RATE);
             } else if (energyStorage.getEnergyStored() == previousEnergyStored) {
                 active = false;
             }
@@ -82,6 +84,7 @@ public class TileCrimsonFurnace extends TileMachine {
             active = false;
             progress = 0;
         }
+        // TODO: there's probably a better solution for this counter thing
         counter++;
         if (counter > 40) {
             IBlockState state = world.getBlockState(pos);
@@ -94,9 +97,8 @@ public class TileCrimsonFurnace extends TileMachine {
         previousEnergyStored = energyStorage.getEnergyStored();
     }
 
-    @Override
-    public int getRecipeEnergy() {
-        return MAX_PROGRESS;
+    public void getRecipeEnergy() {
+        recipeEnergy = MAX_PROGRESS;
     }
 
     private boolean insertOutput(ItemStack output, boolean simulate) {
