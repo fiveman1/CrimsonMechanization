@@ -16,12 +16,22 @@ import javax.annotation.Nullable;
 
 public abstract class TileMachine extends TileEntityBase implements ITickable {
 
+    public static final int PROGRESS_ID = 0;
+    public static final int ENERGY_ID = 1;
+    public static final int CAPACITY_ID = 2;
+    public static final int MAX_RECEIVE_ID = 3;
+    public static final int MAX_EXTRACT_ID = 4;
+    public static final int RECIPE_ENERGY_ID = 5;
+
     protected int ENERGY_RATE = 20;
-    protected int progress = 0;
     protected int energyStored = 0;
     protected int capacity = 0;
     protected int maxReceive = 0;
     protected int maxExtract = 0;
+    protected int recipeEnergy = 0;
+    protected int clientProgress = 0;
+
+    public int progress = 0;
     public final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
 
     public TileMachine(String name) {
@@ -83,18 +93,22 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     public abstract void updateTile();
 
+    public abstract int getRecipeEnergy();
+
     public int getField(int id) {
         switch (id) {
-            case 0:
-                return progress;
-            case 1:
+            case PROGRESS_ID:
+                return clientProgress;
+            case ENERGY_ID:
                 return energyStored;
-            case 2:
+            case CAPACITY_ID:
                 return capacity;
-            case 3:
+            case MAX_RECEIVE_ID:
                 return maxReceive;
-            case 4:
+            case MAX_EXTRACT_ID:
                 return maxExtract;
+            case RECIPE_ENERGY_ID:
+                return recipeEnergy;
             default:
                 return 0;
 
@@ -103,20 +117,23 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     public void setField(int id, int value) {
         switch (id) {
-            case 0:
-                progress = value;
+            case PROGRESS_ID:
+                clientProgress = value;
                 return;
-            case 1:
+            case ENERGY_ID:
                 energyStored = value;
                 return;
-            case 2:
+            case CAPACITY_ID:
                 capacity = value;
                 return;
-            case 3:
+            case MAX_RECEIVE_ID:
                 maxReceive = value;
                 return;
-            case 4:
+            case MAX_EXTRACT_ID:
                 maxExtract = value;
+                return;
+            case RECIPE_ENERGY_ID:
+                recipeEnergy = value;
         }
     }
 }

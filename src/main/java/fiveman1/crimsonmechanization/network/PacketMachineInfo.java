@@ -1,6 +1,7 @@
 package fiveman1.crimsonmechanization.network;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.tile.TileMachine;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -8,11 +9,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketGetEnergy implements IMessage {
+public class PacketMachineInfo implements IMessage {
     private int energy;
     private int capacity;
     private int maxReceive;
     private int maxExtract;
+    private int progress;
+    private int recipeEnergy;
 
     private PacketType packetType;
 
@@ -27,6 +30,10 @@ public class PacketGetEnergy implements IMessage {
             capacity = buf.readInt();
             maxReceive = buf.readInt();
             maxExtract = buf.readInt();
+        } else if (id == PacketType.PROGRESS.getId()) {
+            packetType = PacketType.PROGRESS;
+            progress = buf.readInt();
+            recipeEnergy = buf.readInt();
         }
     }
 
@@ -40,48 +47,63 @@ public class PacketGetEnergy implements IMessage {
             buf.writeInt(capacity);
             buf.writeInt(maxReceive);
             buf.writeInt(maxExtract);
+        } else if (packetType == PacketType.PROGRESS) {
+            buf.writeByte(PacketType.PROGRESS.getId());
+            buf.writeInt(progress);
+            buf.writeInt(recipeEnergy);
         }
     }
 
     // have to include default constructor for registry
-    public PacketGetEnergy() {}
+    public PacketMachineInfo() {}
 
-    public PacketGetEnergy(int capacity, int maxReceive, int maxExtract) {
+    public PacketMachineInfo(int energy) {
+        this.energy = energy;
+        this.packetType = PacketType.ENERGY;
+    }
+
+    public PacketMachineInfo(int capacity, int maxReceive, int maxExtract) {
         this.capacity = capacity;
         this.maxReceive = maxReceive;
         this.maxExtract = maxReceive;
         this.packetType = PacketType.ENERGY_STORAGE;
     }
 
-    public PacketGetEnergy(int energy) {
-        this.energy = energy;
-        this.packetType = PacketType.ENERGY;
+    public PacketMachineInfo(int progress, int recipeEnergy) {
+        this.progress = progress;
+        this.recipeEnergy = recipeEnergy;
+        this.packetType = PacketType.PROGRESS;
     }
 
-    public static class Handler implements IMessageHandler<PacketGetEnergy, IMessage> {
+
+    public static class Handler implements IMessageHandler<PacketMachineInfo, IMessage> {
 
         @Override
-        public IMessage onMessage(PacketGetEnergy message, MessageContext ctx) {
+        public IMessage onMessage(PacketMachineInfo message, MessageContext ctx) {
             CrimsonMechanization.proxy.addScheduledTaskClient(() -> handle(message, ctx));
             return null;
         }
 
-        private void handle(PacketGetEnergy message, MessageContext ctx) {
+        private void handle(PacketMachineInfo message, MessageContext ctx) {
             EntityPlayer player = CrimsonMechanization.proxy.getClientPlayer();
             Container container = player.openContainer;
             if (message.packetType == PacketType.ENERGY) {
-                container.updateProgressBar(1, message.energy);
+                container.updateProgressBar(TileMachine.ENERGY_ID, message.energy);
             } else if (message.packetType == PacketType.ENERGY_STORAGE) {
-                container.updateProgressBar(2, message.capacity);
-                container.updateProgressBar(3, message.maxReceive);
-                container.updateProgressBar(4, message.maxExtract);
+                container.updateProgressBar(TileMachine.CAPACITY_ID, message.capacity);
+                container.updateProgressBar(TileMachine.MAX_RECEIVE_ID, message.maxReceive);
+                container.updateProgressBar(TileMachine.MAX_EXTRACT_ID, message.maxExtract);
+            } else if (message.packetType == PacketType.PROGRESS) {
+                container.updateProgressBar(TileMachine.PROGRESS_ID, message.progress);
+                container.updateProgressBar(TileMachine.RECIPE_ENERGY_ID, message.recipeEnergy);
             }
         }
     }
 
     enum PacketType  {
         ENERGY(0),
-        ENERGY_STORAGE(1);
+        ENERGY_STORAGE(1),
+        PROGRESS(2);
 
         private int id;
 

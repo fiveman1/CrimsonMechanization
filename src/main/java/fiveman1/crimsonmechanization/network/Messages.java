@@ -22,6 +22,6 @@ public class Messages {
         // Server side
 
         // Client side
-        INSTANCE.registerMessage(PacketGetEnergy.Handler.class, PacketGetEnergy.class, nextID(), Side.CLIENT);
+        INSTANCE.registerMessage(PacketMachineInfo.Handler.class, PacketMachineInfo.class, nextID(), Side.CLIENT);
     }
 }

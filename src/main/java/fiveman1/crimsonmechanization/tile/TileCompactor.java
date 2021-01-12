@@ -3,6 +3,7 @@ package fiveman1.crimsonmechanization.tile;
 import fiveman1.crimsonmechanization.blocks.BlockMachine;
 import fiveman1.crimsonmechanization.inventory.container.ContainerCompactor;
 import fiveman1.crimsonmechanization.recipe.CompactorRecipeRegistry;
+import fiveman1.crimsonmechanization.recipe.EnergyRecipe;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,7 +22,6 @@ public class TileCompactor extends TileMachine {
     public static final int INPUT_SLOTS = 1;
     public static final int OUTPUT_SLOTS = 1;
     public static final int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
-    public static final int MAX_PROGRESS = 1600;
 
     public TileCompactor(String name) {
         super(name);
@@ -56,32 +56,28 @@ public class TileCompactor extends TileMachine {
 
     @Override
     public void updateTile() {
-        if (progress < MAX_PROGRESS) {
-            if (!inputHandler.getStackInSlot(0).isEmpty() && hasAvailableOutput()) {
-                if (energyStorage.getEnergyStored() >= ENERGY_RATE) {
-                    if (!active) {
-                        IBlockState state = world.getBlockState(pos);
-                        world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, true), 3);
-                    }
-                    active = true;
-                    progress += ENERGY_RATE;
-                    energyStorage.consumeEnergy(ENERGY_RATE);
-                    if (progress >= MAX_PROGRESS) {
-                        attemptSmelt();
-                    }
-                    if (inputHandler.getStackInSlot(0).getItem() != previousInput.getItem()) {
-                        progress = ENERGY_RATE;
-                    }
-                    markDirty();
-                } else if (energyStorage.getEnergyStored() == previousEnergyStored) {
-                    active = false;
+        if (!inputHandler.getStackInSlot(0).isEmpty() && hasAvailableOutput()) {
+            if (energyStorage.getEnergyStored() >= ENERGY_RATE) {
+                if (!active) {
+                    IBlockState state = world.getBlockState(pos);
+                    world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, true), 3);
                 }
-            } else {
+                active = true;
+                progress += ENERGY_RATE;
+                energyStorage.consumeEnergy(ENERGY_RATE);
+                if (progress >= getRecipeEnergy()) {
+                    attemptSmelt();
+                }
+                if (inputHandler.getStackInSlot(0).getItem() != previousInput.getItem()) {
+                    progress = ENERGY_RATE;
+                }
+                markDirty();
+            } else if (energyStorage.getEnergyStored() == previousEnergyStored) {
                 active = false;
-                progress = 0;
             }
         } else {
-            startSmelt();
+            active = false;
+            progress = 0;
         }
         counter++;
         if (counter > 40) {
@@ -95,6 +91,12 @@ public class TileCompactor extends TileMachine {
         previousEnergyStored = energyStorage.getEnergyStored();
     }
 
+    @Override
+    public int getRecipeEnergy() {
+        EnergyRecipe result = CompactorRecipeRegistry.getRecipe(inputHandler.getStackInSlot(0));
+        return result != null ? result.getEnergyRequired() : 0xFFFFFFFF;
+    }
+
     private boolean insertOutput(ItemStack output, boolean simulate) {
         return outputHandler.insertItem(0, output, simulate).isEmpty();
     }
@@ -103,17 +105,15 @@ public class TileCompactor extends TileMachine {
         return insertOutput(getRecipeResult(inputHandler.getStackInSlot(0)).copy(), true);
     }
 
-    private void startSmelt() {
-        progress = 0;
-        if (!inputHandler.getStackInSlot(0).isEmpty() && hasAvailableOutput()) {
-            markDirty();
-        }
-    }
-
     private void attemptSmelt() {
-        ItemStack result = getRecipeResult(inputHandler.getStackInSlot(0));
-        if (insertOutput(result.copy(), false)) {
-            inputHandler.extractItem(0, 1, false);
+        EnergyRecipe recipe = CompactorRecipeRegistry.getRecipe(inputHandler.getStackInSlot(0));
+        if (recipe != null) {
+            ItemStack input = recipe.getInput();
+            ItemStack output = recipe.getOutput();
+            if (insertOutput(output.copy(), false)) {
+                inputHandler.extractItem(0, input.getCount(), false);
+                progress = 0;
+            }
         }
     }
 

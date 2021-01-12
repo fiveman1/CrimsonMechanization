@@ -34,7 +34,7 @@ public class TileCrimsonFurnace extends TileMachine {
     private final ItemStackHandler inputHandler = new ItemStackHandler(INPUT_SLOTS) {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            ItemStack result = FurnaceRecipes.instance().getSmeltingResult(stack);
+            ItemStack result = instance.getSmeltingResult(stack);
             return !result.isEmpty();
         }
 
@@ -54,35 +54,33 @@ public class TileCrimsonFurnace extends TileMachine {
     private boolean active = false;
     private int counter = 0;
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
+    private int previousEnergyStored = energyStorage.getEnergyStored();
+    private FurnaceRecipes instance = FurnaceRecipes.instance();
 
     @Override
     public void updateTile() {
-        if (progress < MAX_PROGRESS) {
-            if (!inputHandler.getStackInSlot(0).isEmpty() && hasAvailableOutput()) {
-                if (energyStorage.getEnergyStored() >= ENERGY_RATE) {
-                    if (!active) {
-                        IBlockState state = world.getBlockState(pos);
-                        world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, true), 3);
-                    }
-                    active = true;
-                    progress += ENERGY_RATE;
-                    energyStorage.consumeEnergy(ENERGY_RATE);
-                    if (progress >= MAX_PROGRESS) {
-                        attemptSmelt();
-                    }
-                    if (inputHandler.getStackInSlot(0).getItem() != previousInput.getItem()) {
-                        progress = ENERGY_RATE;
-                    }
-                    markDirty();
-                } else {
-                    active = false;
+        if (!inputHandler.getStackInSlot(0).isEmpty() && hasAvailableOutput()) {
+            if (energyStorage.getEnergyStored() >= ENERGY_RATE) {
+                if (!active) {
+                    IBlockState state = world.getBlockState(pos);
+                    world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, true), 3);
                 }
-            } else {
+                active = true;
+                progress += ENERGY_RATE;
+                energyStorage.consumeEnergy(ENERGY_RATE);
+                if (progress >= getRecipeEnergy()) {
+                    attemptSmelt();
+                }
+                if (inputHandler.getStackInSlot(0).getItem() != previousInput.getItem()) {
+                    progress = ENERGY_RATE;
+                }
+                markDirty();
+            } else if (energyStorage.getEnergyStored() == previousEnergyStored) {
                 active = false;
-                progress = 0;
             }
         } else {
-            startSmelt();
+            active = false;
+            progress = 0;
         }
         counter++;
         if (counter > 40) {
@@ -93,6 +91,12 @@ public class TileCrimsonFurnace extends TileMachine {
             counter = 0;
         }
         previousInput = inputHandler.getStackInSlot(0);
+        previousEnergyStored = energyStorage.getEnergyStored();
+    }
+
+    @Override
+    public int getRecipeEnergy() {
+        return MAX_PROGRESS;
     }
 
     private boolean insertOutput(ItemStack output, boolean simulate) {
@@ -100,20 +104,14 @@ public class TileCrimsonFurnace extends TileMachine {
     }
 
     private boolean hasAvailableOutput() {
-        return insertOutput(FurnaceRecipes.instance().getSmeltingResult(inputHandler.getStackInSlot(0)).copy(), true);
-    }
-
-    private void startSmelt() {
-        progress = 0;
-        if (!inputHandler.getStackInSlot(0).isEmpty() && hasAvailableOutput()) {
-            markDirty();
-        }
+        return insertOutput(instance.getSmeltingResult(inputHandler.getStackInSlot(0)).copy(), true);
     }
 
     private void attemptSmelt() {
-        ItemStack result = FurnaceRecipes.instance().getSmeltingResult(inputHandler.getStackInSlot(0));
+        ItemStack result = instance.getSmeltingResult(inputHandler.getStackInSlot(0));
         if (insertOutput(result.copy(), false)) {
             inputHandler.extractItem(0, 1, false);
+            progress = 0;
         }
     }
 

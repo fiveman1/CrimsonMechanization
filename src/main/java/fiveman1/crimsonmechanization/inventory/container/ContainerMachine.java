@@ -1,7 +1,7 @@
 package fiveman1.crimsonmechanization.inventory.container;
 
 import fiveman1.crimsonmechanization.network.Messages;
-import fiveman1.crimsonmechanization.network.PacketGetEnergy;
+import fiveman1.crimsonmechanization.network.PacketMachineInfo;
 import fiveman1.crimsonmechanization.tile.TileMachine;
 import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -12,7 +12,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ContainerMachine extends ContainerBase {
 
-    protected int progress;
     protected final TileMachine machine;
 
     public ContainerMachine(IInventory playerInventory, TileMachine tileEntity, int xOffsetInventory, int yOffsetInventory) {
@@ -29,30 +28,30 @@ public abstract class ContainerMachine extends ContainerBase {
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
-        int field = machine.getField(0);
-        if (field != progress) {
-            for (IContainerListener listener : listeners) {
-                listener.sendWindowProperty(this, 0, field);
-            }
-        }
-
         CustomEnergyStorage storage = machine.energyStorage;
-        if (machine.getField(1) != storage.getEnergyStored()) {
+        if (machine.getField(TileMachine.ENERGY_ID) != storage.getEnergyStored()) {
             for (IContainerListener listener : listeners) {
                 if (listener instanceof EntityPlayerMP) {
-                    Messages.INSTANCE.sendTo(new PacketGetEnergy(storage.getEnergyStored()), (EntityPlayerMP) listener);
+                    Messages.INSTANCE.sendTo(new PacketMachineInfo(storage.getEnergyStored()), (EntityPlayerMP) listener);
                 }
             }
         }
-        if (machine.getField(2) != storage.getCapacity() ||
-                machine.getField(3) != storage.getMaxReceive() ||
-                machine.getField(4) != storage.getMaxExtract()) {
+        if (machine.getField(TileMachine.CAPACITY_ID) != storage.getCapacity() ||
+                machine.getField(TileMachine.MAX_RECEIVE_ID) != storage.getMaxReceive() ||
+                machine.getField(TileMachine.MAX_EXTRACT_ID) != storage.getMaxExtract()) {
             for (IContainerListener listener : listeners) {
                 if (listener instanceof EntityPlayerMP) {
-                    Messages.INSTANCE.sendTo(new PacketGetEnergy(storage.getCapacity(), storage.getMaxReceive(), storage.getMaxExtract()), (EntityPlayerMP) listener);
+                    Messages.INSTANCE.sendTo(new PacketMachineInfo(storage.getCapacity(), storage.getMaxReceive(), storage.getMaxExtract()), (EntityPlayerMP) listener);
                 }
             }
         }
-        progress = machine.getField(0);
+        if (machine.getField(TileMachine.PROGRESS_ID) != machine.progress ||
+                machine.getField(TileMachine.RECIPE_ENERGY_ID) != machine.getRecipeEnergy()) {
+            for (IContainerListener listener : listeners) {
+                if (listener instanceof EntityPlayerMP) {
+                    Messages.INSTANCE.sendTo(new PacketMachineInfo(machine.progress, machine.getRecipeEnergy()), (EntityPlayerMP) listener);
+                }
+            }
+        }
     }
 }

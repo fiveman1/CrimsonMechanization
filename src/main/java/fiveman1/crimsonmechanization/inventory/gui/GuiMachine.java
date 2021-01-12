@@ -12,7 +12,7 @@ public class GuiMachine extends GuiBase {
     }
 
     protected void drawProgressBar(int progress, int maxProgress) {
-        if (progress > 0) {
+        if (progress > 0 && maxProgress != 0) {
             drawTexturedModalRect(guiLeft + 76, guiTop + 35, 176, 0, progress * 23 / maxProgress, 16);
         }
     }
@@ -24,7 +24,6 @@ public class GuiMachine extends GuiBase {
 
             // energy bar
             int width = energy * (166 - 80) / capacity;
-            //drawGradientRect(guiLeft + 80, guiTop + 72, guiLeft + 80 + width, guiTop + 77, Color.red.getRGB(), Color.yellow.getRGB());
             drawGradientRect(guiLeft + 80, guiTop + 72, guiLeft + 80 + width, guiTop + 77, Color.white.getRGB(), Color.cyan.getRGB());
 
             // empty energy bar
