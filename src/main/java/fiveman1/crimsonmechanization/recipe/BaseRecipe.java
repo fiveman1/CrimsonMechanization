@@ -4,8 +4,8 @@ import net.minecraft.item.ItemStack;
 
 public class BaseRecipe {
 
-    private final ItemStack input;
-    private final ItemStack output;
+    protected final ItemStack input;
+    protected final ItemStack output;
 
     public BaseRecipe(ItemStack input, ItemStack output) {
         this.input = input;
@@ -19,4 +19,5 @@ public class BaseRecipe {
     public ItemStack getOutput() {
         return output;
     }
+
 }

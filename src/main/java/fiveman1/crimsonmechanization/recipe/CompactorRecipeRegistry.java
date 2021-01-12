@@ -1,54 +1,53 @@
 package fiveman1.crimsonmechanization.recipe;
 
-import fiveman1.crimsonmechanization.items.ModItems;
-import fiveman1.crimsonmechanization.items.materials.EnumMaterial;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
+import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.util.RecipeHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class CompactorRecipeRegistry {
 
-    // TODO: automatic ore dict registration
-
-    private static final ArrayList<BaseRecipe> compactorRecipes = new ArrayList<>();
+    private static final Hashtable<ComparableItemMeta, EnergyRecipe> compactorRecipesHash = new Hashtable<>();
+    private static final int DEFAULT_ENERGY = 6400;
 
     @Nullable
-    public static BaseRecipe getRecipe(ItemStack input) {
-        for (BaseRecipe recipe : compactorRecipes) {
-            if (ItemStack.areItemsEqual(input, recipe.getInput())) {
-                return recipe;
-            }
-        }
-        return null;
+    public static EnergyRecipe getRecipe(ItemStack input) {
+        return compactorRecipesHash.get(new ComparableItemMeta(input));
     }
 
     public static ItemStack getOutput(ItemStack input) {
-        for (BaseRecipe recipe : compactorRecipes) {
-            if (ItemStack.areItemsEqual(input, recipe.getInput())) {
-                return recipe.getOutput();
-            }
-        }
-        return ItemStack.EMPTY;
-    }
-
-    private static void addRecipe(Item input, Item output) {
-        compactorRecipes.add(new BaseRecipe(new ItemStack(input), new ItemStack(output)));
-    }
-
-    private static void addRecipe(Item input, int inputAmt, Item output, int outputAmt) {
-        compactorRecipes.add(new BaseRecipe(new ItemStack(input, inputAmt), new ItemStack(output, outputAmt)));
+        EnergyRecipe recipe = compactorRecipesHash.get(new ComparableItemMeta(input));
+        CrimsonMechanization.logger.info(input.getMetadata());
+        return recipe != null && input.getCount() >= recipe.getInput().getCount() ? recipe.getOutput() : ItemStack.EMPTY;
     }
 
     private static void addRecipe(ItemStack input, ItemStack output) {
-        compactorRecipes.add(new BaseRecipe(input, output));
+        EnergyRecipe recipe = new EnergyRecipe(input, output, DEFAULT_ENERGY);
+        compactorRecipesHash.put(new ComparableItemMeta(input), recipe);
+    }
+
+    private static void addRecipe(ItemStack input, ItemStack output, int energy) {
+        EnergyRecipe recipe = new EnergyRecipe(input, output, energy);
+        compactorRecipesHash.put(new ComparableItemMeta(input), recipe);
     }
 
     public static void initRecipes() {
-        ItemStack ironPlate = new ItemStack(ModItems.itemPlate);
-        ironPlate.setItemDamage(EnumMaterial.IRON.getMetadata());
-        addRecipe(new ItemStack(Items.IRON_INGOT), ironPlate.copy());
+        String[] oreNames = OreDictionary.getOreNames();
+        for (String name : oreNames) {
+            if (name.startsWith("ingot") || name.startsWith("gem")) {
+                String suffix = RecipeHelper.getSuffixFromOreName(name);
+                String outputName = "plate" + suffix;
+                if (OreDictionary.doesOreNameExist(outputName)) {
+                    ItemStack output = RecipeHelper.getModItemFromOreDict(OreDictionary.getOres(outputName), CrimsonMechanization.MODID);
+                    for (ItemStack input : OreDictionary.getOres(name)) {
+                        addRecipe(input, output);
+                        CrimsonMechanization.logger.info("Recipe registered, input: " + input + ", output: " + output + ", input meta: " + input.getMetadata());
+                    }
+                }
+            }
+        }
     }
 }

@@ -36,11 +36,11 @@ public class ItemMaterial extends Item {
         RegistryHandler.ITEM_MATERIALS.add(this);
     }
 
-    protected void removeMaterials(EnumMaterial[] enumMaterials) {
+    protected void removeMaterials(EnumMaterial... enumMaterials) {
         values.removeAll(Arrays.asList(enumMaterials));
     }
 
-    protected void addMaterials(EnumMaterial[] enumMaterials) {
+    protected void addMaterials(EnumMaterial... enumMaterials) {
         values.addAll(Arrays.asList(enumMaterials));
     }
 
@@ -67,6 +67,7 @@ public class ItemMaterial extends Item {
     public void registerOreDictEntries() {
         for (EnumMaterial enumMaterial : values) {
             OreDictionary.registerOre(oreDictTitle + enumMaterial.getUnlocalizedName(), new ItemStack(this, 1, enumMaterial.getMetadata()));
+            //CrimsonMechanization.logger.info("Registered " + oreDictTitle + enumMaterial.getUnlocalizedName());
         }
     }
 

@@ -4,7 +4,7 @@ import fiveman1.crimsonmechanization.tile.TileCompactor;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 
-public class GuiCompactor extends GuiMachine{
+public class GuiCompactor extends GuiMachine {
 
     private final TileCompactor te;
 
