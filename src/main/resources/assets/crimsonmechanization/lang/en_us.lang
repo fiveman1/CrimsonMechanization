@@ -2,16 +2,48 @@
 tile.crimsonmechanization.crimson_furnace.name=Crimson Forger
 tile.crimsonmechanization.bart_block.name=John Blockman
 tile.crimsonmechanization.crimson_block.name=Block of Crimson
+tile.crimsonmechanization.crimson_compactor.name=Crimson Condenser
 
 # Items
 item.crimsonmechanization.crimson_pickaxe.name=Crimson Pickaxe
 
 item.crimsonmechanization.dustCrimson.name=Crimson Dust
+item.crimsonmechanization.dustIron.name=Iron Dust
+item.crimsonmechanization.dustGold.name=Gold Dust
+item.crimsonmechanization.dustDiamond.name=Diamond Dust
+item.crimsonmechanization.dustEmerald.name=Emerald Dust
+item.crimsonmechanization.dustLapis.name=Lapis Dust
+item.crimsonmechanization.dustCoal.name=Coal Dust
+item.crimsonmechanization.dustCrimsonIron.name=Crimson Iron Dust
+item.crimsonmechanization.dustCrimsonSteel.name=Crimson Steel Dust
+item.crimsonmechanization.dustCopper.name=Copper Dust
+item.crimsonmechanization.dustTin.name=Tin Dust
+item.crimsonmechanization.dustBronze.name=Bronze Dust
 
 item.crimsonmechanization.gemCrimson.name=Crimson Crystal
+item.crimsonmechanization.ingotBronze.name=Bronze Ingot
+item.crimsonmechanization.ingotCopper.name=Copper Ingot
+item.crimsonmechanization.ingotTin.name=Tin Ingot
+item.crimsonmechanization.ingotCrimsonIron.name=Crimson Iron Ingot
+item.crimsonmechanization.ingotCrimsonSteel.name=Crimson Steel Ingot
+
+item.crimsonmechanization.nuggetBronze.name=Bronze Nugget
+item.crimsonmechanization.nuggetCopper.name=Copper Nugget
+item.crimsonmechanization.nuggetTin.name=Tin Nugget
+item.crimsonmechanization.nuggetCrimsonIron.name=Crimson Iron Nugget
+item.crimsonmechanization.nuggetCrimsonSteel.name=Crimson Steel Nugget
 
 item.crimsonmechanization.plateCrimson.name=Crimson Plate
 item.crimsonmechanization.plateIron.name=Iron Plate
+item.crimsonmechanization.plateGold.name=Gold Plate
+item.crimsonmechanization.plateDiamond.name=Diamond Plate
+item.crimsonmechanization.plateEmerald.name=Emerald Plate
+item.crimsonmechanization.plateLapis.name=Lapis Plate
+item.crimsonmechanization.plateCrimsonIron.name=Crimson Iron Plate
+item.crimsonmechanization.plateCrimsonSteel.name=Crimson Steel Plate
+item.crimsonmechanization.plateCopper.name=Copper Plate
+item.crimsonmechanization.plateTin.name=Tin Plate
+item.crimsonmechanization.plateBronze.name=Bronze Plate
 
 # Containers
 container.crimsonmechanization.crimson_furnace.name=Crimson Forger
