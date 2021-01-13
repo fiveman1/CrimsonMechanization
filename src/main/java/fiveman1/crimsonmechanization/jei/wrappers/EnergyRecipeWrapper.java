@@ -9,7 +9,9 @@ import net.minecraft.client.Minecraft;
 
 public class EnergyRecipeWrapper implements IRecipeWrapper {
 
-    private final EnergyRecipe recipe;
+    // TODO: recipes that give the same output should be combined into one
+
+    public final EnergyRecipe recipe;
 
     public EnergyRecipeWrapper(EnergyRecipe recipe) {
         this.recipe = recipe;
@@ -17,7 +19,7 @@ public class EnergyRecipeWrapper implements IRecipeWrapper {
 
     @Override
     public void getIngredients(IIngredients ingredients) {
-        ingredients.setInput(VanillaTypes.ITEM, recipe.getInput());
+        ingredients.setInputs(VanillaTypes.ITEM, recipe.getInputs());
         ingredients.setOutput(VanillaTypes.ITEM, recipe.getOutput());
     }
 

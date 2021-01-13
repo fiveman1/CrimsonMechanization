@@ -2,7 +2,6 @@ package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.blocks.BlockMachine;
 import fiveman1.crimsonmechanization.inventory.container.ContainerAlloyer;
-import fiveman1.crimsonmechanization.inventory.container.ContainerCompactor;
 import fiveman1.crimsonmechanization.recipe.CompactorRecipeRegistry;
 import fiveman1.crimsonmechanization.recipe.EnergyRecipe;
 import net.minecraft.block.state.IBlockState;
@@ -28,8 +27,7 @@ public class TileAlloyer extends TileMachine{
         super(name);
     }
 
-    public TileAlloyer() {
-    }
+    public TileAlloyer() {}
 
     private final ItemStackHandler inputHandler = new ItemStackHandler(INPUT_SLOTS) {
         @Override
@@ -56,6 +54,10 @@ public class TileAlloyer extends TileMachine{
     public ItemStack previousInput = inputHandler.getStackInSlot(0);
     private int previousEnergyStored = energyStorage.getEnergyStored();
 
+
+
+    // TODO: cache everything (recipe energy, output, current input, etc)
+
     @Override
     public void updateTile() {
         if (!inputHandler.getStackInSlot(0).isEmpty() && hasAvailableOutput()) {
@@ -68,9 +70,9 @@ public class TileAlloyer extends TileMachine{
                 if (!ItemStack.areItemsEqual(inputHandler.getStackInSlot(0), previousInput)) {
                     progress = 0;
                 }
+                recipeEnergy = getRecipeEnergy();
                 progress += ENERGY_RATE;
                 energyStorage.consumeEnergy(ENERGY_RATE);
-                getRecipeEnergy();
                 if (progress >= recipeEnergy) {
                     attemptSmelt();
                 }
@@ -95,9 +97,8 @@ public class TileAlloyer extends TileMachine{
         previousEnergyStored = energyStorage.getEnergyStored();
     }
 
-    public void getRecipeEnergy() {
-        EnergyRecipe result = CompactorRecipeRegistry.getRecipe(inputHandler.getStackInSlot(0));
-        recipeEnergy = result != null ? result.getEnergyRequired() : 0;
+    public int getRecipeEnergy() {
+        return CompactorRecipeRegistry.getRecipeEnergy(inputHandler.getStackInSlot(0));
     }
 
     private ItemStack getRecipeResult(ItemStack itemStack) {
@@ -113,17 +114,17 @@ public class TileAlloyer extends TileMachine{
         ItemStack input = inputHandler.getStackInSlot(0);
         EnergyRecipe recipe = CompactorRecipeRegistry.getRecipe(input);
         return recipe != null &&
-                recipe.getInput().getCount() <= input.getCount() &&
-                insertOutput(getRecipeResult(input).copy(), true);
+                recipe.isValidInputCount(input) &&
+                insertOutput(recipe.getOutput().copy(), true);
     }
 
     private void attemptSmelt() {
-        EnergyRecipe recipe = CompactorRecipeRegistry.getRecipe(inputHandler.getStackInSlot(0));
+        ItemStack input = inputHandler.getStackInSlot(0);
+        EnergyRecipe recipe = CompactorRecipeRegistry.getRecipe(input);
         if (recipe != null) {
-            ItemStack input = recipe.getInput();
             ItemStack output = recipe.getOutput();
             if (insertOutput(output.copy(), false)) {
-                inputHandler.extractItem(0, input.getCount(), false);
+                inputHandler.extractItem(0, recipe.getInputCount(input), false);
                 progress = 0;
             }
         }

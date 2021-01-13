@@ -6,13 +6,13 @@ public class ModBlocks {
     public static BlockCompactor blockCompactor;
     public static BlockCrimsonFurnace blockCrimsonFurnace;
     public static BlockCrimson blockCrimson;
-    public static BlockAlloyer blockCrimsonAlloyer;
+    public static BlockAlloyer blockAlloyer;
 
     public static void init() {
         blockBart = new BlockBart("bart_block");
         blockCompactor = new BlockCompactor("crimson_compactor");
         blockCrimsonFurnace = new BlockCrimsonFurnace("crimson_furnace");
         blockCrimson = new BlockCrimson("crimson_block");
-        blockCrimsonAlloyer = new BlockAlloyer("crimson_alloyer");
+        blockAlloyer = new BlockAlloyer("crimson_alloyer");
     }
 }

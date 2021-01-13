@@ -70,9 +70,9 @@ public class TileCompactor extends TileMachine {
                 if (!ItemStack.areItemsEqual(inputHandler.getStackInSlot(0), previousInput)) {
                     progress = 0;
                 }
+                recipeEnergy = getRecipeEnergy();
                 progress += ENERGY_RATE;
                 energyStorage.consumeEnergy(ENERGY_RATE);
-                getRecipeEnergy();
                 if (progress >= recipeEnergy) {
                     attemptSmelt();
                 }
@@ -97,9 +97,8 @@ public class TileCompactor extends TileMachine {
         previousEnergyStored = energyStorage.getEnergyStored();
     }
 
-    public void getRecipeEnergy() {
-        EnergyRecipe result = CompactorRecipeRegistry.getRecipe(inputHandler.getStackInSlot(0));
-        recipeEnergy = result != null ? result.getEnergyRequired() : 0;
+    public int getRecipeEnergy() {
+        return CompactorRecipeRegistry.getRecipeEnergy(inputHandler.getStackInSlot(0));
     }
 
     private ItemStack getRecipeResult(ItemStack itemStack) {
@@ -115,17 +114,17 @@ public class TileCompactor extends TileMachine {
         ItemStack input = inputHandler.getStackInSlot(0);
         EnergyRecipe recipe = CompactorRecipeRegistry.getRecipe(input);
         return recipe != null &&
-                recipe.getInput().getCount() <= input.getCount() &&
-                insertOutput(getRecipeResult(input).copy(), true);
+                recipe.isValidInputCount(input) &&
+                insertOutput(recipe.getOutput().copy(), true);
     }
 
     private void attemptSmelt() {
-        EnergyRecipe recipe = CompactorRecipeRegistry.getRecipe(inputHandler.getStackInSlot(0));
+        ItemStack input = inputHandler.getStackInSlot(0);
+        EnergyRecipe recipe = CompactorRecipeRegistry.getRecipe(input);
         if (recipe != null) {
-            ItemStack input = recipe.getInput();
             ItemStack output = recipe.getOutput();
             if (insertOutput(output.copy(), false)) {
-                inputHandler.extractItem(0, input.getCount(), false);
+                inputHandler.extractItem(0, recipe.getInputCount(input), false);
                 progress = 0;
             }
         }
