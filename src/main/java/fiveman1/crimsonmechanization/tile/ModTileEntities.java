@@ -13,6 +13,7 @@ public class ModTileEntities {
     public static void init() {
         register(TileCompactor.class, ModBlocks.blockCompactor);
         register(TileCrimsonFurnace.class, ModBlocks.blockCrimsonFurnace);
+        register(TileAlloyer.class, ModBlocks.blockCrimsonAlloyer);
     }
 
     private static void register(Class<? extends TileEntity> teClass, BlockBase block) {

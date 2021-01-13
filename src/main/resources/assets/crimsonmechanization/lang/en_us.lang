@@ -3,6 +3,7 @@ tile.crimsonmechanization.crimson_furnace.name=Crimson Forger
 tile.crimsonmechanization.bart_block.name=John Blockman
 tile.crimsonmechanization.crimson_block.name=Block of Crimson
 tile.crimsonmechanization.crimson_compactor.name=Crimson Condenser
+tile.crimsonmechanization.crimson_alloyer.name=Crimson Alloyer
 
 # Items
 item.crimsonmechanization.crimson_pickaxe.name=Crimson Pickaxe
@@ -48,6 +49,7 @@ item.crimsonmechanization.plateBronze.name=Bronze Plate
 # Containers
 container.crimsonmechanization.crimson_furnace.name=Crimson Forger
 container.crimsonmechanization.crimson_compactor.name=Crimson Condenser
+container.crimsonmechanization.crimson_alloyer.name=Crimson Alloyer
 
 # JEI Categories
 category.crimsonmechanization.compactor=Condenser
