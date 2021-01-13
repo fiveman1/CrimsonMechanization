@@ -1,14 +1,23 @@
 package fiveman1.crimsonmechanization.inventory.gui;
 
+import fiveman1.crimsonmechanization.inventory.container.ContainerMachine;
+import fiveman1.crimsonmechanization.tile.TileMachine;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.awt.*;
 
+@SideOnly(Side.CLIENT)
 public class GuiMachine extends GuiBase {
 
-    public GuiMachine(Container container, InventoryPlayer playerInv, String name, int width, int height) {
+    protected final ContainerMachine machineContainer;
+    protected final TileMachine te;
+
+    public GuiMachine(ContainerMachine container, InventoryPlayer playerInv, String name, int width, int height) {
         super(container, playerInv, name, width, height);
+        machineContainer = container;
+        te = machineContainer.getTileMachine();
     }
 
     protected void drawProgressBar(int progress, int maxProgress) {
@@ -33,5 +42,19 @@ public class GuiMachine extends GuiBase {
 
     protected boolean isMouseOverEnergyBar(int mouseX, int mouseY) {
         return mouseX >= guiLeft + 79 && mouseY >= guiTop + 71 && mouseX < guiLeft + 167 && mouseY < guiTop + 78;
+    }
+
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        if (isMouseOverEnergyBar(mouseX, mouseY)) {
+            drawHoveringText(te.getField(TileMachine.ENERGY_ID) + " / " + te.getField(TileMachine.CAPACITY_ID) + " RF", mouseX, mouseY);
+        }
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+        drawProgressBar(te.getField(TileMachine.PROGRESS_ID), te.getField(TileMachine.RECIPE_ENERGY_ID));
+        drawEnergyBar(te.getField(TileMachine.ENERGY_ID), te.getField(TileMachine.CAPACITY_ID));
     }
 }

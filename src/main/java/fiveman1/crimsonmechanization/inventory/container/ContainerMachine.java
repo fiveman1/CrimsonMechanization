@@ -29,46 +29,43 @@ public abstract class ContainerMachine extends ContainerBase {
     @Override
     @SideOnly(Side.CLIENT)
     public void updateProgressBar(int id, int data) {
-        //CrimsonMechanization.logger.info("id: " + id + ", data : " + data);
         machine.setField(id, data);
     }
 
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
-        // TODO: only getField once for each ID
-        if (machine.getField(TileMachine.ENERGY_ID) != ENERGY_STORED) {
-            for (IContainerListener listener : listeners) {
-                if (listener instanceof EntityPlayerMP) {
-                    Messages.INSTANCE.sendTo(new PacketMachineInfo(machine.getField(TileMachine.ENERGY_ID)), (EntityPlayerMP) listener);
+        int energyStored = machine.getField(TileMachine.ENERGY_ID);
+        int capacity = machine.getField(TileMachine.CAPACITY_ID);
+        int maxReceieve = machine.getField(TileMachine.MAX_RECEIVE_ID);
+        int maxExtract = machine.getField(TileMachine.MAX_EXTRACT_ID);
+        int progress = machine.getField(TileMachine.PROGRESS_ID);
+        int recipeEnergy = machine.getField(TileMachine.RECIPE_ENERGY_ID);
+        for (IContainerListener listener : listeners) {
+            if (listener instanceof EntityPlayerMP) {
+                EntityPlayerMP playerMP = (EntityPlayerMP) listener;
+                if (energyStored != ENERGY_STORED) {
+                    Messages.INSTANCE.sendTo(new PacketMachineInfo(energyStored), playerMP);
+                }
+
+                if (capacity != CAPACITY || maxReceieve != MAX_RECEIVE || maxExtract != MAX_EXTRACT) {
+                    Messages.INSTANCE.sendTo(new PacketMachineInfo(capacity, maxReceieve, maxExtract), playerMP);
+                }
+                // TODO: progress should be its own packet separate from recipe energy
+                if (progress != PROGRESS || recipeEnergy != RECIPE_ENERGY) {
+                    Messages.INSTANCE.sendTo(new PacketMachineInfo(progress, recipeEnergy), playerMP);
                 }
             }
         }
-        if (machine.getField(TileMachine.CAPACITY_ID) != CAPACITY ||
-                machine.getField(TileMachine.MAX_RECEIVE_ID) != MAX_RECEIVE ||
-                machine.getField(TileMachine.MAX_EXTRACT_ID) != MAX_EXTRACT) {
-            for (IContainerListener listener : listeners) {
-                if (listener instanceof EntityPlayerMP) {
-                    Messages.INSTANCE.sendTo(new PacketMachineInfo(machine.getField(TileMachine.CAPACITY_ID),
-                            machine.getField(TileMachine.MAX_RECEIVE_ID), machine.getField(TileMachine.MAX_EXTRACT_ID)), (EntityPlayerMP) listener);
-                }
-            }
-        }
-        // TODO: sync recipe energy separately because it doesn't change as often as progress
-        if (machine.getField(TileMachine.PROGRESS_ID) != PROGRESS ||
-                machine.getField(TileMachine.RECIPE_ENERGY_ID) != RECIPE_ENERGY) {
-            for (IContainerListener listener : listeners) {
-                if (listener instanceof EntityPlayerMP) {
-                    Messages.INSTANCE.sendTo(new PacketMachineInfo(machine.getField(TileMachine.PROGRESS_ID),
-                            machine.getField(TileMachine.RECIPE_ENERGY_ID)), (EntityPlayerMP) listener);
-                }
-            }
-        }
-        ENERGY_STORED = machine.getField(TileMachine.ENERGY_ID);
-        CAPACITY = machine.getField(TileMachine.CAPACITY_ID);
-        MAX_RECEIVE = machine.getField(TileMachine.MAX_RECEIVE_ID);
-        MAX_EXTRACT = machine.getField(TileMachine.MAX_EXTRACT_ID);
-        PROGRESS = machine.getField(TileMachine.PROGRESS_ID);
-        RECIPE_ENERGY = machine.getField(TileMachine.RECIPE_ENERGY_ID);
+        ENERGY_STORED = energyStored;
+        CAPACITY = capacity;
+        MAX_RECEIVE = maxReceieve;
+        MAX_EXTRACT = maxExtract;
+        PROGRESS = progress;
+        RECIPE_ENERGY = recipeEnergy;
+    }
+
+    public TileMachine getTileMachine() {
+        return machine;
     }
 }

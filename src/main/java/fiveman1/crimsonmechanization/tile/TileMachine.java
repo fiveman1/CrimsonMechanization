@@ -1,5 +1,6 @@
 package fiveman1.crimsonmechanization.tile;
 
+import fiveman1.crimsonmechanization.blocks.BlockMachine;
 import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,6 +18,16 @@ import javax.annotation.Nullable;
 public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     // TODO: abstract more stuff
+    public static int INPUT_SLOTS = 1;
+    public static int OUTPUT_SLOTS = 1;
+    public static int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
+
+    public TileMachine(String name) {
+        super(name);
+    }
+
+    public TileMachine() { super(); }
+
 
     public static final int PROGRESS_ID = 0;
     public static final int ENERGY_ID = 1;
@@ -25,19 +36,75 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public static final int MAX_EXTRACT_ID = 4;
     public static final int RECIPE_ENERGY_ID = 5;
 
-    protected int ENERGY_RATE = 20;
-
     // these MUST BE UPDATED WHEN CHANGED as they are used for the progress bar
     protected int recipeEnergy = 0;
     protected int progress = 0;
 
+    protected int ENERGY_RATE = 20;
     protected final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
+    protected int previousEnergyStored = energyStorage.getEnergyStored();
+    protected boolean active = false;
+    private int counter = 0;
 
-    public TileMachine(String name) {
-        super(name);
+    @Override
+    public void update() {
+        if (!world.isRemote) {
+            startUpdate();
+            int currentEnergyStored = energyStorage.getEnergyStored();
+            if (canProcess()) {
+                if (!active) {
+                    updateActive(true);
+                    active = true;
+                    counter = 0;
+                }
+                updateProgress();
+                energyStorage.consumeEnergy(ENERGY_RATE);
+                if (progress >= recipeEnergy) {
+                    processRecipe();
+                    progress = 0;
+                }
+                markDirty();
+
+
+            } else {
+                progress = 0;
+                active = false;
+            }
+            if (!active) {
+                counter++;
+                counter %= 40;
+                if (counter == 0) {
+                    updateActive(false);
+                }
+            }
+            previousEnergyStored = currentEnergyStored;
+            endUpdate();
+        }
     }
 
-    public TileMachine() { super(); }
+    protected void updateActive(boolean isActive) {
+        IBlockState state = world.getBlockState(pos);
+        world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, isActive), 3);
+    }
+
+    // returns true if: inputs are a valid recipe, output has space in output slot,
+    // and there is enough energy to complete the recipe
+    protected abstract boolean canProcess();
+
+    // updates progress and recipeEnergy, this should reset progress and
+    // recipeEnergy if the input has changed
+    protected abstract void updateProgress();
+
+    // subtracts inputs from input slots and puts output into output slot
+    protected abstract void processRecipe();
+
+    // update any variables at the start of tile update
+    protected void startUpdate() {}
+
+    // update any variables at the end of tile update
+    protected void endUpdate() {}
+
+
 
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
@@ -49,6 +116,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         super.readFromNBT(compound);
         energyStorage.readFromNBT(compound);
         progress = compound.getInteger("progress");
+        counter = compound.getInteger("counter");
     }
 
     @Override
@@ -56,6 +124,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         super.writeToNBT(compound);
         energyStorage.writeToNBT(compound);
         compound.setInteger("progress", progress);
+        compound.setInteger("counter", counter);
         return compound;
     }
 
@@ -82,15 +151,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public CustomEnergyStorage getEnergyStorage(EnumFacing facing) {
         return energyStorage;
     }
-
-    @Override
-    public void update() {
-        if (!world.isRemote) {
-            updateTile();
-        }
-    }
-
-    public abstract void updateTile();
 
     public int getField(int id) {
         switch (id) {

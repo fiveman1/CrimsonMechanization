@@ -13,7 +13,7 @@ import java.util.*;
 public class CompactorRecipeRegistry {
 
     private static final Hashtable<ComparableItemMeta, EnergyRecipe> compactorRecipesHash = new Hashtable<>();
-    private static ArrayList<EnergyRecipe> compactorRecipes;
+    private static final ArrayList<EnergyRecipe> compactorRecipes = new ArrayList<>();
     private static final int DEFAULT_ENERGY = 3200;
 
     @Nullable
@@ -37,6 +37,7 @@ public class CompactorRecipeRegistry {
 
     private static void addRecipe(List<ItemStack> inputs, ItemStack output, int energy) {
         EnergyRecipe recipe = new EnergyRecipe(inputs, output, energy);
+        compactorRecipes.add(recipe);
         for (ItemStack input : inputs) {
             compactorRecipesHash.put(new ComparableItemMeta(input), recipe);
         }
@@ -48,6 +49,7 @@ public class CompactorRecipeRegistry {
 
     private static void addRecipe(ItemStack input, ItemStack output, int energy) {
         EnergyRecipe recipe = new EnergyRecipe(input, output, energy);
+        compactorRecipes.add(recipe);
         compactorRecipesHash.put(new ComparableItemMeta(input), recipe);
     }
 
@@ -56,7 +58,8 @@ public class CompactorRecipeRegistry {
     }
 
     public static void initRecipes() {
-        addRecipe(new ItemStack(Items.BLAZE_POWDER, 5), new ItemStack(Items.BLAZE_ROD), 2000);
+        // TODO: json recipe implementation
+        addRecipe(new ItemStack(Items.BLAZE_POWDER, 5), new ItemStack(Items.BLAZE_ROD));
         addRecipe(new ItemStack(Items.DYE, 16, EnumDyeColor.WHITE.getDyeDamage()), new ItemStack(Items.BONE), 4000);
 
         // auto generate ingot/gem -> plate recipes using oredict
@@ -72,9 +75,7 @@ public class CompactorRecipeRegistry {
             }
         }
 
-        // remove duplicates from recipe list
-        compactorRecipes = new ArrayList<>(new HashSet<>(compactorRecipesHash.values()));
-        // sort alphabetically according to the localized name of the outputs
+        // sort recipe list alphabetically according to the localized name of the outputs
         Collections.sort(compactorRecipes);
     }
 }

@@ -1,10 +1,8 @@
 package fiveman1.crimsonmechanization.tile;
 
-import fiveman1.crimsonmechanization.blocks.BlockMachine;
 import fiveman1.crimsonmechanization.inventory.container.ContainerAlloyer;
 import fiveman1.crimsonmechanization.recipe.CompactorRecipeRegistry;
 import fiveman1.crimsonmechanization.recipe.EnergyRecipe;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,8 +30,7 @@ public class TileAlloyer extends TileMachine{
     private final ItemStackHandler inputHandler = new ItemStackHandler(INPUT_SLOTS) {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            ItemStack result = getRecipeResult(stack);
-            return !result.isEmpty();
+            return !CompactorRecipeRegistry.getOutput(stack).isEmpty();
         }
 
         @Override
@@ -49,85 +46,55 @@ public class TileAlloyer extends TileMachine{
     };
     private final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler);
 
-    private boolean active = false;
-    private int counter = 0;
-    public ItemStack previousInput = inputHandler.getStackInSlot(0);
-    private int previousEnergyStored = energyStorage.getEnergyStored();
 
-
+    private ItemStack previousInput = inputHandler.getStackInSlot(0);
+    private ItemStack currentInput;
+    private EnergyRecipe currentRecipe = CompactorRecipeRegistry.getRecipe(previousInput);
 
     // TODO: cache everything (recipe energy, output, current input, etc)
+    @Override
+    protected boolean canProcess() {
+        if (energyStorage.getEnergyStored() >= ENERGY_RATE && currentRecipe != null && currentRecipe.isValidInputCount(currentInput)) {
+            ItemStack output = currentRecipe.getOutput();
+            ItemStack currentOutput = outputHandler.getStackInSlot(0);
+            return currentOutput.isEmpty() ||
+                    (ItemStack.areItemsEqual(output, currentOutput) &&
+                            currentOutput.getCount() + output.getCount() <= output.getMaxStackSize());
+        }
+        return false;
+    }
 
     @Override
-    public void updateTile() {
-        if (!inputHandler.getStackInSlot(0).isEmpty() && hasAvailableOutput()) {
-            if (energyStorage.getEnergyStored() >= ENERGY_RATE) {
-                if (!active) {
-                    IBlockState state = world.getBlockState(pos);
-                    world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, true), 3);
-                    active = true;
-                }
-                if (!ItemStack.areItemsEqual(inputHandler.getStackInSlot(0), previousInput)) {
-                    progress = 0;
-                }
-                recipeEnergy = getRecipeEnergy();
-                progress += ENERGY_RATE;
-                energyStorage.consumeEnergy(ENERGY_RATE);
-                if (progress >= recipeEnergy) {
-                    attemptSmelt();
-                }
-                markDirty();
-                energyStorage.consumeEnergy(ENERGY_RATE);
-            } else if (energyStorage.getEnergyStored() == previousEnergyStored) {
-                active = false;
-            }
-        } else {
-            active = false;
+    protected void updateProgress() {
+        if (!ItemStack.areItemsEqual(currentInput, previousInput)) {
             progress = 0;
         }
-        counter++;
-        if (counter > 40) {
-            IBlockState state = world.getBlockState(pos);
-            if (state.getValue(BlockMachine.ACTIVE) != active) {
-                world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, active), 3);
-            }
-            counter = 0;
+        progress += ENERGY_RATE;
+        recipeEnergy = currentRecipe.getEnergyRequired();
+    }
+
+    @Override
+    protected void processRecipe() {
+        // recipe should never be null at this point but it doesn't hurt to check
+        if (currentRecipe != null) {
+            ItemStack output = currentRecipe.getOutput();
+            outputHandler.insertItem(0, output.copy(), false);
+            inputHandler.extractItem(0, currentRecipe.getInputCount(currentInput), false);
+            progress = 0;
         }
-        previousInput = inputHandler.getStackInSlot(0);
-        previousEnergyStored = energyStorage.getEnergyStored();
     }
 
-    public int getRecipeEnergy() {
-        return CompactorRecipeRegistry.getRecipeEnergy(inputHandler.getStackInSlot(0));
-    }
-
-    private ItemStack getRecipeResult(ItemStack itemStack) {
-        // TODO: cache results to improve performance
-        return CompactorRecipeRegistry.getOutput(itemStack);
-    }
-
-    private boolean insertOutput(ItemStack output, boolean simulate) {
-        return outputHandler.insertItem(0, output, simulate).isEmpty();
-    }
-
-    private boolean hasAvailableOutput() {
-        ItemStack input = inputHandler.getStackInSlot(0);
-        EnergyRecipe recipe = CompactorRecipeRegistry.getRecipe(input);
-        return recipe != null &&
-                recipe.isValidInputCount(input) &&
-                insertOutput(recipe.getOutput().copy(), true);
-    }
-
-    private void attemptSmelt() {
-        ItemStack input = inputHandler.getStackInSlot(0);
-        EnergyRecipe recipe = CompactorRecipeRegistry.getRecipe(input);
-        if (recipe != null) {
-            ItemStack output = recipe.getOutput();
-            if (insertOutput(output.copy(), false)) {
-                inputHandler.extractItem(0, recipe.getInputCount(input), false);
-                progress = 0;
-            }
+    @Override
+    protected void startUpdate() {
+        currentInput = inputHandler.getStackInSlot(0);
+        if (!ItemStack.areItemsEqual(currentInput, previousInput)) {
+            currentRecipe = CompactorRecipeRegistry.getRecipe(previousInput);
         }
+    }
+
+    @Override
+    protected void endUpdate() {
+        previousInput = currentInput;
     }
 
     @Override
@@ -139,7 +106,7 @@ public class TileAlloyer extends TileMachine{
         if (compound.hasKey("itemsOut")) {
             outputHandler.deserializeNBT((NBTTagCompound) compound.getTag("itemsOut"));
         }
-        counter = compound.getInteger("counter");
+        //counter = compound.getInteger("counter");
     }
 
     @Override
@@ -147,7 +114,7 @@ public class TileAlloyer extends TileMachine{
         super.writeToNBT(compound);
         compound.setTag("itemsIn", inputHandler.serializeNBT());
         compound.setTag("itemsOut", outputHandler.serializeNBT());
-        compound.setInteger("counter", counter);
+        //compound.setInteger("counter", counter);
         return compound;
     }
 

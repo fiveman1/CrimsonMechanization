@@ -56,10 +56,6 @@ public class BaseRecipe implements Comparable<BaseRecipe> {
         return 0;
     }
 
-    public List<ItemStack> getInputSlotIngredients() {
-        return new ArrayList<>(inputs);
-    }
-
     public ItemStack getOutput() {
         return output;
     }
