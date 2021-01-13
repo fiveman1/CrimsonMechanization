@@ -5,8 +5,8 @@ import net.minecraft.item.ItemStack;
 
 public class ComparableItemMeta {
 
-    private Item item;
-    private int meta;
+    private final Item item;
+    private final int meta;
 
     public ComparableItemMeta(ItemStack itemStack) {
         item = itemStack.getItem();
@@ -17,9 +17,7 @@ public class ComparableItemMeta {
     public boolean equals(Object obj) {
         if (obj instanceof ComparableItemMeta) {
             ComparableItemMeta other = (ComparableItemMeta) obj;
-            if (this.item == other.item && this.meta == other.meta) {
-                return true;
-            }
+            return this.item == other.item && this.meta == other.meta;
         }
         return false;
     }

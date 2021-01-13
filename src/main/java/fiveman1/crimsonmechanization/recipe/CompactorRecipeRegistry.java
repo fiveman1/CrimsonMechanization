@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.Hashtable;
 
 public class CompactorRecipeRegistry {
@@ -21,18 +22,21 @@ public class CompactorRecipeRegistry {
     }
 
     public static ItemStack getOutput(ItemStack input) {
-        EnergyRecipe recipe = compactorRecipes.get(new ComparableItemMeta(input));
+        EnergyRecipe recipe = getRecipe(input);
         return recipe != null && input.getCount() >= recipe.getInput().getCount() ? recipe.getOutput() : ItemStack.EMPTY;
     }
 
     private static void addRecipe(ItemStack input, ItemStack output) {
-        EnergyRecipe recipe = new EnergyRecipe(input, output, DEFAULT_ENERGY);
-        compactorRecipes.put(new ComparableItemMeta(input), recipe);
+        addRecipe(input, output, DEFAULT_ENERGY);
     }
 
     private static void addRecipe(ItemStack input, ItemStack output, int energy) {
         EnergyRecipe recipe = new EnergyRecipe(input, output, energy);
         compactorRecipes.put(new ComparableItemMeta(input), recipe);
+    }
+
+    public static Collection<EnergyRecipe> getRecipeCollection() {
+        return compactorRecipes.values();
     }
 
     public static void initRecipes() {

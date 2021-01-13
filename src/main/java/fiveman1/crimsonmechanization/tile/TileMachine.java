@@ -30,7 +30,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     // these MUST BE UPDATED WHEN CHANGED as they are used for the progress bar
     protected int recipeEnergy = 0;
     protected int progress = 0;
-    // these MUST BE UPDATED WHEN CHANGED as they are used for the progress bar
 
     protected final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
 
@@ -109,7 +108,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
                 return recipeEnergy;
             default:
                 return 0;
-
         }
     }
 

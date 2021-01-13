@@ -48,3 +48,6 @@ item.crimsonmechanization.plateBronze.name=Bronze Plate
 # Containers
 container.crimsonmechanization.crimson_furnace.name=Crimson Forger
 container.crimsonmechanization.crimson_compactor.name=Crimson Condenser
+
+# JEI Categories
+category.crimsonmechanization.compactor=Condenser

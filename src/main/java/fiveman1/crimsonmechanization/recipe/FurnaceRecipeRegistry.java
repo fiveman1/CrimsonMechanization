@@ -16,17 +16,19 @@ public class FurnaceRecipeRegistry {
         instance.addSmeltingRecipe(new ItemStack(ModItems.itemDust, 1, EnumMaterial.COAL.getMetadata()), new ItemStack(Items.COAL), 0f);
         String[] oreNames = OreDictionary.getOreNames();
         for (String name : oreNames) {
-            ItemStack ore = RecipeHelper.getStrictlyModItemFromOreDict(OreDictionary.getOres(name), CrimsonMechanization.MODID);
-            if (!ore.isEmpty() && name.startsWith("dust")) {
-                String suffix = RecipeHelper.getSuffixFromOreName(name);
-                String outputIngot = "ingot" + suffix;
-                String outputGem = "gem" + suffix;
-                if (OreDictionary.doesOreNameExist(outputIngot)) {
-                    ItemStack output = RecipeHelper.getModItemFromOreDict(OreDictionary.getOres(outputIngot), CrimsonMechanization.MODID);
-                    instance.addSmeltingRecipe(ore, output, 0f);
-                } else if (OreDictionary.doesOreNameExist(outputGem)) {
-                    ItemStack output = RecipeHelper.getModItemFromOreDict(OreDictionary.getOres(outputGem), CrimsonMechanization.MODID);
-                    instance.addSmeltingRecipe(ore, output, 0f);
+            if (name.startsWith("dust")) {
+                ItemStack ore = RecipeHelper.getStrictlyModItemFromOreDict(OreDictionary.getOres(name), CrimsonMechanization.MODID);
+                if (!ore.isEmpty()) {
+                    String suffix = RecipeHelper.getSuffixFromOreName(name);
+                    String outputIngot = "ingot" + suffix;
+                    String outputGem = "gem" + suffix;
+                    if (OreDictionary.doesOreNameExist(outputIngot)) {
+                        ItemStack output = RecipeHelper.getModItemFromOreDict(OreDictionary.getOres(outputIngot), CrimsonMechanization.MODID);
+                        instance.addSmeltingRecipe(ore, output, 0f);
+                    } else if (OreDictionary.doesOreNameExist(outputGem)) {
+                        ItemStack output = RecipeHelper.getModItemFromOreDict(OreDictionary.getOres(outputGem), CrimsonMechanization.MODID);
+                        instance.addSmeltingRecipe(ore, output, 0f);
+                    }
                 }
             }
         }
