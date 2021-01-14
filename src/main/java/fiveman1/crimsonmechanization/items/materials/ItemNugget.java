@@ -1,6 +1,7 @@
 package fiveman1.crimsonmechanization.items.materials;
 
 public class ItemNugget extends ItemMaterial {
+
     public ItemNugget(String name) {
         super(name);
         clearMaterials();

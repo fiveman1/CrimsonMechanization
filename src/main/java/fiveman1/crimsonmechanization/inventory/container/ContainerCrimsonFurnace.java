@@ -9,44 +9,14 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerCrimsonFurnace extends ContainerMachine {
-
-
-
     public ContainerCrimsonFurnace(IInventory playerInventory, TileCrimsonFurnace tileCrimsonFurnace, int xOffsetInventory, int yOffsetInventory) {
         super(playerInventory, tileCrimsonFurnace, xOffsetInventory, yOffsetInventory);
     }
 
+    @Override
     protected void addSlots() {
         IItemHandler itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         addSlotToContainer(new SlotItemHandler(itemHandler, 0, 46, 34));
         addSlotToContainer(new SlotOutput(itemHandler, 1, 116, 34));
     }
-
-    /*@Override
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = inventorySlots.get(index);
-
-        if (slot != null && slot.getHasStack()) {
-            ItemStack currentItemStack = slot.getStack();
-            itemstack = currentItemStack.copy();
-
-            if (index < TileCrimsonFurnace.SIZE) {
-                if (!this.mergeItemStack(currentItemStack, TileCrimsonFurnace.SIZE, inventorySlots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-                slot.onSlotChange(currentItemStack, itemstack);
-            } else if (!this.mergeItemStack(currentItemStack, 0, 1, false)) {
-                return ItemStack.EMPTY;
-            }
-            if (currentItemStack.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
-            } else {
-                slot.onSlotChanged();
-            }
-            slot.onTake(playerIn, currentItemStack);
-        }
-
-        return itemstack;
-    }*/
 }
