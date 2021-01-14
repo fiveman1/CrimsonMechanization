@@ -1,6 +1,8 @@
 package fiveman1.crimsonmechanization.tile;
 
+import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.blocks.BlockMachine;
+import fiveman1.crimsonmechanization.recipe.IRecipeManager;
 import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,6 +20,11 @@ import javax.annotation.Nullable;
 public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     // TODO: abstract more stuff
+    protected abstract IRecipeManager getRecipes();
+    public abstract int getInputSlots();
+    public abstract int getOutputSlots();
+    protected final IRecipeManager recipes = getRecipes();
+
     public static int INPUT_SLOTS = 1;
     public static int OUTPUT_SLOTS = 1;
     public static int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
@@ -44,6 +51,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     protected final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
     protected int previousEnergyStored = energyStorage.getEnergyStored();
     protected boolean active = false;
+    protected boolean blockStateActive = false;
     private int counter = 0;
 
     @Override
@@ -64,13 +72,14 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
                     progress = 0;
                 }
                 markDirty();
-
-
             } else {
                 progress = 0;
                 active = false;
             }
-            if (!active) {
+            // after the machine goes from active to inactive, wait 40 ticks
+            // then update the block state (this will get reset if the machine goes
+            // active again
+            if (!active && blockStateActive) {
                 counter++;
                 counter %= 40;
                 if (counter == 0) {
@@ -83,6 +92,8 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     }
 
     protected void updateActive(boolean isActive) {
+        CrimsonMechanization.logger.info("HERE: " + isActive);
+        blockStateActive = isActive;
         IBlockState state = world.getBlockState(pos);
         world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, isActive), 3);
     }
@@ -103,7 +114,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     // update any variables at the end of tile update
     protected void endUpdate() {}
-
 
 
     @Override

@@ -1,65 +1,48 @@
 package fiveman1.crimsonmechanization.recipe;
 
-import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class BaseRecipe implements Comparable<BaseRecipe> {
 
-    protected final List<ItemStack> inputs = new ArrayList<>();
+    protected final Ingredient input;
+    protected final int inputCount;
     protected final ItemStack output;
 
-    /**
-     * @param inputs: a list of valid inputs for the given output
-     * @param output: a single ItemStack output
-     */
-    public BaseRecipe(List<ItemStack> inputs, @Nonnull ItemStack output) {
+    public BaseRecipe(Ingredient input, ItemStack output) {
+        this.input = input;
+        this.inputCount = 1;
         this.output = output;
-        addInputs(inputs);
     }
 
-    public BaseRecipe(ItemStack input, @Nonnull ItemStack output) {
-        this(Lists.newArrayList(input), output);
+    public BaseRecipe(Ingredient input, ItemStack output, int count) {
+        this.input = input;
+        this.inputCount = count;
+        this.output = output;
     }
 
-    public void addInputs(ItemStack... itemStacks) {
-        inputs.addAll(Arrays.asList(itemStacks));
-    }
-
-    public void addInputs(List<ItemStack> inputs) {
-        this.inputs.addAll(inputs);
+    public BaseRecipe(ItemStack input, ItemStack output) {
+        this(Ingredient.fromStacks(input), output, input.getCount());
     }
 
     public List<ItemStack> getInputs() {
-        return inputs;
+        return Arrays.asList(input.getMatchingStacks());
     }
 
     public boolean isValidInputCount(ItemStack itemStack) {
-        for (ItemStack input : inputs) {
-            if (ItemStack.areItemsEqual(itemStack, input) && itemStack.getCount() >= input.getCount()) {
-                return true;
-            }
-        }
-        return false;
+        return input.apply(itemStack) && itemStack.getCount() >= inputCount;
     }
 
     public int getInputCount(ItemStack itemStack) {
-        for (ItemStack input : inputs) {
-            if (ItemStack.areItemsEqual(itemStack, input)) {
-                return input.getCount();
-            }
-        }
-        return 0;
+        return isValidInputCount(itemStack) ? inputCount : 0;
     }
 
     public ItemStack getOutput() {
         return output;
     }
-
 
     @Override
     public int compareTo(BaseRecipe otherRecipe) {

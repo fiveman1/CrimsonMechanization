@@ -1,6 +1,9 @@
 package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
+import fiveman1.crimsonmechanization.recipe.CompactorRecipeRegistry;
+import fiveman1.crimsonmechanization.recipe.FurnaceRecipeRegistry;
+import fiveman1.crimsonmechanization.recipe.IRecipeManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -15,6 +18,23 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TileCrimsonFurnace extends TileMachine {
+
+    @Override
+    protected IRecipeManager getRecipes() {
+        return new CompactorRecipeRegistry();
+    }
+
+    @Override
+    public int getInputSlots() {
+        return 1;
+    }
+
+    @Override
+    public int getOutputSlots() {
+        return 1;
+    }
+
+    private final FurnaceRecipeRegistry furnaceRecipes = new FurnaceRecipeRegistry();
 
     public static final int INPUT_SLOTS = 1;
     public static final int OUTPUT_SLOTS = 1;
@@ -32,7 +52,7 @@ public class TileCrimsonFurnace extends TileMachine {
     private final ItemStackHandler inputHandler = new ItemStackHandler(INPUT_SLOTS) {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            return !instance.getSmeltingResult(stack).isEmpty();
+            return !furnaceRecipes.getOutput(stack).isEmpty();
         }
 
         @Override
@@ -52,7 +72,7 @@ public class TileCrimsonFurnace extends TileMachine {
 
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
     private ItemStack currentInput;
-    private ItemStack currentRecipeOutput = instance.getSmeltingResult(previousInput);
+    private ItemStack currentRecipeOutput = furnaceRecipes.getOutput(previousInput);
 
     @Override
     protected boolean canProcess() {
@@ -89,7 +109,7 @@ public class TileCrimsonFurnace extends TileMachine {
     protected void startUpdate() {
         currentInput = inputHandler.getStackInSlot(0);
         if (!ItemStack.areItemsEqual(currentInput, previousInput)) {
-            currentRecipeOutput = instance.getSmeltingResult(currentInput);
+            currentRecipeOutput = furnaceRecipes.getOutput(currentInput);
         }
     }
 
@@ -107,7 +127,6 @@ public class TileCrimsonFurnace extends TileMachine {
         if (compound.hasKey("itemsOut")) {
             outputHandler.deserializeNBT((NBTTagCompound) compound.getTag("itemsOut"));
         }
-        //counter = compound.getInteger("counter");
     }
 
     @Override
@@ -115,7 +134,6 @@ public class TileCrimsonFurnace extends TileMachine {
         super.writeToNBT(compound);
         compound.setTag("itemsIn", inputHandler.serializeNBT());
         compound.setTag("itemsOut", outputHandler.serializeNBT());
-        //compound.setInteger("counter", counter);
         return compound;
     }
 

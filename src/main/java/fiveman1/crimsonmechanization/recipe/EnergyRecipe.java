@@ -1,15 +1,14 @@
 package fiveman1.crimsonmechanization.recipe;
 
 import net.minecraft.item.ItemStack;
-
-import java.util.List;
+import net.minecraft.item.crafting.Ingredient;
 
 public class EnergyRecipe extends BaseRecipe {
 
-    protected int energyRequired;
+    protected final int energyRequired;
 
-    public EnergyRecipe(List<ItemStack> inputs, ItemStack output, int energyRequired) {
-        super(inputs, output);
+    public EnergyRecipe(Ingredient input, ItemStack output, int energyRequired) {
+        super(input, output);
         this.energyRequired = energyRequired;
     }
 

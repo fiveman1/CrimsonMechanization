@@ -9,7 +9,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class FurnaceRecipeRegistry {
+import javax.annotation.Nullable;
+
+public class FurnaceRecipeRegistry implements IRecipeManager {
+
+    private static final FurnaceRecipes instance = FurnaceRecipes.instance();
+
+    @Override
+    @Nullable
+    public EnergyRecipe getRecipe(ItemStack input) {
+        ItemStack output = instance.getSmeltingResult(input);
+        return !output.isEmpty() ? new EnergyRecipe(input, output, 1600) : null;
+    }
+
+    @Override
+    public ItemStack getOutput(ItemStack input) {
+        return instance.getSmeltingResult(input);
+    }
 
     public static void initRecipes() {
         FurnaceRecipes instance = FurnaceRecipes.instance();

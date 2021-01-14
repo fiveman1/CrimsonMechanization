@@ -3,6 +3,7 @@ package fiveman1.crimsonmechanization.tile;
 import fiveman1.crimsonmechanization.inventory.container.ContainerCompactor;
 import fiveman1.crimsonmechanization.recipe.CompactorRecipeRegistry;
 import fiveman1.crimsonmechanization.recipe.EnergyRecipe;
+import fiveman1.crimsonmechanization.recipe.IRecipeManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,6 +18,23 @@ import javax.annotation.Nullable;
 
 public class TileCompactor extends TileMachine {
 
+    @Override
+    protected IRecipeManager getRecipes() {
+        return new CompactorRecipeRegistry();
+    }
+
+    @Override
+    public int getInputSlots() {
+        return 1;
+    }
+
+    @Override
+    public int getOutputSlots() {
+        return 1;
+    }
+
+    private final CompactorRecipeRegistry compactorRecipes = new CompactorRecipeRegistry();
+
     public TileCompactor(String name) {
         super(name);
     }
@@ -26,7 +44,7 @@ public class TileCompactor extends TileMachine {
     private final ItemStackHandler inputHandler = new ItemStackHandler(INPUT_SLOTS) {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            return !CompactorRecipeRegistry.getOutput(stack).isEmpty();
+            return !compactorRecipes.getOutput(stack).isEmpty();
         }
 
         @Override
@@ -45,7 +63,7 @@ public class TileCompactor extends TileMachine {
 
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
     private ItemStack currentInput;
-    private EnergyRecipe currentRecipe = CompactorRecipeRegistry.getRecipe(previousInput);
+    private EnergyRecipe currentRecipe = compactorRecipes.getRecipe(previousInput);
 
     @Override
     protected boolean canProcess() {
@@ -83,7 +101,7 @@ public class TileCompactor extends TileMachine {
     protected void startUpdate() {
         currentInput = inputHandler.getStackInSlot(0);
         if (!ItemStack.areItemsEqual(currentInput, previousInput)) {
-            currentRecipe = CompactorRecipeRegistry.getRecipe(currentInput);
+            currentRecipe = compactorRecipes.getRecipe(currentInput);
         }
     }
 
