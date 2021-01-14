@@ -1,7 +1,6 @@
 package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.blocks.BlockMachine;
-import fiveman1.crimsonmechanization.recipe.IRecipeManager;
 import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -49,15 +48,17 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     protected boolean blockStateActive = false;
     private int counter = 0;
 
-    protected abstract IRecipeManager getRecipes();
     public abstract int getInputSlots();
     public abstract int getOutputSlots();
-    protected final IRecipeManager recipes = getRecipes();
+    public int getSize() {
+        return getInputSlots() + getOutputSlots();
+    }
+    protected abstract boolean isInputValid(ItemStack itemStack);
 
     protected final ItemStackHandler inputHandler = new ItemStackHandler(getInputSlots()) {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            return !recipes.getOutput(stack).isEmpty();
+            return isInputValid(stack);
         }
 
         @Override
@@ -117,7 +118,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, isActive), 3);
     }
 
-    // TODO: should be able to implement these methods in this class
     // update any variables at the start of tile update
     protected void startUpdate() {}
 
@@ -134,10 +134,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     // update any variables at the end of tile update
     protected void endUpdate() {}
-
-    public int getSize() {
-        return getInputSlots() + getOutputSlots();
-    }
 
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {

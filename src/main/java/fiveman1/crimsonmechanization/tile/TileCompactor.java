@@ -1,9 +1,9 @@
 package fiveman1.crimsonmechanization.tile;
 
+import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.inventory.container.ContainerCompactor;
 import fiveman1.crimsonmechanization.recipe.CompactorRecipeManager;
 import fiveman1.crimsonmechanization.recipe.EnergyRecipe;
-import fiveman1.crimsonmechanization.recipe.IRecipeManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -19,11 +19,6 @@ public class TileCompactor extends TileMachine {
     public static final int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
 
     @Override
-    protected IRecipeManager getRecipes() {
-        return new CompactorRecipeManager();
-    }
-
-    @Override
     public int getInputSlots() {
         return INPUT_SLOTS;
     }
@@ -31,6 +26,11 @@ public class TileCompactor extends TileMachine {
     @Override
     public int getOutputSlots() {
         return OUTPUT_SLOTS;
+    }
+
+    @Override
+    protected boolean isInputValid(ItemStack itemStack) {
+        return !CompactorRecipeManager.getOutput(itemStack).isEmpty();
     }
 
     public TileCompactor(String name) {
@@ -41,19 +41,19 @@ public class TileCompactor extends TileMachine {
 
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
     private ItemStack currentInput;
-    private EnergyRecipe currentRecipe = (EnergyRecipe) recipes.getRecipe(previousInput);
+    private EnergyRecipe currentRecipe = CompactorRecipeManager.getRecipe(previousInput);
 
     @Override
     protected void startUpdate() {
         currentInput = inputHandler.getStackInSlot(0);
         if (!ItemStack.areItemsEqual(currentInput, previousInput)) {
-            currentRecipe = (EnergyRecipe) recipes.getRecipe(previousInput);
+            currentRecipe = CompactorRecipeManager.getRecipe(currentInput);
         }
     }
 
     @Override
     protected boolean canProcess() {
-        if (energyStorage.getEnergyStored() >= ENERGY_RATE && currentRecipe != null && currentRecipe.isValidInputCount(currentInput)) {
+        if (energyStorage.getEnergyStored() >= ENERGY_RATE && currentRecipe != null && currentRecipe.isValidInputAndCount(currentInput)) {
             ItemStack output = currentRecipe.getOutput();
             ItemStack currentOutput = outputHandler.getStackInSlot(0);
             return currentOutput.isEmpty() ||

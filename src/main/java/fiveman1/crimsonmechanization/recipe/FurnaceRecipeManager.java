@@ -12,20 +12,18 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 
-public class FurnaceRecipeManager implements IRecipeManager {
+public class FurnaceRecipeManager {
 
     private static final FurnaceRecipes instance = FurnaceRecipes.instance();
 
-    @Override
     @Nullable
-    public EnergyRecipe getRecipe(ItemStack... input) {
+    public static EnergyRecipe getRecipe(ItemStack input) {
         ItemStack output = getOutput(input);
-        return !output.isEmpty() ? new EnergyRecipe(input[0], output, TileCrimsonFurnace.DEFAULT_ENERGY) : null;
+        return !output.isEmpty() ? new EnergyRecipe(input, output, TileCrimsonFurnace.DEFAULT_ENERGY) : null;
     }
 
-    @Override
-    public ItemStack getOutput(ItemStack... input) {
-        return instance.getSmeltingResult(input[0]);
+    public static ItemStack getOutput(ItemStack input) {
+        return instance.getSmeltingResult(input);
     }
 
     public static void initRecipes() {

@@ -2,7 +2,6 @@ package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
 import fiveman1.crimsonmechanization.recipe.FurnaceRecipeManager;
-import fiveman1.crimsonmechanization.recipe.IRecipeManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -19,8 +18,8 @@ public class TileCrimsonFurnace extends TileMachine {
     public static final int DEFAULT_ENERGY = 1600;
 
     @Override
-    protected IRecipeManager getRecipes() {
-        return new FurnaceRecipeManager();
+    protected boolean isInputValid(ItemStack itemStack) {
+        return !FurnaceRecipeManager.getOutput(itemStack).isEmpty();
     }
 
     @Override
@@ -44,13 +43,13 @@ public class TileCrimsonFurnace extends TileMachine {
 
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
     private ItemStack currentInput;
-    private ItemStack currentRecipeOutput = recipes.getOutput(previousInput);
+    private ItemStack currentRecipeOutput = FurnaceRecipeManager.getOutput(previousInput);
 
     @Override
     protected void startUpdate() {
         currentInput = inputHandler.getStackInSlot(0);
         if (!ItemStack.areItemsEqual(currentInput, previousInput)) {
-            currentRecipeOutput = recipes.getOutput(currentInput);
+            currentRecipeOutput = FurnaceRecipeManager.getOutput(currentInput);
         }
     }
 

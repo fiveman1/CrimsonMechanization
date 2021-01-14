@@ -1,5 +1,6 @@
 package fiveman1.crimsonmechanization.recipe;
 
+import fiveman1.crimsonmechanization.CrimsonMechanization;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 
@@ -13,9 +14,7 @@ public class BaseRecipe implements Comparable<BaseRecipe> {
     protected final ItemStack output;
 
     public BaseRecipe(Ingredient input, ItemStack output) {
-        this.input = input;
-        this.inputCount = 1;
-        this.output = output;
+        this(input, output, 1);
     }
 
     public BaseRecipe(Ingredient input, ItemStack output, int count) {
@@ -32,12 +31,12 @@ public class BaseRecipe implements Comparable<BaseRecipe> {
         return Arrays.asList(input.getMatchingStacks());
     }
 
-    public boolean isValidInputCount(ItemStack itemStack) {
+    public boolean isValidInputAndCount(ItemStack itemStack) {
         return input.apply(itemStack) && itemStack.getCount() >= inputCount;
     }
 
     public int getInputCount(ItemStack itemStack) {
-        return isValidInputCount(itemStack) ? inputCount : 0;
+        return input.apply(itemStack) ? inputCount : 0;
     }
 
     public ItemStack getOutput() {
