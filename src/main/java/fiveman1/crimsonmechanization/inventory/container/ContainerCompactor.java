@@ -2,10 +2,7 @@ package fiveman1.crimsonmechanization.inventory.container;
 
 import fiveman1.crimsonmechanization.inventory.slot.SlotOutput;
 import fiveman1.crimsonmechanization.tile.TileCompactor;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -21,7 +18,7 @@ public class ContainerCompactor extends ContainerMachine {
         addSlotToContainer(new SlotOutput(itemHandler, 1, 116, 34));
     }
 
-    @Override
+    /*@Override
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = inventorySlots.get(index);
@@ -47,5 +44,5 @@ public class ContainerCompactor extends ContainerMachine {
         }
 
         return itemstack;
-    }
+    }*/
 }

@@ -3,6 +3,7 @@ package fiveman1.crimsonmechanization.recipe;
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.items.ModItems;
 import fiveman1.crimsonmechanization.items.materials.EnumMaterial;
+import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
 import fiveman1.crimsonmechanization.util.RecipeHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -11,20 +12,20 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 
-public class FurnaceRecipeRegistry implements IRecipeManager {
+public class FurnaceRecipeManager implements IRecipeManager {
 
     private static final FurnaceRecipes instance = FurnaceRecipes.instance();
 
     @Override
     @Nullable
-    public EnergyRecipe getRecipe(ItemStack input) {
-        ItemStack output = instance.getSmeltingResult(input);
-        return !output.isEmpty() ? new EnergyRecipe(input, output, 1600) : null;
+    public EnergyRecipe getRecipe(ItemStack... input) {
+        ItemStack output = getOutput(input);
+        return !output.isEmpty() ? new EnergyRecipe(input[0], output, TileCrimsonFurnace.DEFAULT_ENERGY) : null;
     }
 
     @Override
-    public ItemStack getOutput(ItemStack input) {
-        return instance.getSmeltingResult(input);
+    public ItemStack getOutput(ItemStack... input) {
+        return instance.getSmeltingResult(input[0]);
     }
 
     public static void initRecipes() {

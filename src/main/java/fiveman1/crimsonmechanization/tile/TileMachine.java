@@ -1,10 +1,10 @@
 package fiveman1.crimsonmechanization.tile;
 
-import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.blocks.BlockMachine;
 import fiveman1.crimsonmechanization.recipe.IRecipeManager;
 import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -14,27 +14,22 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     // TODO: abstract more stuff
-    protected abstract IRecipeManager getRecipes();
-    public abstract int getInputSlots();
-    public abstract int getOutputSlots();
-    protected final IRecipeManager recipes = getRecipes();
 
-    public static int INPUT_SLOTS = 1;
-    public static int OUTPUT_SLOTS = 1;
-    public static int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
 
     public TileMachine(String name) {
         super(name);
     }
 
     public TileMachine() { super(); }
-
 
     public static final int PROGRESS_ID = 0;
     public static final int ENERGY_ID = 1;
@@ -53,6 +48,30 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     protected boolean active = false;
     protected boolean blockStateActive = false;
     private int counter = 0;
+
+    protected abstract IRecipeManager getRecipes();
+    public abstract int getInputSlots();
+    public abstract int getOutputSlots();
+    protected final IRecipeManager recipes = getRecipes();
+
+    protected final ItemStackHandler inputHandler = new ItemStackHandler(getInputSlots()) {
+        @Override
+        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+            return !recipes.getOutput(stack).isEmpty();
+        }
+
+        @Override
+        protected void onContentsChanged(int slot) {
+            markDirty();
+        }
+    };
+    protected final ItemStackHandler outputHandler = new ItemStackHandler(getOutputSlots()) {
+        @Override
+        protected void onContentsChanged(int slot) {
+            markDirty();
+        }
+    };
+    protected final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler);
 
     @Override
     public void update() {
@@ -91,12 +110,16 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         }
     }
 
+    // TODO: updating blockstate should be done via getActualState and networking between server/client
     protected void updateActive(boolean isActive) {
-        CrimsonMechanization.logger.info("HERE: " + isActive);
         blockStateActive = isActive;
         IBlockState state = world.getBlockState(pos);
         world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, isActive), 3);
     }
+
+    // TODO: should be able to implement these methods in this class
+    // update any variables at the start of tile update
+    protected void startUpdate() {}
 
     // returns true if: inputs are a valid recipe, output has space in output slot,
     // and there is enough energy to complete the recipe
@@ -109,12 +132,12 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     // subtracts inputs from input slots and puts output into output slot
     protected abstract void processRecipe();
 
-    // update any variables at the start of tile update
-    protected void startUpdate() {}
-
     // update any variables at the end of tile update
     protected void endUpdate() {}
 
+    public int getSize() {
+        return getInputSlots() + getOutputSlots();
+    }
 
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
@@ -124,6 +147,12 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
+        if (compound.hasKey("itemsIn")) {
+            inputHandler.deserializeNBT((NBTTagCompound) compound.getTag("itemsIn"));
+        }
+        if (compound.hasKey("itemsOut")) {
+            outputHandler.deserializeNBT((NBTTagCompound) compound.getTag("itemsOut"));
+        }
         energyStorage.readFromNBT(compound);
         progress = compound.getInteger("progress");
         counter = compound.getInteger("counter");
@@ -132,15 +161,12 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
+        compound.setTag("itemsIn", inputHandler.serializeNBT());
+        compound.setTag("itemsOut", outputHandler.serializeNBT());
         energyStorage.writeToNBT(compound);
         compound.setInteger("progress", progress);
         compound.setInteger("counter", counter);
         return compound;
-    }
-
-    @Override
-    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        return getCapability(capability, facing) != null;
     }
 
     @Nullable

@@ -1,45 +1,38 @@
 package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
-import fiveman1.crimsonmechanization.recipe.CompactorRecipeRegistry;
-import fiveman1.crimsonmechanization.recipe.FurnaceRecipeRegistry;
+import fiveman1.crimsonmechanization.recipe.FurnaceRecipeManager;
 import fiveman1.crimsonmechanization.recipe.IRecipeManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TileCrimsonFurnace extends TileMachine {
 
+    public static final int INPUT_SLOTS = 1;
+    public static final int OUTPUT_SLOTS = 1;
+    public static final int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
+    public static final int DEFAULT_ENERGY = 1600;
+
     @Override
     protected IRecipeManager getRecipes() {
-        return new CompactorRecipeRegistry();
+        return new FurnaceRecipeManager();
     }
 
     @Override
     public int getInputSlots() {
-        return 1;
+        return INPUT_SLOTS;
     }
 
     @Override
     public int getOutputSlots() {
-        return 1;
+        return OUTPUT_SLOTS;
     }
 
-    private final FurnaceRecipeRegistry furnaceRecipes = new FurnaceRecipeRegistry();
-
-    public static final int INPUT_SLOTS = 1;
-    public static final int OUTPUT_SLOTS = 1;
-    public static final int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
-    public static final int MAX_PROGRESS = 1600;
 
     public TileCrimsonFurnace(String name) {
         super(name);
@@ -49,30 +42,17 @@ public class TileCrimsonFurnace extends TileMachine {
         super();
     }
 
-    private final ItemStackHandler inputHandler = new ItemStackHandler(INPUT_SLOTS) {
-        @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            return !furnaceRecipes.getOutput(stack).isEmpty();
-        }
-
-        @Override
-        protected void onContentsChanged(int slot) {
-            markDirty();
-        }
-    };
-    private final ItemStackHandler outputHandler = new ItemStackHandler(OUTPUT_SLOTS) {
-        @Override
-        protected void onContentsChanged(int slot) {
-            markDirty();
-        }
-    };
-    private final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler);
-
-    private final FurnaceRecipes instance = FurnaceRecipes.instance();
-
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
     private ItemStack currentInput;
-    private ItemStack currentRecipeOutput = furnaceRecipes.getOutput(previousInput);
+    private ItemStack currentRecipeOutput = recipes.getOutput(previousInput);
+
+    @Override
+    protected void startUpdate() {
+        currentInput = inputHandler.getStackInSlot(0);
+        if (!ItemStack.areItemsEqual(currentInput, previousInput)) {
+            currentRecipeOutput = recipes.getOutput(currentInput);
+        }
+    }
 
     @Override
     protected boolean canProcess() {
@@ -91,7 +71,7 @@ public class TileCrimsonFurnace extends TileMachine {
             progress = 0;
         }
         progress += ENERGY_RATE;
-        recipeEnergy = MAX_PROGRESS;
+        recipeEnergy = DEFAULT_ENERGY;
     }
 
     @Override
@@ -106,35 +86,8 @@ public class TileCrimsonFurnace extends TileMachine {
     }
 
     @Override
-    protected void startUpdate() {
-        currentInput = inputHandler.getStackInSlot(0);
-        if (!ItemStack.areItemsEqual(currentInput, previousInput)) {
-            currentRecipeOutput = furnaceRecipes.getOutput(currentInput);
-        }
-    }
-
-    @Override
     protected void endUpdate() {
         previousInput = currentInput;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
-        if (compound.hasKey("itemsIn")) {
-            inputHandler.deserializeNBT((NBTTagCompound) compound.getTag("itemsIn"));
-        }
-        if (compound.hasKey("itemsOut")) {
-            outputHandler.deserializeNBT((NBTTagCompound) compound.getTag("itemsOut"));
-        }
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-        compound.setTag("itemsIn", inputHandler.serializeNBT());
-        compound.setTag("itemsOut", outputHandler.serializeNBT());
-        return compound;
     }
 
     public IItemHandler getItemStackHandler(@Nullable EnumFacing facing) {

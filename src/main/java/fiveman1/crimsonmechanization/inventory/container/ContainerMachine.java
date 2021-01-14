@@ -3,9 +3,12 @@ package fiveman1.crimsonmechanization.inventory.container;
 import fiveman1.crimsonmechanization.network.Messages;
 import fiveman1.crimsonmechanization.network.PacketMachineInfo;
 import fiveman1.crimsonmechanization.tile.TileMachine;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -63,6 +66,34 @@ public abstract class ContainerMachine extends ContainerBase {
         MAX_EXTRACT = maxExtract;
         PROGRESS = progress;
         RECIPE_ENERGY = recipeEnergy;
+    }
+
+    @Override
+    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = inventorySlots.get(index);
+
+        if (slot != null && slot.getHasStack()) {
+            ItemStack currentItemStack = slot.getStack();
+            itemstack = currentItemStack.copy();
+
+            if (index < machine.getSize()) {
+                if (!this.mergeItemStack(currentItemStack, machine.getSize(), inventorySlots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+                slot.onSlotChange(currentItemStack, itemstack);
+            } else if (!this.mergeItemStack(currentItemStack, 0, machine.getInputSlots(), false)) {
+                return ItemStack.EMPTY;
+            }
+            if (currentItemStack.isEmpty()) {
+                slot.putStack(ItemStack.EMPTY);
+            } else {
+                slot.onSlotChanged();
+            }
+            slot.onTake(playerIn, currentItemStack);
+        }
+
+        return itemstack;
     }
 
     public TileMachine getTileMachine() {

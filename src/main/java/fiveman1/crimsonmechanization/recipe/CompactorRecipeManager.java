@@ -15,20 +15,20 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Hashtable;
 
-public class CompactorRecipeRegistry implements IRecipeManager {
+public class CompactorRecipeManager implements IRecipeManager {
 
     private static final Hashtable<ComparableItemMeta, EnergyRecipe> compactorRecipesHash = new Hashtable<>();
     private static final ArrayList<EnergyRecipe> compactorRecipes = new ArrayList<>();
     private static final int DEFAULT_ENERGY = 3200;
 
     @Nullable
-    public EnergyRecipe getRecipe(ItemStack input) {
-        return compactorRecipesHash.get(new ComparableItemMeta(input));
+    public EnergyRecipe getRecipe(ItemStack... input) {
+        return compactorRecipesHash.get(new ComparableItemMeta(input[0]));
     }
 
-    public ItemStack getOutput(ItemStack input) {
+    public ItemStack getOutput(ItemStack... input) {
         EnergyRecipe recipe = getRecipe(input);
-        return recipe != null && recipe.isValidInputCount(input) ? recipe.getOutput() : ItemStack.EMPTY;
+        return recipe != null ? recipe.getOutput() : ItemStack.EMPTY;
     }
 
     private static void addRecipe(Ingredient input, ItemStack output) {

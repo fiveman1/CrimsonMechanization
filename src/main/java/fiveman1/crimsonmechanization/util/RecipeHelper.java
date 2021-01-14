@@ -1,7 +1,7 @@
 package fiveman1.crimsonmechanization.util;
 
-import fiveman1.crimsonmechanization.recipe.CompactorRecipeRegistry;
-import fiveman1.crimsonmechanization.recipe.FurnaceRecipeRegistry;
+import fiveman1.crimsonmechanization.recipe.CompactorRecipeManager;
+import fiveman1.crimsonmechanization.recipe.FurnaceRecipeManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
@@ -35,7 +35,7 @@ public class RecipeHelper {
     }
 
     public static void initRecipes() {
-        CompactorRecipeRegistry.initRecipes();
-        FurnaceRecipeRegistry.initRecipes();
+        CompactorRecipeManager.initRecipes();
+        FurnaceRecipeManager.initRecipes();
     }
 }

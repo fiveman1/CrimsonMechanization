@@ -7,7 +7,7 @@ import fiveman1.crimsonmechanization.inventory.gui.GuiCompactor;
 import fiveman1.crimsonmechanization.inventory.gui.GuiCrimsonFurnace;
 import fiveman1.crimsonmechanization.jei.categories.CompactorRecipeCategory;
 import fiveman1.crimsonmechanization.jei.wrappers.EnergyRecipeWrapper;
-import fiveman1.crimsonmechanization.recipe.CompactorRecipeRegistry;
+import fiveman1.crimsonmechanization.recipe.CompactorRecipeManager;
 import fiveman1.crimsonmechanization.recipe.EnergyRecipe;
 import fiveman1.crimsonmechanization.tile.TileCompactor;
 import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
@@ -39,7 +39,7 @@ public class JEIPluginCrimsonMechanization implements IModPlugin {
 
         // Compactor
         registry.addRecipeCatalyst(new ItemStack(ModBlocks.blockCompactor), COMPACTOR_ID);
-        registry.addRecipes(CompactorRecipeRegistry.getRecipeCollection(), COMPACTOR_ID);
+        registry.addRecipes(CompactorRecipeManager.getRecipeCollection(), COMPACTOR_ID);
         registry.handleRecipes(EnergyRecipe.class, EnergyRecipeWrapper::new, COMPACTOR_ID);
         registry.addRecipeClickArea(GuiCompactor.class, 76, 35, 21, 16, COMPACTOR_ID);
         transferRegistry.addRecipeTransferHandler(ContainerCompactor.class, COMPACTOR_ID, 0, TileCompactor.INPUT_SLOTS,
