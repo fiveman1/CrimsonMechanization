@@ -12,6 +12,11 @@ item.crimsonmechanization.crimson_axe.name=Crimson Axe
 item.crimsonmechanization.crimson_hoe.name=Crimson Hoe
 item.crimsonmechanization.crimson_sword.name=Crimson Sword
 
+item.crimsonmechanization.crimson_helmet.name=Crimson Helmet
+item.crimsonmechanization.crimson_chestplate.name=Crimson Chestplate
+item.crimsonmechanization.crimson_leggings.name=Crimson Leggings
+item.crimsonmechanization.crimson_boots.name=Crimson Boots
+
 item.crimsonmechanization.dustCrimson.name=Crimson Dust
 item.crimsonmechanization.dustIron.name=Iron Dust
 item.crimsonmechanization.dustGold.name=Gold Dust
