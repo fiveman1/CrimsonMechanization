@@ -9,12 +9,18 @@ import java.util.List;
 
 public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRecipe {
 
+    // RULES
+    // there should be at least 1 input and 1 output
+    // that's pretty much it
+    // make sure the machine associated with the recipe has the appropriate number of inputs/outputs to support it
+
     private final int energyRequired;
     // Each index is a slot
     // If a slot has no output/input it should contain a ComparableItemOre() (default constuctor)
     private final List<ComparableItemOre> inputs;
     private final List<ComparableItemOre> outputs;
 
+    // This is used to look up the input count of a given ComparableItemOre
     private final Hashtable<ComparableItemOre, Integer> inputCount = new Hashtable<>();
 
     public BaseEnergyRecipe(List<ComparableItemOre> inputs, List<ComparableItemOre> outputs, int energyRequired) {

@@ -14,13 +14,14 @@ public class AlloyerRecipeManager implements IRecipeManager {
 
     private static final Hashtable<Pair<ComparableItemOre, ComparableItemOre>, BaseEnergyRecipe> recipesHash = new Hashtable<>();
     private static final ArrayList<BaseEnergyRecipe> recipes = new ArrayList<>();
-    private static final HashSet<ComparableItemOre> inputs = new HashSet<>();
+    private static final HashSet<ComparableItemOre> recipeInputs = new HashSet<>();
     private static final int DEFAULT_ENERGY = 4000;
 
     @Nullable
-    public BaseEnergyRecipe getRecipe(ItemStack... itemStacks) {
-        ItemStack input1 = itemStacks[0];
-        ItemStack input2 = itemStacks[1];
+    @Override
+    public BaseEnergyRecipe getRecipe(ItemStack... inputs) {
+        ItemStack input1 = inputs[0];
+        ItemStack input2 = inputs[1];
         BaseEnergyRecipe result = recipesHash.get(new Pair<>(new ComparableItemOre(input1), new ComparableItemOre(input2)));
         if (result == null) {
             result = recipesHash.get(new Pair<>(new ComparableItemOre(input2), new ComparableItemOre(input1)));
@@ -28,8 +29,9 @@ public class AlloyerRecipeManager implements IRecipeManager {
         return result;
     }
 
+    @Override
     public boolean isValidInput(ItemStack input) {
-        return inputs.contains(new ComparableItemOre(input));
+        return recipeInputs.contains(new ComparableItemOre(input));
     }
 
     private static void addRecipe(List<ComparableItemOre> inputs, ComparableItemOre output) {
@@ -40,7 +42,7 @@ public class AlloyerRecipeManager implements IRecipeManager {
         BaseEnergyRecipe recipe = new BaseEnergyRecipe(inputs, Collections.singletonList(output), energy);
         recipesHash.put(new Pair<>(inputs.get(0), inputs.get(1)), recipe);
         recipes.add(recipe);
-        AlloyerRecipeManager.inputs.addAll(inputs);
+        AlloyerRecipeManager.recipeInputs.addAll(inputs);
     }
 
     public static Collection<BaseEnergyRecipe> getRecipeCollection() {

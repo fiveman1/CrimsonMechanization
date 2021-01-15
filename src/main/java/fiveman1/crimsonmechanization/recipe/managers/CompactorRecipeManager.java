@@ -16,16 +16,16 @@ import java.util.Hashtable;
 
 public class CompactorRecipeManager implements IRecipeManager {
 
-    // TODO replace ComparableItemMeta with ComparableItemOre and SimpleEnergyRecipe with BaseEnergyRecipe
-
     private static final Hashtable<ComparableItemOre, BaseEnergyRecipe> recipesHash = new Hashtable<>();
     private static final ArrayList<BaseEnergyRecipe> recipes = new ArrayList<>();
     private static final int DEFAULT_ENERGY = 3200;
 
     @Nullable
-    public BaseEnergyRecipe getRecipe(ItemStack... itemStacks) {
-        return recipesHash.get(new ComparableItemOre(itemStacks[0]));
+    @Override
+    public BaseEnergyRecipe getRecipe(ItemStack... inputs) {
+        return recipesHash.get(new ComparableItemOre(inputs[0]));
     }
+    @Override
     public boolean isValidInput(ItemStack input) {
         return getRecipe(input) != null;
     }

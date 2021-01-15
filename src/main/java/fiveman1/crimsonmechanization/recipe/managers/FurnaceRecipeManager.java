@@ -21,10 +21,10 @@ public class FurnaceRecipeManager implements IRecipeManager {
 
     @Nullable
     @Override
-    public BaseEnergyRecipe getRecipe(ItemStack... itemStacks) {
-        ItemStack output = instance.getSmeltingResult(itemStacks[0]).copy();
+    public BaseEnergyRecipe getRecipe(ItemStack... inputs) {
+        ItemStack output = instance.getSmeltingResult(inputs[0]).copy();
         if (!output.isEmpty()) {
-            ItemStack inputCopy = itemStacks[0].copy();
+            ItemStack inputCopy = inputs[0].copy();
             inputCopy.setCount(1);
             return new BaseEnergyRecipe(Collections.singletonList(ComparableItemOre.fromItemStack(inputCopy)),
                     Collections.singletonList(ComparableItemOre.fromItemStack(output)), DEFAULT_ENERGY);
