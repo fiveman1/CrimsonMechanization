@@ -3,8 +3,8 @@ package fiveman1.crimsonmechanization.recipe.managers;
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.items.ModItems;
 import fiveman1.crimsonmechanization.items.materials.EnumMaterial;
-import fiveman1.crimsonmechanization.recipe.SimpleEnergyRecipe;
-import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
+import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
+import fiveman1.crimsonmechanization.recipe.ComparableItemOre;
 import fiveman1.crimsonmechanization.util.RecipeUtil;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -12,19 +12,29 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
 
-public class FurnaceRecipeManager {
+public class FurnaceRecipeManager implements IRecipeManager {
 
     private static final FurnaceRecipes instance = FurnaceRecipes.instance();
+    public static final int DEFAULT_ENERGY = 1600;
 
     @Nullable
-    public static SimpleEnergyRecipe getRecipe(ItemStack input) {
-        ItemStack output = getOutput(input);
-        return !output.isEmpty() ? new SimpleEnergyRecipe(input, output, TileCrimsonFurnace.DEFAULT_ENERGY) : null;
+    @Override
+    public BaseEnergyRecipe getRecipe(ItemStack... itemStacks) {
+        ItemStack output = instance.getSmeltingResult(itemStacks[0]).copy();
+        if (!output.isEmpty()) {
+            ItemStack inputCopy = itemStacks[0].copy();
+            inputCopy.setCount(1);
+            return new BaseEnergyRecipe(Collections.singletonList(ComparableItemOre.fromItemStack(inputCopy)),
+                    Collections.singletonList(ComparableItemOre.fromItemStack(output)), DEFAULT_ENERGY);
+        }
+        return null;
     }
 
-    public static ItemStack getOutput(ItemStack input) {
-        return instance.getSmeltingResult(input);
+    @Override
+    public boolean isValidInput(ItemStack input) {
+        return !instance.getSmeltingResult(input).isEmpty();
     }
 
     public static void initRecipes() {

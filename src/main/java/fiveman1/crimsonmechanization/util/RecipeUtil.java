@@ -1,6 +1,6 @@
 package fiveman1.crimsonmechanization.util;
 
-import fiveman1.crimsonmechanization.recipe.managers.AlloySmelterRecipeManager;
+import fiveman1.crimsonmechanization.recipe.managers.AlloyerRecipeManager;
 import fiveman1.crimsonmechanization.recipe.managers.CompactorRecipeManager;
 import fiveman1.crimsonmechanization.recipe.managers.FurnaceRecipeManager;
 import net.minecraft.item.ItemStack;
@@ -60,7 +60,7 @@ public class RecipeUtil {
     }
 
     public static void initRecipes() {
-        AlloySmelterRecipeManager.initRecipes();
+        AlloyerRecipeManager.initRecipes();
         CompactorRecipeManager.initRecipes();
         FurnaceRecipeManager.initRecipes();
     }

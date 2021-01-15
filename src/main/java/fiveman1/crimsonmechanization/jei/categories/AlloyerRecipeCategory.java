@@ -11,32 +11,32 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-public class CompactorRecipeCategory implements IRecipeCategory<BaseEnergyRecipeWrapper> {
+public class AlloyerRecipeCategory implements IRecipeCategory<BaseEnergyRecipeWrapper> {
 
     private final IDrawable background;
     private final IDrawable progressBar;
 
-    public CompactorRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/crimson_compactor.png");
+    public AlloyerRecipeCategory(IGuiHelper guiHelper) {
+        ResourceLocation location = new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/crimson_alloyer.png");
 
-        background = guiHelper.createDrawable(location, 38, 22, 105, 39);
+        background = guiHelper.createDrawable(location, 14, 22, 129, 39);
         IDrawableStatic arrow = guiHelper.createDrawable(location, 176, 0, 23, 16);
         progressBar = guiHelper.createAnimatedDrawable(arrow, 80, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     @Override
     public String getUid() {
-        return JEIPluginCrimsonMechanization.COMPACTOR_ID;
+        return JEIPluginCrimsonMechanization.ALLOYER_ID;
     }
 
     @Override
     public String getTitle() {
-        return I18n.format("category." + CrimsonMechanization.MODID + ".compactor");
+        return I18n.format("category." + CrimsonMechanization.MODID + ".alloyer");
     }
 
     @Override
     public void drawExtras(Minecraft minecraft) {
-        progressBar.draw(minecraft, 37, 13);
+        progressBar.draw(minecraft, 61, 13);
     }
 
     @Override
@@ -53,7 +53,8 @@ public class CompactorRecipeCategory implements IRecipeCategory<BaseEnergyRecipe
     public void setRecipe(IRecipeLayout recipeLayout, BaseEnergyRecipeWrapper recipeWrapper, IIngredients ingredients) {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         guiItemStacks.init(0, true, 7, 11);
-        guiItemStacks.init(1, false, 77, 11);
+        guiItemStacks.init(1, true, 31, 11);
+        guiItemStacks.init(2, false, 101, 11);
         guiItemStacks.set(ingredients);
     }
 }

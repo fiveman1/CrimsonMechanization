@@ -3,6 +3,7 @@ package fiveman1.crimsonmechanization.recipe;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
 
     public ItemStack getInputSlot(int slot) {
         if (slot < inputs.size()) {
-            return inputs.get(slot).createStack();
+            return inputs.get(slot).getStack();
         }
         return ItemStack.EMPTY;
     }
@@ -42,13 +43,17 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
 
     public ItemStack getOutputSlot(int slot) {
         if (slot < outputs.size()) {
-            return outputs.get(slot).createStack(true);
+            return outputs.get(slot).getStack(true);
         }
         return ItemStack.EMPTY;
     }
 
+    public boolean isValidInput(ItemStack... itemStacks) {
+        return isValidInput(Arrays.asList(itemStacks));
+    }
+
     public boolean isValidInput(List<ItemStack> inputsToCheck) {
-        return isValidInput(inputsToCheck, false);
+        return isValidInput(inputsToCheck, true);
     }
 
     public boolean isValidInput(List<ItemStack> inputsToCheck, boolean strict) {
@@ -72,9 +77,17 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
     public List<List<ItemStack>> getInputsList() {
         List<List<ItemStack>> inputsList = new ArrayList<>();
         for (ComparableItemOre input : inputs) {
-            inputsList.add(input.createStackList());
+            inputsList.add(input.getStackList());
         }
         return inputsList;
+    }
+
+    public List<ItemStack> getOutputs() {
+        List<ItemStack> outputList = new ArrayList<>();
+        for (ComparableItemOre output : outputs) {
+            outputList.add(output.getStack(true));
+        }
+        return outputList;
     }
 
     @Override
@@ -94,9 +107,18 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
 
     @Override
     public String toString() {
-        ItemStack input1 = inputs.get(0).createStack();
-        ItemStack input2 = inputs.get(1).createStack();
-        ItemStack output1 = outputs.get(0).createStack();
-        return input1.getCount() + " " + input1.getUnlocalizedName() + " + " + input2.getCount() + " " + input2.getUnlocalizedName() + " = " + output1.getCount() + " " + output1.getUnlocalizedName();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (ComparableItemOre input : inputs) {
+            stringBuilder.append(input);
+            stringBuilder.append(" + ");
+        }
+        stringBuilder.delete(stringBuilder.length() - 3, stringBuilder.length());
+        stringBuilder.append(" = ");
+        for (ComparableItemOre output : outputs) {
+            stringBuilder.append(output);
+            stringBuilder.append(" + ");
+        }
+        stringBuilder.delete(stringBuilder.length() - 3, stringBuilder.length());
+        return stringBuilder.toString();
     }
 }

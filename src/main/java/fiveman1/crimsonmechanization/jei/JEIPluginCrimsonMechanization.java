@@ -1,14 +1,19 @@
 package fiveman1.crimsonmechanization.jei;
 
 import fiveman1.crimsonmechanization.blocks.ModBlocks;
+import fiveman1.crimsonmechanization.inventory.container.ContainerAlloyer;
 import fiveman1.crimsonmechanization.inventory.container.ContainerCompactor;
 import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
+import fiveman1.crimsonmechanization.inventory.gui.GuiAlloyer;
 import fiveman1.crimsonmechanization.inventory.gui.GuiCompactor;
 import fiveman1.crimsonmechanization.inventory.gui.GuiCrimsonFurnace;
+import fiveman1.crimsonmechanization.jei.categories.AlloyerRecipeCategory;
 import fiveman1.crimsonmechanization.jei.categories.CompactorRecipeCategory;
-import fiveman1.crimsonmechanization.jei.wrappers.SimpleEnergyRecipeWrapper;
-import fiveman1.crimsonmechanization.recipe.SimpleEnergyRecipe;
+import fiveman1.crimsonmechanization.jei.wrappers.BaseEnergyRecipeWrapper;
+import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
+import fiveman1.crimsonmechanization.recipe.managers.AlloyerRecipeManager;
 import fiveman1.crimsonmechanization.recipe.managers.CompactorRecipeManager;
+import fiveman1.crimsonmechanization.tile.TileAlloyer;
 import fiveman1.crimsonmechanization.tile.TileCompactor;
 import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
 import mezz.jei.api.*;
@@ -26,6 +31,7 @@ public class JEIPluginCrimsonMechanization implements IModPlugin {
     // so we can't use getRegistryName(), consider adding a static class with registry names
     // for blocks/items to make things easier?
     public static String COMPACTOR_ID;
+    public static String ALLOYER_ID;
 
     @Override
     public void register(IModRegistry registry) {
@@ -40,10 +46,18 @@ public class JEIPluginCrimsonMechanization implements IModPlugin {
         // Compactor
         registry.addRecipeCatalyst(new ItemStack(ModBlocks.blockCompactor), COMPACTOR_ID);
         registry.addRecipes(CompactorRecipeManager.getRecipeCollection(), COMPACTOR_ID);
-        registry.handleRecipes(SimpleEnergyRecipe.class, SimpleEnergyRecipeWrapper::new, COMPACTOR_ID);
+        registry.handleRecipes(BaseEnergyRecipe.class, BaseEnergyRecipeWrapper::new, COMPACTOR_ID);
         registry.addRecipeClickArea(GuiCompactor.class, 76, 35, 21, 16, COMPACTOR_ID);
         transferRegistry.addRecipeTransferHandler(ContainerCompactor.class, COMPACTOR_ID, 0, TileCompactor.INPUT_SLOTS,
                 TileCompactor.SIZE, 36);
+
+        // Alloyer
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.blockAlloyer), ALLOYER_ID);
+        registry.addRecipes(AlloyerRecipeManager.getRecipeCollection(), ALLOYER_ID);
+        registry.handleRecipes(BaseEnergyRecipe.class, BaseEnergyRecipeWrapper::new, ALLOYER_ID);
+        registry.addRecipeClickArea(GuiAlloyer.class, 76, 35, 21, 16, ALLOYER_ID);
+        transferRegistry.addRecipeTransferHandler(ContainerAlloyer.class, ALLOYER_ID, 0, TileAlloyer.INPUT_SLOTS,
+                TileAlloyer.SIZE, 36);
     }
 
     @Override
@@ -60,5 +74,8 @@ public class JEIPluginCrimsonMechanization implements IModPlugin {
 
         COMPACTOR_ID = ModBlocks.blockCompactor.getRegistryName().toString();
         registry.addRecipeCategories(new CompactorRecipeCategory(guiHelper));
+
+        ALLOYER_ID = ModBlocks.blockAlloyer.getRegistryName().toString();
+        registry.addRecipeCategories(new AlloyerRecipeCategory(guiHelper));
     }
 }

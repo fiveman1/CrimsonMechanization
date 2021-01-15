@@ -1,6 +1,8 @@
 package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.blocks.BlockMachine;
+import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
+import fiveman1.crimsonmechanization.recipe.managers.IRecipeManager;
 import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -18,11 +20,9 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class TileMachine extends TileEntityBase implements ITickable {
-
-    // TODO: abstract more stuff
-
 
     public TileMachine(String name) {
         super(name);
@@ -53,7 +53,12 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public int getSize() {
         return getInputSlots() + getOutputSlots();
     }
-    protected abstract boolean isInputValid(ItemStack itemStack);
+    protected abstract IRecipeManager getRecipes();
+    protected IRecipeManager recipes = getRecipes();
+
+    protected boolean isInputValid(ItemStack itemStack) {
+        return recipes.isValidInput(itemStack);
+    }
 
     protected final ItemStackHandler inputHandler = new ItemStackHandler(getInputSlots()) {
         @Override
@@ -73,6 +78,19 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         }
     };
     protected final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler);
+
+    protected ItemStack[] getStacks(ItemStackHandler itemStackHandler) {
+        int slots = itemStackHandler.getSlots();
+        ItemStack[] stacks = new ItemStack[slots];
+        for (int i = 0; i < slots; i++) {
+            stacks[i] = itemStackHandler.getStackInSlot(i);
+        }
+        return stacks;
+    }
+
+    protected ItemStack[] previousInput = getStacks(inputHandler);
+    protected ItemStack[] currentInput;
+    protected BaseEnergyRecipe currentRecipe = recipes.getRecipe(previousInput);
 
     @Override
     public void update() {
@@ -111,29 +129,77 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         }
     }
 
+    // update any variables at the start of tile update
+    protected void startUpdate() {
+        currentInput = getStacks(inputHandler);
+        int slots = currentInput.length;
+        for (int i = 0; i < slots; i++) {
+            if (!ItemStack.areItemsEqual(currentInput[i], previousInput[i])) {
+                currentRecipe = recipes.getRecipe(currentInput);
+                break;
+            }
+        }
+    }
+
+    // returns true if: inputs are a valid recipe, output has space in output slot,
+    // and there is enough energy to complete the recipe
+    protected boolean canProcess() {
+        if (energyStorage.getEnergyStored() >= ENERGY_RATE && currentRecipe != null && currentRecipe.isValidInput(currentInput)) {
+            // TODO: i think this needs to be changed for machines with more than 1 output to work properly
+            int slots = outputHandler.getSlots();
+            for (int i = 0; i < slots; i++) {
+                ItemStack output = currentRecipe.getOutputSlot(i);
+                ItemStack currentOutput = outputHandler.getStackInSlot(i);
+                if (!(currentOutput.isEmpty() || (ItemStack.areItemsEqual(output, currentOutput) &&
+                                currentOutput.getCount() + output.getCount() <= output.getMaxStackSize()))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    // updates progress and recipeEnergy, this should reset progress and
+    // recipeEnergy if the input has changed
+    protected void updateProgress() {
+        for (int i = 0; i < currentInput.length; i++) {
+            if (!ItemStack.areItemsEqual(currentInput[i], previousInput[i])) {
+                progress = 0;
+                break;
+            }
+        }
+        progress += ENERGY_RATE;
+        recipeEnergy = currentRecipe.getEnergyRequired();
+    }
+
+    // subtracts inputs from input slots and puts output into output slot
+    protected void processRecipe() {
+        // recipe should never be null at this point but it doesn't hurt to check
+        if (currentRecipe != null) {
+            List<ItemStack> outputs = currentRecipe.getOutputs();
+            int slots = outputHandler.getSlots();
+            for (int i = 0; i < slots; i++) {
+                outputHandler.insertItem(0, outputs.get(i), false);
+            }
+            for (int j = 0; j < currentInput.length; j++) {
+                inputHandler.extractItem(j, currentRecipe.getInputCount(currentInput[j]), false);
+            }
+            progress = 0;
+        }
+    }
+
+    // update any variables at the end of tile update
+    protected void endUpdate() {
+        previousInput = currentInput;
+    }
+
     // TODO: updating blockstate should be done via getActualState and networking between server/client
     protected void updateActive(boolean isActive) {
         blockStateActive = isActive;
         IBlockState state = world.getBlockState(pos);
         world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, isActive), 3);
     }
-
-    // update any variables at the start of tile update
-    protected void startUpdate() {}
-
-    // returns true if: inputs are a valid recipe, output has space in output slot,
-    // and there is enough energy to complete the recipe
-    protected abstract boolean canProcess();
-
-    // updates progress and recipeEnergy, this should reset progress and
-    // recipeEnergy if the input has changed
-    protected abstract void updateProgress();
-
-    // subtracts inputs from input slots and puts output into output slot
-    protected abstract void processRecipe();
-
-    // update any variables at the end of tile update
-    protected void endUpdate() {}
 
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
@@ -177,9 +243,16 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         return super.getCapability(capability, facing);
     }
 
-    public abstract IItemHandler getItemStackHandler(@Nullable EnumFacing facing);
+    public IItemHandler getItemStackHandler(@Nullable EnumFacing facing) {
+        if (facing == null) {
+            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(combinedHandler);
+        } else if (facing == EnumFacing.UP) {
+            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(inputHandler);
+        } else {
+            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(outputHandler);
+        }
+    }
 
-    // feel free to override this to prevent access to the energy storage from certain sides
     public CustomEnergyStorage getEnergyStorage(EnumFacing facing) {
         return energyStorage;
     }

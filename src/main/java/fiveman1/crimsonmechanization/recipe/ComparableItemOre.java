@@ -12,6 +12,9 @@ import java.util.List;
 
 public class ComparableItemOre {
 
+    // TODO: make an output version of this class, could contain output percentages for crusher
+
+    public boolean ignoreOreDict = false;
     private String oreName;
     private int oreID = -1;
     private final Item item;
@@ -34,6 +37,14 @@ public class ComparableItemOre {
         this(itemStack.getItem(), itemStack.getCount(), itemStack.getMetadata());
     }
 
+    public ComparableItemOre(Item item) {
+        this(item, 0, 0);
+    }
+
+    public ComparableItemOre(Item item, int count) {
+        this(item, count, 0);
+    }
+
     public ComparableItemOre(Item item, int count, int meta) {
         this.item = item;
         this.count = count;
@@ -41,11 +52,23 @@ public class ComparableItemOre {
         checkOres();
     }
 
-    public ItemStack createStack() {
-        return createStack(false);
+    public static ComparableItemOre fromOreName(String oreName) {
+        return new ComparableItemOre(oreName);
     }
 
-    public ItemStack createStack(boolean isOutput) {
+    public static ComparableItemOre fromOreName(String oreName, int count) {
+        return new ComparableItemOre(oreName, count);
+    }
+
+    public static ComparableItemOre fromItemStack(ItemStack itemStack) {
+        return new ComparableItemOre(itemStack);
+    }
+
+    public ItemStack getStack() {
+        return getStack(false);
+    }
+
+    public ItemStack getStack(boolean isOutput) {
         if (isOutput && isOre()) {
             return RecipeUtil.getModStackFromOreDict(OreDictionary.getOres(oreName), CrimsonMechanization.MODID, count);
         } else {
@@ -53,7 +76,7 @@ public class ComparableItemOre {
         }
     }
 
-    public List<ItemStack> createStackList() {
+    public List<ItemStack> getStackList() {
         if (isOre()) {
             List<ItemStack> oreList = OreDictionary.getOres(oreName);
             List<ItemStack> fixedList = new ArrayList<>();
@@ -64,7 +87,7 @@ public class ComparableItemOre {
             }
             return fixedList;
         } else {
-            return Collections.singletonList(createStack());
+            return Collections.singletonList(getStack());
         }
     }
 
@@ -77,8 +100,8 @@ public class ComparableItemOre {
     }
 
     private void checkOres() {
-        if (!createStack().isEmpty()) {
-            int[] oreIDs = OreDictionary.getOreIDs(createStack());
+        if (!getStack().isEmpty()) {
+            int[] oreIDs = OreDictionary.getOreIDs(getStack());
             if (oreIDs.length > 0) {
                 oreID = oreIDs[0];
                 oreName = OreDictionary.getOreName(oreID);
@@ -87,7 +110,7 @@ public class ComparableItemOre {
     }
 
     private boolean isOre() {
-        return oreID != -1;
+        return oreID != -1 && !ignoreOreDict;
     }
 
     @Override
@@ -97,7 +120,7 @@ public class ComparableItemOre {
             if (this.isOre() && other.isOre() && this.oreID == other.oreID) {
                 return true;
             } else {
-                return ItemStack.areItemsEqual(this.createStack(), other.createStack());
+                return ItemStack.areItemsEqual(this.getStack(), other.getStack());
             }
         }
         return false;
@@ -110,6 +133,7 @@ public class ComparableItemOre {
 
     @Override
     public String toString() {
-        return createStack().getUnlocalizedName();
+        ItemStack stack = getStack();
+        return stack.getCount() + "x" + stack.getUnlocalizedName();
     }
 }
