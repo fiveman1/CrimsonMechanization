@@ -5,6 +5,8 @@ import net.minecraft.item.ItemStack;
 
 public class ComparableItemMeta {
 
+    // TODO: remove or integrate with ComparableItemOre
+
     private final Item item;
     private final int meta;
 

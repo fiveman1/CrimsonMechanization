@@ -1,7 +1,7 @@
 package fiveman1.crimsonmechanization.inventory.gui;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
-import fiveman1.crimsonmechanization.util.ColorHelper;
+import fiveman1.crimsonmechanization.util.ColorUtil;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -32,8 +32,8 @@ public class GuiBase extends GuiContainer {
 
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String s = getLocalizedName();
-        fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, ColorHelper.GREY);
-        fontRenderer.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, ColorHelper.GREY);
+        fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, ColorUtil.GREY);
+        fontRenderer.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, ColorUtil.GREY);
     }
 
     @Override

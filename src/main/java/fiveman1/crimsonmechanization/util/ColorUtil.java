@@ -2,7 +2,7 @@ package fiveman1.crimsonmechanization.util;
 
 import java.awt.*;
 
-public class ColorHelper {
+public class ColorUtil {
 
     public static final int GREY = 0x404040;
 

@@ -1,9 +1,8 @@
 package fiveman1.crimsonmechanization.tile;
 
-import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.inventory.container.ContainerCompactor;
-import fiveman1.crimsonmechanization.recipe.CompactorRecipeManager;
-import fiveman1.crimsonmechanization.recipe.EnergyRecipe;
+import fiveman1.crimsonmechanization.recipe.SimpleEnergyRecipe;
+import fiveman1.crimsonmechanization.recipe.managers.CompactorRecipeManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -13,6 +12,8 @@ import net.minecraftforge.items.IItemHandler;
 import javax.annotation.Nullable;
 
 public class TileCompactor extends TileMachine {
+
+    // TODO replace SimpleEnergyRecipe with BaseEnergyRecipe
 
     public static final int INPUT_SLOTS = 1;
     public static final int OUTPUT_SLOTS = 1;
@@ -30,7 +31,7 @@ public class TileCompactor extends TileMachine {
 
     @Override
     protected boolean isInputValid(ItemStack itemStack) {
-        return !CompactorRecipeManager.getOutput(itemStack).isEmpty();
+        return CompactorRecipeManager.isValidInput(itemStack);
     }
 
     public TileCompactor(String name) {
@@ -41,7 +42,7 @@ public class TileCompactor extends TileMachine {
 
     private ItemStack previousInput = inputHandler.getStackInSlot(0);
     private ItemStack currentInput;
-    private EnergyRecipe currentRecipe = CompactorRecipeManager.getRecipe(previousInput);
+    private SimpleEnergyRecipe currentRecipe = CompactorRecipeManager.getRecipe(previousInput);
 
     @Override
     protected void startUpdate() {
@@ -78,7 +79,7 @@ public class TileCompactor extends TileMachine {
         if (currentRecipe != null) {
             ItemStack output = currentRecipe.getOutput();
             outputHandler.insertItem(0, output.copy(), false);
-            inputHandler.extractItem(0, currentRecipe.getInputCount(currentInput), false);
+            inputHandler.extractItem(0, currentRecipe.getInputCount(), false);
             progress = 0;
         }
     }

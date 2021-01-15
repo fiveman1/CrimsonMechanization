@@ -1,7 +1,7 @@
 package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
-import fiveman1.crimsonmechanization.recipe.FurnaceRecipeManager;
+import fiveman1.crimsonmechanization.recipe.managers.FurnaceRecipeManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;

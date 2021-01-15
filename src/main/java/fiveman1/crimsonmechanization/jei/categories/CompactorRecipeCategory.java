@@ -2,8 +2,8 @@ package fiveman1.crimsonmechanization.jei.categories;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.jei.JEIPluginCrimsonMechanization;
-import fiveman1.crimsonmechanization.jei.wrappers.EnergyRecipeWrapper;
-import fiveman1.crimsonmechanization.recipe.EnergyRecipe;
+import fiveman1.crimsonmechanization.jei.wrappers.SimpleEnergyRecipeWrapper;
+import fiveman1.crimsonmechanization.recipe.SimpleEnergyRecipe;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-public class CompactorRecipeCategory implements IRecipeCategory<EnergyRecipeWrapper> {
+public class CompactorRecipeCategory implements IRecipeCategory<SimpleEnergyRecipeWrapper> {
 
     private final IDrawable background;
     private final IDrawable progressBar;
@@ -51,8 +51,8 @@ public class CompactorRecipeCategory implements IRecipeCategory<EnergyRecipeWrap
     }
 
     @Override
-    public void setRecipe(IRecipeLayout recipeLayout, EnergyRecipeWrapper recipeWrapper, IIngredients ingredients) {
-        EnergyRecipe recipe = recipeWrapper.recipe;
+    public void setRecipe(IRecipeLayout recipeLayout, SimpleEnergyRecipeWrapper recipeWrapper, IIngredients ingredients) {
+        SimpleEnergyRecipe recipe = recipeWrapper.recipe;
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         guiItemStacks.init(0, true, 7, 11);
         guiItemStacks.init(1, false, 77, 11);

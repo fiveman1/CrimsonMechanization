@@ -1,19 +1,17 @@
 package fiveman1.crimsonmechanization.jei.wrappers;
 
-import fiveman1.crimsonmechanization.recipe.EnergyRecipe;
-import fiveman1.crimsonmechanization.util.ColorHelper;
+import fiveman1.crimsonmechanization.recipe.SimpleEnergyRecipe;
+import fiveman1.crimsonmechanization.util.ColorUtil;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 
-public class EnergyRecipeWrapper implements IRecipeWrapper {
+public class SimpleEnergyRecipeWrapper implements IRecipeWrapper {
 
-    // TODO: recipes that give the same output should be combined into one
+    public final SimpleEnergyRecipe recipe;
 
-    public final EnergyRecipe recipe;
-
-    public EnergyRecipeWrapper(EnergyRecipe recipe) {
+    public SimpleEnergyRecipeWrapper(SimpleEnergyRecipe recipe) {
         this.recipe = recipe;
     }
 
@@ -25,7 +23,7 @@ public class EnergyRecipeWrapper implements IRecipeWrapper {
 
     @Override
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-        minecraft.fontRenderer.drawString(recipe.getEnergyRequired() + " RF", 0, 0, ColorHelper.GREY);
+        minecraft.fontRenderer.drawString(recipe.getEnergyRequired() + " RF", 0, 0, ColorUtil.GREY);
     }
 
     @Override

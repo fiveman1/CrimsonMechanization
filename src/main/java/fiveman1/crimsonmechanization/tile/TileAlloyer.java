@@ -1,8 +1,9 @@
 package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.inventory.container.ContainerAlloyer;
-import fiveman1.crimsonmechanization.recipe.CompactorRecipeManager;
-import fiveman1.crimsonmechanization.recipe.EnergyRecipe;
+import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
+import fiveman1.crimsonmechanization.recipe.managers.AlloySmelterRecipeManager;
+import fiveman1.crimsonmechanization.recipe.managers.IRecipeManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -10,12 +11,15 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 public class TileAlloyer extends TileMachine {
 
     public static final int INPUT_SLOTS = 2;
     public static final int OUTPUT_SLOTS = 1;
     public static final int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
+
+    protected IRecipeManager recipes = new AlloySmelterRecipeManager();
 
     @Override
     public int getInputSlots() {
@@ -29,7 +33,7 @@ public class TileAlloyer extends TileMachine {
 
     @Override
     protected boolean isInputValid(ItemStack itemStack) {
-        return !CompactorRecipeManager.getOutput(itemStack).isEmpty();
+        return recipes.isValidInput(itemStack);
     }
 
     public TileAlloyer(String name) {
@@ -38,23 +42,35 @@ public class TileAlloyer extends TileMachine {
 
     public TileAlloyer() {}
 
+    private ItemStack[] getStacks() {
+        int slots = inputHandler.getSlots();
+        ItemStack[] stacks = new ItemStack[slots];
+        for (int i = 0; i < slots; i++) {
+            stacks[i] = inputHandler.getStackInSlot(i);
+        }
+        return stacks;
+    }
 
-    private ItemStack previousInput = inputHandler.getStackInSlot(0);
-    private ItemStack currentInput;
-    private EnergyRecipe currentRecipe = CompactorRecipeManager.getRecipe(previousInput);
+    private ItemStack[] previousInput = getStacks();
+    private ItemStack[] currentInput;
+    private BaseEnergyRecipe currentRecipe = recipes.getRecipe(previousInput);
 
     @Override
     protected void startUpdate() {
-        currentInput = inputHandler.getStackInSlot(0);
-        if (!ItemStack.areItemsEqual(currentInput, previousInput)) {
-            currentRecipe = CompactorRecipeManager.getRecipe(currentInput);
+        currentInput = getStacks();
+        int slots = inputHandler.getSlots();
+        for (int i = 0; i < slots; i++) {
+            if (!ItemStack.areItemsEqual(currentInput[i], previousInput[i])) {
+                currentRecipe = recipes.getRecipe(currentInput);
+                break;
+            }
         }
     }
 
     @Override
     protected boolean canProcess() {
-        if (energyStorage.getEnergyStored() >= ENERGY_RATE && currentRecipe != null && currentRecipe.isValidInputAndCount(currentInput)) {
-            ItemStack output = currentRecipe.getOutput();
+        if (energyStorage.getEnergyStored() >= ENERGY_RATE && currentRecipe != null && currentRecipe.isValidInput(Arrays.asList(currentInput), true)) {
+            ItemStack output = currentRecipe.getOutputSlot(0);
             ItemStack currentOutput = outputHandler.getStackInSlot(0);
             return currentOutput.isEmpty() ||
                     (ItemStack.areItemsEqual(output, currentOutput) &&
@@ -65,8 +81,12 @@ public class TileAlloyer extends TileMachine {
 
     @Override
     protected void updateProgress() {
-        if (!ItemStack.areItemsEqual(currentInput, previousInput)) {
-            progress = 0;
+        int slots = inputHandler.getSlots();
+        for (int i = 0; i < slots; i++) {
+            if (!ItemStack.areItemsEqual(currentInput[i], previousInput[i])) {
+                progress = 0;
+                break;
+            }
         }
         progress += ENERGY_RATE;
         recipeEnergy = currentRecipe.getEnergyRequired();
@@ -76,9 +96,12 @@ public class TileAlloyer extends TileMachine {
     protected void processRecipe() {
         // recipe should never be null at this point but it doesn't hurt to check
         if (currentRecipe != null) {
-            ItemStack output = currentRecipe.getOutput();
-            outputHandler.insertItem(0, output.copy(), false);
-            inputHandler.extractItem(0, currentRecipe.getInputCount(currentInput), false);
+            ItemStack output = currentRecipe.getOutputSlot(0);
+            outputHandler.insertItem(0, output, false);
+            int slots = inputHandler.getSlots();
+            for (int i = 0; i < slots; i++) {
+                inputHandler.extractItem(i, currentRecipe.getInputCount(currentInput[i]), false);
+            }
             progress = 0;
         }
     }

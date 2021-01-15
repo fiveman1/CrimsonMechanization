@@ -1,7 +1,7 @@
 package fiveman1.crimsonmechanization;
 
 import fiveman1.crimsonmechanization.proxy.CommonProxy;
-import fiveman1.crimsonmechanization.util.RecipeHelper;
+import fiveman1.crimsonmechanization.util.RecipeUtil;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -38,6 +38,6 @@ public class CrimsonMechanization {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent e) {
         proxy.postInit(e);
-        RecipeHelper.initRecipes();
+        RecipeUtil.initRecipes();
     }
 }
