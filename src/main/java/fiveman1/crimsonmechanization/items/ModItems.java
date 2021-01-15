@@ -1,7 +1,15 @@
 package fiveman1.crimsonmechanization.items;
 
+import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.items.armor.ItemArmorBase;
 import fiveman1.crimsonmechanization.items.materials.*;
 import fiveman1.crimsonmechanization.items.tools.*;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.util.SoundEvent;
+import net.minecraftforge.common.util.EnumHelper;
 
 public class ModItems {
 
@@ -16,6 +24,14 @@ public class ModItems {
     public static ItemNugget itemNugget;
     public static ItemPlate itemPlate;
 
+    public static final ItemArmor.ArmorMaterial CRIMSON_MODEL_MATERIAL = EnumHelper.addArmorMaterial("crimson_model",
+            CrimsonMechanization.MODID + ":crimson_model", 100, new int[] {7,8,8,9}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC
+                , 2.0f);
+    public static ItemArmorBase crimson_helmet;
+    public static ItemArmorBase crimson_chestplate;
+    public static ItemArmorBase crimson_leggings;
+    public static ItemArmorBase crimson_boots;
+
     public static void init() {
         itemCrimsonPickaxe = new ItemCrimsonPickaxe("crimson_pickaxe");
         itemCrimsonSpade = new ItemCrimsonSpade("crimson_shovel");
@@ -27,5 +43,10 @@ public class ModItems {
         itemIngot = new ItemIngot("ingot");
         itemNugget = new ItemNugget("nugget");
         itemPlate = new ItemPlate("plate");
+
+        crimson_helmet = new ItemArmorBase("crimson_helmet", EntityEquipmentSlot.HEAD);
+        crimson_chestplate = new ItemArmorBase("crimson_chestplate", EntityEquipmentSlot.CHEST);
+        crimson_leggings = new ItemArmorBase("crimson_leggings", EntityEquipmentSlot.LEGS);
+        crimson_boots = new ItemArmorBase("crimson_boots", EntityEquipmentSlot.FEET);
     }
 }
