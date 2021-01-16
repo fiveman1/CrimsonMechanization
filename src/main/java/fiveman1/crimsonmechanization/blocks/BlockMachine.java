@@ -77,10 +77,7 @@ public abstract class BlockMachine extends BlockBase implements ITileEntityProvi
 
     @Override
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-        if (state.getValue(ACTIVE)) {
-            return 12;
-        }
-        return 0;
+        return state.getValue(ACTIVE) ? 12 : 0;
     }
 
     @Override

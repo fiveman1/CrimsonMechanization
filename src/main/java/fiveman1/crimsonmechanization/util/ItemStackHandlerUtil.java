@@ -60,35 +60,4 @@ public class ItemStackHandlerUtil {
             }
         }
     }
-
-    /*public static boolean putInSlot(ItemStackHandler itemStackHandler, ItemStack itemStack, int slot, boolean simulate) {
-        boolean flag = false;
-        ItemStack stackInSlot = itemStackHandler.getStackInSlot(slot);
-        if (itemStack.getCount() <= itemStackHandler.getSlotLimit(slot) && (stackInSlot.isEmpty() || ItemStack.areItemsEqual(itemStack, stackInSlot))) {
-            flag = true;
-        }
-        if (!simulate && flag) {
-            itemStackHandler.insertItem(slot, itemStack.copy(), false);
-        }
-        return flag;
-    }
-
-    public static boolean putInFirstAvailableSlot(ItemStackHandler itemStackHandler, ItemStack itemStack, boolean simulate) {
-        int slots = itemStackHandler.getSlots();
-        int firstAvailable = 0;
-        boolean flag = false;
-        for (int i = 0; i < slots; i++) {
-            ItemStack stackInSlot = itemStackHandler.getStackInSlot(i);
-            if (itemStackHandler.insertItem(i, itemStack.copy(), true).isEmpty() &&
-                    itemStack.getCount() <= itemStackHandler.getSlotLimit(i) && (stackInSlot.isEmpty() || ItemStack.areItemsEqual(itemStack, stackInSlot))) {
-                flag = true;
-                firstAvailable = i;
-                break;
-            }
-        }
-        if (!simulate && flag) {
-            itemStackHandler.insertItem(firstAvailable, itemStack.copy(), false);
-        }
-        return flag;
-    }*/
 }

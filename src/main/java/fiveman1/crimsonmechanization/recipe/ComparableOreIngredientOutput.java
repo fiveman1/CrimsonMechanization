@@ -60,9 +60,4 @@ public class ComparableOreIngredientOutput extends ComparableOreIngredient {
             return super.getStack();
         }
     }
-
-    public ComparableOreIngredient setChance(int chance) {
-        this.chance = chance;
-        return this;
-    }
 }

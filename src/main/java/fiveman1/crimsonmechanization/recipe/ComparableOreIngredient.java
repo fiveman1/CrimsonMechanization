@@ -11,8 +11,6 @@ import java.util.List;
 
 public class ComparableOreIngredient {
 
-    // TODO: make an output version of this class, could contain output percentages for crusher
-
     public boolean ignoreOreDict = false;
     protected String oreName;
     protected int oreID = -1;
@@ -49,6 +47,16 @@ public class ComparableOreIngredient {
         this.count = count;
         this.meta = meta;
         checkOres();
+    }
+
+    protected void checkOres() {
+        if (!getStack().isEmpty()) {
+            int[] oreIDs = OreDictionary.getOreIDs(getStack());
+            if (oreIDs.length > 0) {
+                oreID = oreIDs[0];
+                oreName = OreDictionary.getOreName(oreID);
+            }
+        }
     }
 
     public static ComparableOreIngredient fromOreName(String oreName) {
@@ -88,16 +96,6 @@ public class ComparableOreIngredient {
 
     public int getCount() {
         return count;
-    }
-
-    protected void checkOres() {
-        if (!getStack().isEmpty()) {
-            int[] oreIDs = OreDictionary.getOreIDs(getStack());
-            if (oreIDs.length > 0) {
-                oreID = oreIDs[0];
-                oreName = OreDictionary.getOreName(oreID);
-            }
-        }
     }
 
     protected boolean isOre() {

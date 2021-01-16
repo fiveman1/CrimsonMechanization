@@ -37,6 +37,14 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
         outputStacks = setOutputs(this.outputs);
     }
 
+    protected List<ItemStack> setOutputs(List<ComparableOreIngredientOutput> outputList) {
+        List<ItemStack> outputStacksList = new ArrayList<>();
+        for (ComparableOreIngredientOutput output : outputList) {
+            outputStacksList.add(output.getStack());
+        }
+        return outputStacksList;
+    }
+
     public ItemStack getInputSlot(int slot) {
         if (slot < inputs.size()) {
             return inputs.get(slot).getStack();
@@ -93,14 +101,6 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
         return inputsList;
     }
 
-    protected List<ItemStack> setOutputs(List<ComparableOreIngredientOutput> outputList) {
-        List<ItemStack> outputStacksList = new ArrayList<>();
-        for (ComparableOreIngredientOutput output : outputList) {
-            outputStacksList.add(output.getStack());
-        }
-        return outputStacksList;
-    }
-
     public List<ItemStack> getOutputs() {
         return outputStacks;
     }
@@ -123,7 +123,7 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
     @Override
     public int compareTo(BaseEnergyRecipe otherRecipe) {
         if (otherRecipe == null) {
-            throw new NullPointerException();
+            return -1;
         }
         String thisOutputName = getOutputSlot(0).getDisplayName();
         String otherOutputName = otherRecipe.getOutputSlot(0).getDisplayName();

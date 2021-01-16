@@ -94,13 +94,14 @@ public class CrusherRecipeManager implements IRecipeManager {
                 if (OreDictionary.doesOreNameExist("gem" + suffix)) {
                     addRecipe(new ComparableOreIngredient(name), Collections.singletonList(new ComparableOreIngredientOutput("gem" + suffix, 2)));
                 } else if (OreDictionary.doesOreNameExist(dustName)) {
+                    ComparableOreIngredientOutput firstOutput = new ComparableOreIngredientOutput(dustName, 2);
                     String orePair = orePairsLookup.get(suffix);
                     if (orePair != null && OreDictionary.doesOreNameExist("dust" + orePair)) {
                         ComparableOreIngredientOutput secondOutput = new ComparableOreIngredientOutput("dust" + orePair);
                         secondOutput.chance = 15;
-                        addRecipe(new ComparableOreIngredient(name), Arrays.asList(new ComparableOreIngredientOutput(dustName, 2), secondOutput));
+                        addRecipe(new ComparableOreIngredient(name), Arrays.asList(firstOutput, secondOutput));
                     } else {
-                        addRecipe(new ComparableOreIngredient(name), Collections.singletonList(new ComparableOreIngredientOutput(dustName, 2)));
+                        addRecipe(new ComparableOreIngredient(name), Collections.singletonList(firstOutput));
                     }
                 }
             }

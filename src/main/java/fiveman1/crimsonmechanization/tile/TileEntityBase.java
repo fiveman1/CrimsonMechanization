@@ -12,11 +12,6 @@ import javax.annotation.Nullable;
 
 public abstract class TileEntityBase extends TileEntity {
 
-    // YOU MUST ADD THE EMPTY CONSTRUCTOR TO REGISTER TILE ENTITIES
-    public TileEntityBase() {
-        super();
-    }
-
     public boolean canInteractWith(EntityPlayer playerIn) {
         return !isInvalid() && playerIn.getDistanceSq(pos.add(0.5D, 0.5D, 0.5D)) <= 64;
     }

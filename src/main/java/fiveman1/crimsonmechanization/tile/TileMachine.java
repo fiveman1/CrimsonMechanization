@@ -24,8 +24,6 @@ import javax.annotation.Nullable;
 
 public abstract class TileMachine extends TileEntityBase implements ITickable {
 
-    public TileMachine() { super(); }
-
     public static final int PROGRESS_ID = 0;
     public static final int ENERGY_ID = 1;
     public static final int CAPACITY_ID = 2;

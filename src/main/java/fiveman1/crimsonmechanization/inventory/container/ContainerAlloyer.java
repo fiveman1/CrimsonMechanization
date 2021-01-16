@@ -7,7 +7,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerAlloyer extends ContainerMachine{
+public class ContainerAlloyer extends ContainerMachine {
 
     public ContainerAlloyer(IInventory playerInventory, TileAlloyer tileEntity, int xOffsetInventory, int yOffsetInventory) {
         super(playerInventory, tileEntity, xOffsetInventory, yOffsetInventory);

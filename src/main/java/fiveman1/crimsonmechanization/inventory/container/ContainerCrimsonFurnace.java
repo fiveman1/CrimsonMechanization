@@ -9,6 +9,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerCrimsonFurnace extends ContainerMachine {
+
     public ContainerCrimsonFurnace(IInventory playerInventory, TileCrimsonFurnace tileCrimsonFurnace, int xOffsetInventory, int yOffsetInventory) {
         super(playerInventory, tileCrimsonFurnace, xOffsetInventory, yOffsetInventory);
     }

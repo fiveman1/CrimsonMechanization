@@ -6,7 +6,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiAlloyer extends GuiMachine{
+public class GuiAlloyer extends GuiMachine {
 
     public GuiAlloyer(ContainerMachine container, InventoryPlayer playerInv, String name, int width, int height) {
         super(container, playerInv, name, width, height);
