@@ -16,7 +16,7 @@ public class BlockAlloyer extends BlockMachine {
 
     @Override
     public TileEntity createNewTileEntity(World world, int i) {
-        return new TileAlloyer(getName());
+        return new TileAlloyer();
     }
 
     @Override

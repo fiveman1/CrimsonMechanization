@@ -26,12 +26,6 @@ public class TileAlloyer extends TileMachine {
         return new AlloyerRecipeManager();
     }
 
-    public TileAlloyer(String name) {
-        super(name);
-    }
-
-    public TileAlloyer() {}
-
     public ContainerAlloyer createContainer(InventoryPlayer playerInventory) {
         return new ContainerAlloyer(playerInventory, this, 8, 84);
     }

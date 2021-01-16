@@ -25,9 +25,4 @@ public class BaseEnergyRecipeWrapper implements IRecipeWrapper {
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         minecraft.fontRenderer.drawString(recipe.getEnergyRequired() + " RF", 0, 0, ColorUtil.GREY);
     }
-
-    @Override
-    public boolean handleClick(Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
-        return false;
-    }
 }

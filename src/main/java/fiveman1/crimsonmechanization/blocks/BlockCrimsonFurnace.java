@@ -18,7 +18,7 @@ public class BlockCrimsonFurnace extends BlockMachine {
 
     @Override
     public TileEntity createNewTileEntity(World world, int i) {
-        return new TileCrimsonFurnace(getName());
+        return new TileCrimsonFurnace();
     }
 
     @Override

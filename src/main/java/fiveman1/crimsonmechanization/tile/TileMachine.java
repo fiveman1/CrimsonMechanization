@@ -4,6 +4,7 @@ import fiveman1.crimsonmechanization.blocks.BlockMachine;
 import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
 import fiveman1.crimsonmechanization.recipe.managers.IRecipeManager;
 import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
+import fiveman1.crimsonmechanization.util.ItemStackHandlerUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,13 +21,8 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 public abstract class TileMachine extends TileEntityBase implements ITickable {
-
-    public TileMachine(String name) {
-        super(name);
-    }
 
     public TileMachine() { super(); }
 
@@ -79,16 +75,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     };
     protected final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler);
 
-    protected ItemStack[] getStacks(ItemStackHandler itemStackHandler) {
-        int slots = itemStackHandler.getSlots();
-        ItemStack[] stacks = new ItemStack[slots];
-        for (int i = 0; i < slots; i++) {
-            stacks[i] = itemStackHandler.getStackInSlot(i);
-        }
-        return stacks;
-    }
-
-    protected ItemStack[] previousInput = getStacks(inputHandler);
+    protected ItemStack[] previousInput = ItemStackHandlerUtil.getStacks(inputHandler);
     protected ItemStack[] currentInput;
     protected BaseEnergyRecipe currentRecipe = recipes.getRecipe(previousInput);
 
@@ -131,7 +118,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     // update any variables at the start of tile update
     protected void startUpdate() {
-        currentInput = getStacks(inputHandler);
+        currentInput = ItemStackHandlerUtil.getStacks(inputHandler);
         int slots = currentInput.length;
         for (int i = 0; i < slots; i++) {
             if (!ItemStack.areItemsEqual(currentInput[i], previousInput[i])) {
@@ -144,20 +131,8 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     // returns true if: inputs are a valid recipe, output has space in output slot,
     // and there is enough energy to complete the recipe
     protected boolean canProcess() {
-        if (energyStorage.getEnergyStored() >= ENERGY_RATE && currentRecipe != null && currentRecipe.isValidInput(currentInput)) {
-            // TODO: i think this needs to be changed for machines with more than 1 output to work properly
-            int slots = outputHandler.getSlots();
-            for (int i = 0; i < slots; i++) {
-                ItemStack output = currentRecipe.getOutputSlot(i);
-                ItemStack currentOutput = outputHandler.getStackInSlot(i);
-                if (!(currentOutput.isEmpty() || (ItemStack.areItemsEqual(output, currentOutput) &&
-                                currentOutput.getCount() + output.getCount() <= output.getMaxStackSize()))) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
+        return energyStorage.getEnergyStored() >= ENERGY_RATE && currentRecipe != null && currentRecipe.isValidInput(currentInput) &&
+                ItemStackHandlerUtil.canProcessOutputs(outputHandler, currentRecipe.getOutputs());
     }
 
     // updates progress and recipeEnergy, this should reset progress and
@@ -177,11 +152,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     protected void processRecipe() {
         // recipe should never be null at this point but it doesn't hurt to check
         if (currentRecipe != null) {
-            List<ItemStack> outputs = currentRecipe.getOutputs();
-            int slots = outputHandler.getSlots();
-            for (int i = 0; i < slots; i++) {
-                outputHandler.insertItem(0, outputs.get(i), false);
-            }
+            ItemStackHandlerUtil.processOutputs(outputHandler, currentRecipe.getOutputs(), currentRecipe.getOutputChances());
             for (int j = 0; j < currentInput.length; j++) {
                 inputHandler.extractItem(j, currentRecipe.getInputCount(currentInput[j]), false);
             }
@@ -243,7 +214,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         return super.getCapability(capability, facing);
     }
 
-    public IItemHandler getItemStackHandler(@Nullable EnumFacing facing) {
+    protected IItemHandler getItemStackHandler(@Nullable EnumFacing facing) {
         if (facing == null) {
             return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(combinedHandler);
         } else if (facing == EnumFacing.UP) {
@@ -253,7 +224,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         }
     }
 
-    public CustomEnergyStorage getEnergyStorage(EnumFacing facing) {
+    protected CustomEnergyStorage getEnergyStorage(EnumFacing facing) {
         return energyStorage;
     }
 

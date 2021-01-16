@@ -14,6 +14,7 @@ public class ModTileEntities {
         register(TileCompactor.class, ModBlocks.blockCompactor);
         register(TileCrimsonFurnace.class, ModBlocks.blockCrimsonFurnace);
         register(TileAlloyer.class, ModBlocks.blockAlloyer);
+        register(TileCrusher.class, ModBlocks.blockCrusher);
     }
 
     private static void register(Class<? extends TileEntity> teClass, BlockBase block) {

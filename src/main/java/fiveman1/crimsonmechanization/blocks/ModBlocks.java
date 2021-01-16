@@ -7,6 +7,7 @@ public class ModBlocks {
     public static BlockCrimsonFurnace blockCrimsonFurnace;
     public static BlockCrimson blockCrimson;
     public static BlockAlloyer blockAlloyer;
+    public static BlockCrusher blockCrusher;
 
     public static void init() {
         blockBart = new BlockBart("bart_block");
@@ -14,5 +15,6 @@ public class ModBlocks {
         blockCrimsonFurnace = new BlockCrimsonFurnace("crimson_furnace");
         blockCrimson = new BlockCrimson("crimson_block");
         blockAlloyer = new BlockAlloyer("crimson_alloyer");
+        blockCrusher = new BlockCrusher("crimson_crusher");
     }
 }

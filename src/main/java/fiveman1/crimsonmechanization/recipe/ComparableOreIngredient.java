@@ -1,6 +1,5 @@
 package fiveman1.crimsonmechanization.recipe;
 
-import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.util.RecipeUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -10,70 +9,62 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ComparableItemOre {
+public class ComparableOreIngredient {
 
     // TODO: make an output version of this class, could contain output percentages for crusher
 
     public boolean ignoreOreDict = false;
-    private String oreName;
-    private int oreID = -1;
-    private final Item item;
-    private final int count;
-    private final int meta;
+    protected String oreName;
+    protected int oreID = -1;
+    protected final Item item;
+    protected final int count;
+    protected final int meta;
 
-    public ComparableItemOre() {
+    public ComparableOreIngredient() {
         this(ItemStack.EMPTY);
     }
 
-    public ComparableItemOre(String oreName) {
+    public ComparableOreIngredient(String oreName) {
         this(oreName, 1);
     }
 
-    public ComparableItemOre(String oreName, int count) {
+    public ComparableOreIngredient(String oreName, int count) {
         this(RecipeUtil.getStackFromOreDict(OreDictionary.getOres(oreName), count));
     }
 
-    public ComparableItemOre(ItemStack itemStack) {
+    public ComparableOreIngredient(ItemStack itemStack) {
         this(itemStack.getItem(), itemStack.getCount(), itemStack.getMetadata());
     }
 
-    public ComparableItemOre(Item item) {
+    public ComparableOreIngredient(Item item) {
         this(item, 0, 0);
     }
 
-    public ComparableItemOre(Item item, int count) {
+    public ComparableOreIngredient(Item item, int count) {
         this(item, count, 0);
     }
 
-    public ComparableItemOre(Item item, int count, int meta) {
+    public ComparableOreIngredient(Item item, int count, int meta) {
         this.item = item;
         this.count = count;
         this.meta = meta;
         checkOres();
     }
 
-    public static ComparableItemOre fromOreName(String oreName) {
-        return new ComparableItemOre(oreName);
+    public static ComparableOreIngredient fromOreName(String oreName) {
+        return new ComparableOreIngredient(oreName);
     }
 
-    public static ComparableItemOre fromOreName(String oreName, int count) {
-        return new ComparableItemOre(oreName, count);
+    public static ComparableOreIngredient fromOreName(String oreName, int count) {
+        return new ComparableOreIngredient(oreName, count);
     }
 
-    public static ComparableItemOre fromItemStack(ItemStack itemStack) {
-        return new ComparableItemOre(itemStack);
+    public static ComparableOreIngredient fromItemStack(ItemStack itemStack) {
+        return new ComparableOreIngredient(itemStack);
     }
 
     public ItemStack getStack() {
-        return getStack(false);
-    }
-
-    public ItemStack getStack(boolean isOutput) {
-        if (isOutput && isOre()) {
-            return RecipeUtil.getModStackFromOreDict(OreDictionary.getOres(oreName), CrimsonMechanization.MODID, count);
-        } else {
-            return new ItemStack(item, count, meta);
-        }
+        return new ItemStack(item, count, meta);
     }
 
     public List<ItemStack> getStackList() {
@@ -92,14 +83,14 @@ public class ComparableItemOre {
     }
 
     public boolean apply(ItemStack itemStack) {
-        return new ComparableItemOre(itemStack).equals(this);
+        return new ComparableOreIngredient(itemStack).equals(this);
     }
 
     public int getCount() {
         return count;
     }
 
-    private void checkOres() {
+    protected void checkOres() {
         if (!getStack().isEmpty()) {
             int[] oreIDs = OreDictionary.getOreIDs(getStack());
             if (oreIDs.length > 0) {
@@ -109,14 +100,14 @@ public class ComparableItemOre {
         }
     }
 
-    private boolean isOre() {
+    protected boolean isOre() {
         return oreID != -1 && !ignoreOreDict;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ComparableItemOre) {
-            ComparableItemOre other = (ComparableItemOre) obj;
+        if (obj instanceof ComparableOreIngredient) {
+            ComparableOreIngredient other = (ComparableOreIngredient) obj;
             if (this.isOre() && other.isOre() && this.oreID == other.oreID) {
                 return true;
             } else {

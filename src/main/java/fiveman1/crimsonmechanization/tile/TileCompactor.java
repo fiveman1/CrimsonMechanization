@@ -26,12 +26,6 @@ public class TileCompactor extends TileMachine {
         return new CompactorRecipeManager();
     }
 
-    public TileCompactor(String name) {
-        super(name);
-    }
-
-    public TileCompactor() {}
-
     public ContainerCompactor createContainer(InventoryPlayer playerInventory) {
         return new ContainerCompactor(playerInventory, this, 8, 84);
     }

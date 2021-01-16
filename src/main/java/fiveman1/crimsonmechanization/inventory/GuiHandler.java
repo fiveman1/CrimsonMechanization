@@ -1,11 +1,14 @@
 package fiveman1.crimsonmechanization.inventory;
 
+import fiveman1.crimsonmechanization.blocks.ModBlocks;
 import fiveman1.crimsonmechanization.inventory.gui.GuiAlloyer;
 import fiveman1.crimsonmechanization.inventory.gui.GuiCompactor;
 import fiveman1.crimsonmechanization.inventory.gui.GuiCrimsonFurnace;
+import fiveman1.crimsonmechanization.inventory.gui.GuiCrusher;
 import fiveman1.crimsonmechanization.tile.TileAlloyer;
 import fiveman1.crimsonmechanization.tile.TileCompactor;
 import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
+import fiveman1.crimsonmechanization.tile.TileCrusher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -27,6 +30,8 @@ public class GuiHandler implements IGuiHandler {
             return ((TileCompactor) te).createContainer(player.inventory);
         } else if (te instanceof TileAlloyer) {
             return ((TileAlloyer) te).createContainer(player.inventory);
+        } else if (te instanceof TileCrusher) {
+            return ((TileCrusher) te).createContainer(player.inventory);
         }
         return null;
     }
@@ -37,14 +42,13 @@ public class GuiHandler implements IGuiHandler {
         BlockPos pos = new BlockPos(x, y, z);
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof TileCrimsonFurnace) {
-            TileCrimsonFurnace tileCrimsonFurnace = (TileCrimsonFurnace) te;
-            return new GuiCrimsonFurnace(tileCrimsonFurnace.createContainer(player.inventory), player.inventory, tileCrimsonFurnace.name, 176, 166);
+            return new GuiCrimsonFurnace(((TileCrimsonFurnace) te).createContainer(player.inventory), player.inventory, ModBlocks.blockCrimsonFurnace.getName(), 176, 166);
         } else if (te instanceof TileCompactor) {
-            TileCompactor tileCompactor = (TileCompactor) te;
-            return new GuiCompactor(tileCompactor.createContainer(player.inventory), player.inventory, tileCompactor.name, 176, 166);
+            return new GuiCompactor(((TileCompactor) te).createContainer(player.inventory), player.inventory, ModBlocks.blockCompactor.getName(), 176, 166);
         } else if (te instanceof TileAlloyer) {
-            TileAlloyer tileAlloyer = (TileAlloyer) te;
-            return new GuiAlloyer(tileAlloyer.createContainer(player.inventory), player.inventory, tileAlloyer.name, 176, 166);
+            return new GuiAlloyer(((TileAlloyer) te).createContainer(player.inventory), player.inventory, ModBlocks.blockAlloyer.getName(), 176, 166);
+        } else if (te instanceof TileCrusher) {
+            return new GuiCrusher(((TileCrusher) te).createContainer(player.inventory), player.inventory, ModBlocks.blockCrusher.getName(), 176, 166);
         }
         return null;
     }

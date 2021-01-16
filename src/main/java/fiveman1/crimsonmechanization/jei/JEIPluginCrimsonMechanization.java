@@ -4,18 +4,24 @@ import fiveman1.crimsonmechanization.blocks.ModBlocks;
 import fiveman1.crimsonmechanization.inventory.container.ContainerAlloyer;
 import fiveman1.crimsonmechanization.inventory.container.ContainerCompactor;
 import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
+import fiveman1.crimsonmechanization.inventory.container.ContainerCrusher;
 import fiveman1.crimsonmechanization.inventory.gui.GuiAlloyer;
 import fiveman1.crimsonmechanization.inventory.gui.GuiCompactor;
 import fiveman1.crimsonmechanization.inventory.gui.GuiCrimsonFurnace;
+import fiveman1.crimsonmechanization.inventory.gui.GuiCrusher;
 import fiveman1.crimsonmechanization.jei.categories.AlloyerRecipeCategory;
 import fiveman1.crimsonmechanization.jei.categories.CompactorRecipeCategory;
+import fiveman1.crimsonmechanization.jei.categories.CrusherRecipeCategory;
 import fiveman1.crimsonmechanization.jei.wrappers.BaseEnergyRecipeWrapper;
+import fiveman1.crimsonmechanization.jei.wrappers.CrusherRecipeWrapper;
 import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
 import fiveman1.crimsonmechanization.recipe.managers.AlloyerRecipeManager;
 import fiveman1.crimsonmechanization.recipe.managers.CompactorRecipeManager;
+import fiveman1.crimsonmechanization.recipe.managers.CrusherRecipeManager;
 import fiveman1.crimsonmechanization.tile.TileAlloyer;
 import fiveman1.crimsonmechanization.tile.TileCompactor;
 import fiveman1.crimsonmechanization.tile.TileCrimsonFurnace;
+import fiveman1.crimsonmechanization.tile.TileCrusher;
 import mezz.jei.api.*;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
@@ -32,6 +38,7 @@ public class JEIPluginCrimsonMechanization implements IModPlugin {
     // for blocks/items to make things easier?
     public static String COMPACTOR_ID;
     public static String ALLOYER_ID;
+    public static String CRUSHER_ID;
 
     @Override
     public void register(IModRegistry registry) {
@@ -58,6 +65,14 @@ public class JEIPluginCrimsonMechanization implements IModPlugin {
         registry.addRecipeClickArea(GuiAlloyer.class, 76, 35, 21, 16, ALLOYER_ID);
         transferRegistry.addRecipeTransferHandler(ContainerAlloyer.class, ALLOYER_ID, 0, TileAlloyer.INPUT_SLOTS,
                 TileAlloyer.SIZE, 36);
+
+        // Crusher
+        registry.addRecipeCatalyst(new ItemStack(ModBlocks.blockCrusher), CRUSHER_ID);
+        registry.addRecipes(CrusherRecipeManager.getRecipeCollection(), CRUSHER_ID);
+        registry.handleRecipes(BaseEnergyRecipe.class, CrusherRecipeWrapper::new, CRUSHER_ID);
+        registry.addRecipeClickArea(GuiCrusher.class, 76, 35, 21, 16, CRUSHER_ID);
+        transferRegistry.addRecipeTransferHandler(ContainerCrusher.class, CRUSHER_ID, 0, TileCrusher.INPUT_SLOTS,
+                TileCrusher.SIZE, 36);
     }
 
     @Override
@@ -77,5 +92,8 @@ public class JEIPluginCrimsonMechanization implements IModPlugin {
 
         ALLOYER_ID = ModBlocks.blockAlloyer.getRegistryName().toString();
         registry.addRecipeCategories(new AlloyerRecipeCategory(guiHelper));
+
+        CRUSHER_ID = ModBlocks.blockCrusher.getRegistryName().toString();
+        registry.addRecipeCategories(new CrusherRecipeCategory(guiHelper));
     }
 }

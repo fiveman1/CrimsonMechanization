@@ -12,12 +12,6 @@ import javax.annotation.Nullable;
 
 public abstract class TileEntityBase extends TileEntity {
 
-    public String name;
-
-    public TileEntityBase(String name) {
-        this.name = name;
-    }
-
     // YOU MUST ADD THE EMPTY CONSTRUCTOR TO REGISTER TILE ENTITIES
     public TileEntityBase() {
         super();

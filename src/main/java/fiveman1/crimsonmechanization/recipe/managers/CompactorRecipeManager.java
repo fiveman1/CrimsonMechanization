@@ -1,7 +1,8 @@
 package fiveman1.crimsonmechanization.recipe.managers;
 
 import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
-import fiveman1.crimsonmechanization.recipe.ComparableItemOre;
+import fiveman1.crimsonmechanization.recipe.ComparableOreIngredient;
+import fiveman1.crimsonmechanization.recipe.ComparableOreIngredientOutput;
 import fiveman1.crimsonmechanization.util.RecipeUtil;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -16,35 +17,36 @@ import java.util.Hashtable;
 
 public class CompactorRecipeManager implements IRecipeManager {
 
-    private static final Hashtable<ComparableItemOre, BaseEnergyRecipe> recipesHash = new Hashtable<>();
+    private static final Hashtable<ComparableOreIngredient, BaseEnergyRecipe> recipeLookup = new Hashtable<>();
     private static final ArrayList<BaseEnergyRecipe> recipes = new ArrayList<>();
     private static final int DEFAULT_ENERGY = 3200;
 
     @Nullable
     @Override
     public BaseEnergyRecipe getRecipe(ItemStack... inputs) {
-        return recipesHash.get(new ComparableItemOre(inputs[0]));
+        return recipeLookup.get(new ComparableOreIngredient(inputs[0]));
     }
+
     @Override
     public boolean isValidInput(ItemStack input) {
         return getRecipe(input) != null;
     }
 
     private static void addRecipe(ItemStack input, ItemStack output) {
-        addRecipe(ComparableItemOre.fromItemStack(input), ComparableItemOre.fromItemStack(output));
+        addRecipe(ComparableOreIngredient.fromItemStack(input), ComparableOreIngredientOutput.fromItemStack(output));
     }
 
     private static void addRecipe(ItemStack input, ItemStack output, int energy) {
-        addRecipe(ComparableItemOre.fromItemStack(input), ComparableItemOre.fromItemStack(output), energy);
+        addRecipe(ComparableOreIngredient.fromItemStack(input), ComparableOreIngredientOutput.fromItemStack(output), energy);
     }
 
-    private static void addRecipe(ComparableItemOre input, ComparableItemOre output) {
+    private static void addRecipe(ComparableOreIngredient input, ComparableOreIngredientOutput output) {
         addRecipe(input, output, DEFAULT_ENERGY);
     }
 
-    private static void addRecipe(ComparableItemOre input, ComparableItemOre output, int energy) {
+    private static void addRecipe(ComparableOreIngredient input, ComparableOreIngredientOutput output, int energy) {
         BaseEnergyRecipe recipe = new BaseEnergyRecipe(Collections.singletonList(input), Collections.singletonList(output), energy);
-        recipesHash.put(input, recipe);
+        recipeLookup.put(input, recipe);
         recipes.add(recipe);
     }
 
@@ -54,27 +56,25 @@ public class CompactorRecipeManager implements IRecipeManager {
 
     public static void initRecipes() {
         // TODO: json recipe implementation
-        ComparableItemOre boneMeal = ComparableItemOre.fromItemStack(new ItemStack(Items.DYE, 16, EnumDyeColor.WHITE.getDyeDamage()));
+        ComparableOreIngredient boneMeal = ComparableOreIngredient.fromItemStack(new ItemStack(Items.DYE, 16, EnumDyeColor.WHITE.getDyeDamage()));
         boneMeal.ignoreOreDict = true;
-        ComparableItemOre bone = ComparableItemOre.fromItemStack(new ItemStack(Items.BONE));
+        ComparableOreIngredientOutput bone = ComparableOreIngredientOutput.fromItemStack(new ItemStack(Items.BONE));
         addRecipe(new ItemStack(Items.BLAZE_POWDER, 5), new ItemStack(Items.BLAZE_ROD), 2000);
         addRecipe(boneMeal, bone, 4000);
 
         // auto generate ingot/gem -> plate recipes using oredict
-        String[] oreNames = OreDictionary.getOreNames();
-        for (String name : oreNames) {
+        for (String name : OreDictionary.getOreNames()) {
             if (name.startsWith("ingot") || name.startsWith("gem")) {
                 String suffix = RecipeUtil.getSuffixFromOreName(name);
                 String outputName = "plate" + suffix;
                 if (OreDictionary.doesOreNameExist(outputName)) {
-                    addRecipe(new ComparableItemOre(name), new ComparableItemOre(outputName));
+                    addRecipe(new ComparableOreIngredient(name), new ComparableOreIngredientOutput(outputName));
                 }
-            }
-            if (name.startsWith("block")) {
+            } else if (name.startsWith("block")) {
                 String suffix = RecipeUtil.getSuffixFromOreName(name);
                 String outputName = "plate" + suffix;
                 if (OreDictionary.doesOreNameExist(outputName)) {
-                    addRecipe(new ComparableItemOre(name), new ComparableItemOre(outputName, 9), DEFAULT_ENERGY * 8);
+                    addRecipe(new ComparableOreIngredient(name), new ComparableOreIngredientOutput(outputName, 9), DEFAULT_ENERGY * 8);
                 }
             }
         }

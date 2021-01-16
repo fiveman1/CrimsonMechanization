@@ -2,7 +2,8 @@ package fiveman1.crimsonmechanization.recipe.managers;
 
 import fiveman1.crimsonmechanization.recipe.AlloyPair;
 import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
-import fiveman1.crimsonmechanization.recipe.ComparableItemOre;
+import fiveman1.crimsonmechanization.recipe.ComparableOreIngredient;
+import fiveman1.crimsonmechanization.recipe.ComparableOreIngredientOutput;
 import javafx.util.Pair;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -12,9 +13,9 @@ import java.util.*;
 
 public class AlloyerRecipeManager implements IRecipeManager {
 
-    private static final Hashtable<Pair<ComparableItemOre, ComparableItemOre>, BaseEnergyRecipe> recipesHash = new Hashtable<>();
+    private static final Hashtable<Pair<ComparableOreIngredient, ComparableOreIngredient>, BaseEnergyRecipe> recipeLookup = new Hashtable<>();
     private static final ArrayList<BaseEnergyRecipe> recipes = new ArrayList<>();
-    private static final HashSet<ComparableItemOre> recipeInputs = new HashSet<>();
+    private static final HashSet<ComparableOreIngredient> recipeInputs = new HashSet<>();
     private static final int DEFAULT_ENERGY = 4000;
 
     @Nullable
@@ -22,25 +23,25 @@ public class AlloyerRecipeManager implements IRecipeManager {
     public BaseEnergyRecipe getRecipe(ItemStack... inputs) {
         ItemStack input1 = inputs[0];
         ItemStack input2 = inputs[1];
-        BaseEnergyRecipe result = recipesHash.get(new Pair<>(new ComparableItemOre(input1), new ComparableItemOre(input2)));
+        BaseEnergyRecipe result = recipeLookup.get(new Pair<>(new ComparableOreIngredient(input1), new ComparableOreIngredient(input2)));
         if (result == null) {
-            result = recipesHash.get(new Pair<>(new ComparableItemOre(input2), new ComparableItemOre(input1)));
+            result = recipeLookup.get(new Pair<>(new ComparableOreIngredient(input2), new ComparableOreIngredient(input1)));
         }
         return result;
     }
 
     @Override
     public boolean isValidInput(ItemStack input) {
-        return recipeInputs.contains(new ComparableItemOre(input));
+        return recipeInputs.contains(new ComparableOreIngredient(input));
     }
 
-    private static void addRecipe(List<ComparableItemOre> inputs, ComparableItemOre output) {
+    private static void addRecipe(List<ComparableOreIngredient> inputs, ComparableOreIngredientOutput output) {
         addRecipe(inputs, output, DEFAULT_ENERGY);
     }
 
-    private static void addRecipe(List<ComparableItemOre> inputs, ComparableItemOre output, int energy) {
+    private static void addRecipe(List<ComparableOreIngredient> inputs, ComparableOreIngredientOutput output, int energy) {
         BaseEnergyRecipe recipe = new BaseEnergyRecipe(inputs, Collections.singletonList(output), energy);
-        recipesHash.put(new Pair<>(inputs.get(0), inputs.get(1)), recipe);
+        recipeLookup.put(new Pair<>(inputs.get(0), inputs.get(1)), recipe);
         recipes.add(recipe);
         AlloyerRecipeManager.recipeInputs.addAll(inputs);
     }
@@ -60,11 +61,11 @@ public class AlloyerRecipeManager implements IRecipeManager {
                     String firstOreName = oreTitleFirst + firstName;
                     if (OreDictionary.doesOreNameExist(firstOreName)) {
                         for (String oreTitleSecond: oreTitles) {
-                            List<ComparableItemOre> inputs = new ArrayList<>();
+                            List<ComparableOreIngredient> inputs = new ArrayList<>();
                             String secondOreName = oreTitleSecond + secondName;
                             if (OreDictionary.doesOreNameExist(secondOreName)) {
-                                Collections.addAll(inputs, new ComparableItemOre(firstOreName, alloyPair.first.count), new ComparableItemOre(secondOreName, alloyPair.second.count));
-                                addRecipe(inputs, new ComparableItemOre(outputOreName, alloyPair.output.count));
+                                Collections.addAll(inputs, new ComparableOreIngredient(firstOreName, alloyPair.first.count), new ComparableOreIngredient(secondOreName, alloyPair.second.count));
+                                addRecipe(inputs, new ComparableOreIngredientOutput(outputOreName, alloyPair.output.count));
                             }
                         }
                     }

@@ -4,7 +4,8 @@ import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.items.ModItems;
 import fiveman1.crimsonmechanization.items.materials.EnumMaterial;
 import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
-import fiveman1.crimsonmechanization.recipe.ComparableItemOre;
+import fiveman1.crimsonmechanization.recipe.ComparableOreIngredient;
+import fiveman1.crimsonmechanization.recipe.ComparableOreIngredientOutput;
 import fiveman1.crimsonmechanization.util.RecipeUtil;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -26,8 +27,8 @@ public class FurnaceRecipeManager implements IRecipeManager {
         if (!output.isEmpty()) {
             ItemStack inputCopy = inputs[0].copy();
             inputCopy.setCount(1);
-            return new BaseEnergyRecipe(Collections.singletonList(ComparableItemOre.fromItemStack(inputCopy)),
-                    Collections.singletonList(ComparableItemOre.fromItemStack(output)), DEFAULT_ENERGY);
+            return new BaseEnergyRecipe(Collections.singletonList(ComparableOreIngredient.fromItemStack(inputCopy)),
+                    Collections.singletonList(ComparableOreIngredientOutput.fromItemStack(output)), DEFAULT_ENERGY);
         }
         return null;
     }

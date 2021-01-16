@@ -11,25 +11,30 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
 
     // RULES
     // there should be at least 1 input and 1 output
+    // if there are inputs of the same type they should have the same count
     // that's pretty much it
     // make sure the machine associated with the recipe has the appropriate number of inputs/outputs to support it
 
     private final int energyRequired;
     // Each index is a slot
     // If a slot has no output/input it should contain a ComparableItemOre() (default constuctor)
-    private final List<ComparableItemOre> inputs;
-    private final List<ComparableItemOre> outputs;
+    private final List<ComparableOreIngredient> inputs;
+    private final List<ComparableOreIngredientOutput> outputs;
+
+    // cache this for returning
+    private final List<ItemStack> outputStacks;
 
     // This is used to look up the input count of a given ComparableItemOre
-    private final Hashtable<ComparableItemOre, Integer> inputCount = new Hashtable<>();
+    private final Hashtable<ComparableOreIngredient, Integer> inputCount = new Hashtable<>();
 
-    public BaseEnergyRecipe(List<ComparableItemOre> inputs, List<ComparableItemOre> outputs, int energyRequired) {
+    public BaseEnergyRecipe(List<ComparableOreIngredient> inputs, List<ComparableOreIngredientOutput> outputs, int energyRequired) {
         this.inputs = inputs;
         this.outputs = outputs;
         this.energyRequired = energyRequired;
-        for (ComparableItemOre input : inputs) {
+        for (ComparableOreIngredient input : inputs) {
             inputCount.put(input, input.getCount());
         }
+        outputStacks = setOutputs(this.outputs);
     }
 
     public ItemStack getInputSlot(int slot) {
@@ -40,16 +45,16 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
     }
 
     public int getInputCount(ItemStack itemStack) {
-        return getInputCount(new ComparableItemOre(itemStack));
+        return getInputCount(new ComparableOreIngredient(itemStack));
     }
 
-    public int getInputCount(ComparableItemOre comparableItemOre) {
-        return inputCount.get(comparableItemOre);
+    public int getInputCount(ComparableOreIngredient comparableOreIngredient) {
+        return inputCount.get(comparableOreIngredient);
     }
 
     public ItemStack getOutputSlot(int slot) {
         if (slot < outputs.size()) {
-            return outputs.get(slot).getStack(true);
+            return outputs.get(slot).getStack();
         }
         return ItemStack.EMPTY;
     }
@@ -63,15 +68,15 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
     }
 
     public boolean isValidInput(List<ItemStack> inputsToCheck, boolean strict) {
-        List<ComparableItemOre> converted = new ArrayList<>();
+        List<ComparableOreIngredient> converted = new ArrayList<>();
         for (ItemStack itemStack : inputsToCheck) {
-            converted.add(new ComparableItemOre(itemStack));
+            converted.add(new ComparableOreIngredient(itemStack));
         }
         if (!converted.containsAll(inputs)) {
             return false;
         }
         if (strict) {
-            for (ComparableItemOre inputToCheck : converted) {
+            for (ComparableOreIngredient inputToCheck : converted) {
                 if (inputCount.get(inputToCheck) > inputToCheck.getCount()) {
                     return false;
                 }
@@ -82,18 +87,32 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
 
     public List<List<ItemStack>> getInputsList() {
         List<List<ItemStack>> inputsList = new ArrayList<>();
-        for (ComparableItemOre input : inputs) {
+        for (ComparableOreIngredient input : inputs) {
             inputsList.add(input.getStackList());
         }
         return inputsList;
     }
 
-    public List<ItemStack> getOutputs() {
-        List<ItemStack> outputList = new ArrayList<>();
-        for (ComparableItemOre output : outputs) {
-            outputList.add(output.getStack(true));
+    protected List<ItemStack> setOutputs(List<ComparableOreIngredientOutput> outputList) {
+        List<ItemStack> outputStacksList = new ArrayList<>();
+        for (ComparableOreIngredientOutput output : outputList) {
+            outputStacksList.add(output.getStack());
         }
-        return outputList;
+        return outputStacksList;
+    }
+
+    public List<ItemStack> getOutputs() {
+        return outputStacks;
+    }
+
+    public int[] getOutputChances() {
+        int[] chances = new int[outputs.size()];
+        int i = 0;
+        for (ComparableOreIngredientOutput output : outputs) {
+            chances[i] = output.chance;
+            i++;
+        }
+        return chances;
     }
 
     @Override
@@ -114,13 +133,13 @@ public class BaseEnergyRecipe implements Comparable<BaseEnergyRecipe>, IEnergyRe
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (ComparableItemOre input : inputs) {
+        for (ComparableOreIngredient input : inputs) {
             stringBuilder.append(input);
             stringBuilder.append(" + ");
         }
         stringBuilder.delete(stringBuilder.length() - 3, stringBuilder.length());
         stringBuilder.append(" = ");
-        for (ComparableItemOre output : outputs) {
+        for (ComparableOreIngredient output : outputs) {
             stringBuilder.append(output);
             stringBuilder.append(" + ");
         }

@@ -1,12 +1,30 @@
 package fiveman1.crimsonmechanization.util;
 
+import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
 import fiveman1.crimsonmechanization.recipe.managers.AlloyerRecipeManager;
 import fiveman1.crimsonmechanization.recipe.managers.CompactorRecipeManager;
+import fiveman1.crimsonmechanization.recipe.managers.CrusherRecipeManager;
 import fiveman1.crimsonmechanization.recipe.managers.FurnaceRecipeManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
+import java.util.List;
+
 public class RecipeUtil {
+
+    public static void initRecipes() {
+        AlloyerRecipeManager.initRecipes();
+        CompactorRecipeManager.initRecipes();
+        CrusherRecipeManager.initRecipes();
+        FurnaceRecipeManager.initRecipes();
+    }
+
+    public static void printRecipes(List<BaseEnergyRecipe> recipes) {
+        for (BaseEnergyRecipe recipe : recipes) {
+            CrimsonMechanization.logger.info(recipe);
+        }
+    }
 
     public static ItemStack getStackFromOreDict(NonNullList<ItemStack> ores) {
         return getStackFromOreDict(ores, 1);
@@ -57,11 +75,5 @@ public class RecipeUtil {
             }
         }
         return "";
-    }
-
-    public static void initRecipes() {
-        AlloyerRecipeManager.initRecipes();
-        CompactorRecipeManager.initRecipes();
-        FurnaceRecipeManager.initRecipes();
     }
 }
