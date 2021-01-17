@@ -1,6 +1,7 @@
 package fiveman1.crimsonmechanization.items.materials;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.enums.EnumItemMaterial;
 import fiveman1.crimsonmechanization.items.IInitializeable;
 import fiveman1.crimsonmechanization.util.RegistryHandler;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -21,7 +22,7 @@ import java.util.Collections;
 
 public class ItemMaterial extends Item implements IInitializeable {
 
-    protected final ArrayList<EnumMaterial> values = new ArrayList<>();
+    protected final ArrayList<EnumItemMaterial> values = new ArrayList<>();
 
     private final String oreDictTitle;
 
@@ -33,19 +34,20 @@ public class ItemMaterial extends Item implements IInitializeable {
         setUnlocalizedName(CrimsonMechanization.MODID + "." + name);
         setHasSubtypes(true);
         setMaxDamage(0);
+        setNoRepair();
         setCreativeTab(CreativeTabs.MATERIALS);
         oreDictTitle = name;
-        Collections.addAll(values, EnumMaterial.values);
+        Collections.addAll(values, EnumItemMaterial.values);
         RegistryHandler.INITIALIZEABLES.add(this);
         //RegistryHandler.ITEM_MATERIALS.add(this);
     }
 
-    protected void removeMaterials(EnumMaterial... enumMaterials) {
-        values.removeAll(Arrays.asList(enumMaterials));
+    protected void removeMaterials(EnumItemMaterial... enumItemMaterials) {
+        values.removeAll(Arrays.asList(enumItemMaterials));
     }
 
-    protected void addMaterials(EnumMaterial... enumMaterials) {
-        values.addAll(Arrays.asList(enumMaterials));
+    protected void addMaterials(EnumItemMaterial... enumItemMaterials) {
+        values.addAll(Arrays.asList(enumItemMaterials));
     }
 
     protected void clearMaterials() {
@@ -54,15 +56,14 @@ public class ItemMaterial extends Item implements IInitializeable {
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        int i = stack.getMetadata();
-        return super.getUnlocalizedName() + EnumMaterial.byMetadata(i).getUnlocalizedName();
+        return super.getUnlocalizedName() + EnumItemMaterial.byMetadata(stack.getMetadata()).getUnlocalizedName();
     }
 
     @Override
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
         if (this.isInCreativeTab(tab)) {
-            for (EnumMaterial enumMaterial : values) {
-                items.add(new ItemStack(this, 1, enumMaterial.getMetadata()));
+            for (EnumItemMaterial enumItemMaterial : values) {
+                items.add(new ItemStack(this, 1, enumItemMaterial.getMetadata()));
             }
         }
 
@@ -71,16 +72,17 @@ public class ItemMaterial extends Item implements IInitializeable {
     @Override
     public void initItem(RegistryEvent.Register<Item> event) {
         event.getRegistry().register(this);
-        for (EnumMaterial enumMaterial : values) {
-            OreDictionary.registerOre(oreDictTitle + enumMaterial.getUnlocalizedName(), new ItemStack(this, 1, enumMaterial.getMetadata()));
+        for (EnumItemMaterial enumItemMaterial : values) {
+            OreDictionary.registerOre(oreDictTitle + enumItemMaterial.getUnlocalizedName(), new ItemStack(this, 1, enumItemMaterial.getMetadata()));
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void initModel(ModelRegistryEvent event) {
-        for (EnumMaterial enumMaterial : values) {
-            ModelLoader.setCustomModelResourceLocation(this, enumMaterial.getMetadata() , new ModelResourceLocation(getRegistryName() + enumMaterial.getName(), "inventory"));
+        for (EnumItemMaterial enumItemMaterial : values) {
+            ModelLoader.setCustomModelResourceLocation(this, enumItemMaterial.getMetadata(),
+                    new ModelResourceLocation(getRegistryName(), "material=" + enumItemMaterial.getName()));
         }
     }
 }

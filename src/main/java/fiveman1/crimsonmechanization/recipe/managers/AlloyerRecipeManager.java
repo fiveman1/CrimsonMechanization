@@ -1,6 +1,6 @@
 package fiveman1.crimsonmechanization.recipe.managers;
 
-import fiveman1.crimsonmechanization.recipe.AlloyPair;
+import fiveman1.crimsonmechanization.enums.AlloyPair;
 import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
 import fiveman1.crimsonmechanization.recipe.ComparableOreIngredient;
 import fiveman1.crimsonmechanization.recipe.ComparableOreIngredientOutput;

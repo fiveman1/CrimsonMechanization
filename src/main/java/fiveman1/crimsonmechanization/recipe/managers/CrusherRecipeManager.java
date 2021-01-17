@@ -14,7 +14,7 @@ public class CrusherRecipeManager implements IRecipeManager {
 
     private static final Hashtable<ComparableOreIngredient, BaseEnergyRecipe> recipeLookup = new Hashtable<>();
     private static final ArrayList<BaseEnergyRecipe> recipes = new ArrayList<>();
-    private static final int DEFAULT_ENERGY = 4000;
+    private static final int DEFAULT_ENERGY = 2000;
 
     private static final ArrayList<OrePair> orePairs = new ArrayList<>();
     private static final Hashtable<String, String> orePairsLookup = new Hashtable<>();
@@ -92,16 +92,16 @@ public class CrusherRecipeManager implements IRecipeManager {
                 String suffix = RecipeUtil.getSuffixFromOreName(name);
                 String dustName = "dust" + suffix;
                 if (OreDictionary.doesOreNameExist("gem" + suffix)) {
-                    addRecipe(new ComparableOreIngredient(name), Collections.singletonList(new ComparableOreIngredientOutput("gem" + suffix, 2)));
+                    addRecipe(new ComparableOreIngredient(name), Collections.singletonList(new ComparableOreIngredientOutput("gem" + suffix, 2)), DEFAULT_ENERGY * 2);
                 } else if (OreDictionary.doesOreNameExist(dustName)) {
                     ComparableOreIngredientOutput firstOutput = new ComparableOreIngredientOutput(dustName, 2);
                     String orePair = orePairsLookup.get(suffix);
                     if (orePair != null && OreDictionary.doesOreNameExist("dust" + orePair)) {
                         ComparableOreIngredientOutput secondOutput = new ComparableOreIngredientOutput("dust" + orePair);
                         secondOutput.chance = 15;
-                        addRecipe(new ComparableOreIngredient(name), Arrays.asList(firstOutput, secondOutput));
+                        addRecipe(new ComparableOreIngredient(name), Arrays.asList(firstOutput, secondOutput), DEFAULT_ENERGY * 2);
                     } else {
-                        addRecipe(new ComparableOreIngredient(name), Collections.singletonList(firstOutput));
+                        addRecipe(new ComparableOreIngredient(name), Collections.singletonList(firstOutput), DEFAULT_ENERGY * 2);
                     }
                 }
             }

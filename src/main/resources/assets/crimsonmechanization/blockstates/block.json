@@ -1,0 +1,40 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all"
+  },
+  "variants": {
+    "material": {
+      "crimson": {
+        "textures": {
+          "all": "crimsonmechanization:blocks/block_crimson"
+        }
+      },
+      "crimson_iron": {
+        "textures": {
+          "all": "crimsonmechanization:blocks/block_crimson_iron"
+        }
+      },
+      "crimson_steel": {
+        "textures": {
+          "all": "crimsonmechanization:blocks/block_crimson_steel"
+        }
+      },
+      "copper": {
+        "textures": {
+          "all": "crimsonmechanization:blocks/block_copper"
+        }
+      },
+      "tin": {
+        "textures": {
+          "all": "crimsonmechanization:blocks/block_tin"
+        }
+      },
+      "bronze": {
+        "textures": {
+          "all": "crimsonmechanization:blocks/block_bronze"
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,8 @@
-package fiveman1.crimsonmechanization.recipe;
-
-import fiveman1.crimsonmechanization.items.materials.EnumMaterial;
+package fiveman1.crimsonmechanization.enums;
 
 public enum AlloyPair {
     BRONZE("Copper", 3, "Tin", 1, "Bronze", 4),
-    CRIMSON_IRON(EnumMaterial.CRIMSON.getUnlocalizedName(), 1, "Iron", 1, EnumMaterial.CRIMSON_IRON.getUnlocalizedName(), 2),
+    CRIMSON_IRON(EnumItemMaterial.CRIMSON.getUnlocalizedName(), 1, "Iron", 1, EnumItemMaterial.CRIMSON_IRON.getUnlocalizedName(), 2),
     CONSTANTAN("Copper", 1, "Nickel", 1, "Constantan", 2),
     INVAR("Iron", 2, "Nickel", 1, "Invar", 3),
     ELECTRUM("Gold", 1, "Silver", 1, "Electrum", 2)

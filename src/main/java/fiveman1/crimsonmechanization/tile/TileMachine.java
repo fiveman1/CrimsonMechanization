@@ -40,8 +40,9 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     protected int previousEnergyStored = energyStorage.getEnergyStored();
     protected boolean active = false;
     protected boolean blockStateActive = false;
-    protected boolean init = true;
+
     private int counter = 0;
+    private boolean init = true;
 
     public abstract int getInputSlots();
     public abstract int getOutputSlots();

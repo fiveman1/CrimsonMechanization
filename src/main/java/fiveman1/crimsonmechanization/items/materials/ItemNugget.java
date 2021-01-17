@@ -1,10 +1,12 @@
 package fiveman1.crimsonmechanization.items.materials;
 
+import fiveman1.crimsonmechanization.enums.EnumItemMaterial;
+
 public class ItemNugget extends ItemMaterial {
 
     public ItemNugget(String name) {
         super(name);
         clearMaterials();
-        addMaterials(EnumMaterial.BRONZE, EnumMaterial.COPPER, EnumMaterial.TIN, EnumMaterial.CRIMSON_IRON, EnumMaterial.CRIMSON_STEEL);
+        addMaterials(EnumItemMaterial.BRONZE, EnumItemMaterial.COPPER, EnumItemMaterial.TIN, EnumItemMaterial.CRIMSON_IRON, EnumItemMaterial.CRIMSON_STEEL);
     }
 }

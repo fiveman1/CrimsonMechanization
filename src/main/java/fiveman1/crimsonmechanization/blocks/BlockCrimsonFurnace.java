@@ -10,14 +10,17 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 public class BlockCrimsonFurnace extends BlockMachine {
 
     public BlockCrimsonFurnace(String name) {
         super(name);
     }
 
+    @Nullable
     @Override
-    public TileEntity createNewTileEntity(World world, int i) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileCrimsonFurnace();
     }
 
@@ -31,14 +34,5 @@ public class BlockCrimsonFurnace extends BlockMachine {
         }
         playerIn.openGui(CrimsonMechanization.instance, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
-    }
-
-    @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
-        if (tileentity instanceof TileCrimsonFurnace) {
-            removeItems(worldIn, pos, tileentity);
-        }
-        super.breakBlock(worldIn, pos, state);
     }
 }

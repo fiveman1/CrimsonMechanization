@@ -1,0 +1,39 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "builtin/generated",
+    "textures": {
+      "layer0": "blocks/dirt"
+    },
+    "transform": "forge:default-item"
+  },
+  "variants": {
+    "material": {
+      "bronze": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/nugget_bronze"
+        }
+      },
+      "copper": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/nugget_copper"
+        }
+      },
+      "crimson_iron": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/nugget_crimson_iron"
+        }
+      },
+      "crimson_steel": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/nugget_crimson_steel"
+        }
+      },
+      "tin": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/nugget_tin"
+        }
+      }
+    }
+  }
+}

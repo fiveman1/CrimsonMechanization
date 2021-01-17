@@ -10,13 +10,16 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 public class BlockCompactor extends BlockMachine {
     public BlockCompactor(String name) {
         super(name);
     }
 
+    @Nullable
     @Override
-    public TileEntity createNewTileEntity(World world, int i) {
+    public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileCompactor();
     }
 
@@ -30,14 +33,5 @@ public class BlockCompactor extends BlockMachine {
         }
         playerIn.openGui(CrimsonMechanization.instance, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
-    }
-
-    @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
-        if (tileentity instanceof TileCompactor) {
-            removeItems(worldIn, pos, tileentity);
-        }
-        super.breakBlock(worldIn, pos, state);
     }
 }

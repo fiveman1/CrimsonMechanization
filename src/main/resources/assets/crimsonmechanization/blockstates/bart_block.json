@@ -1,7 +1,10 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "crimsonmechanization:bart_block"
+    "model": "cube_all",
+    "textures": {
+      "all": "crimsonmechanization:blocks/bart_block"
+    }
   },
   "variants": {
     "normal": [{}],

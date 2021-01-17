@@ -1,8 +1,8 @@
-package fiveman1.crimsonmechanization.items.materials;
+package fiveman1.crimsonmechanization.enums;
 
 import net.minecraft.util.IStringSerializable;
 
-public enum EnumMaterial implements IStringSerializable {
+public enum EnumItemMaterial implements IStringSerializable {
 
     // Vanilla
     IRON(0, "iron", "Iron"),
@@ -27,12 +27,12 @@ public enum EnumMaterial implements IStringSerializable {
     private final String name;
     private final String unlocalizedName;
 
-    public static final EnumMaterial[] values = values();
-    public static final EnumMaterial[] vanillaMaterials = {EnumMaterial.IRON, EnumMaterial.GOLD, EnumMaterial.DIAMOND, EnumMaterial.EMERALD, EnumMaterial.LAPIS, EnumMaterial.COAL, EnumMaterial.REDSTONE};
+    public static final EnumItemMaterial[] values = values();
+    public static final EnumItemMaterial[] vanillaMaterials = {EnumItemMaterial.IRON, EnumItemMaterial.GOLD, EnumItemMaterial.DIAMOND, EnumItemMaterial.EMERALD, EnumItemMaterial.LAPIS, EnumItemMaterial.COAL, EnumItemMaterial.REDSTONE};
 
-    EnumMaterial(int metaIn, String nameIn, String unlocalizedNameIn) {
+    EnumItemMaterial(int metaIn, String nameIn, String unlocalizedNameIn) {
         this.meta = metaIn;
-        this.name = "_" + nameIn;
+        this.name = nameIn;
         this.unlocalizedName = unlocalizedNameIn;
     }
 
@@ -51,10 +51,10 @@ public enum EnumMaterial implements IStringSerializable {
         return meta;
     }
 
-    public static EnumMaterial byMetadata(int meta) {
-        for (EnumMaterial enumMaterial : values) {
-            if (enumMaterial.getMetadata() == meta) {
-                return enumMaterial;
+    public static EnumItemMaterial byMetadata(int meta) {
+        for (EnumItemMaterial enumItemMaterial : values) {
+            if (enumItemMaterial.getMetadata() == meta) {
+                return enumItemMaterial;
             }
         }
         // need a default, this typically shouldn't happen

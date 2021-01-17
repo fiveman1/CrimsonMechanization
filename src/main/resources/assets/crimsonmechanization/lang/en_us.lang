@@ -1,7 +1,12 @@
 # Blocks
-tile.crimsonmechanization.crimson_furnace.name=Crimson Forger
+tile.crimsonmechanization.blockBronze.name=Block of Bronze
+tile.crimsonmechanization.blockCopper.name=Block of Copper
+tile.crimsonmechanization.blockCrimson.name=BLock of Crimson
+tile.crimsonmechanization.blockCrimsonIron.name=Block of Crimson Iron
+tile.crimsonmechanization.blockCrimsonSteel.name=Block of Crimson Steel
+tile.crimsonmechanization.blockTin.name=Block of Tin
+
 tile.crimsonmechanization.bart_block.name=John Blockman
-tile.crimsonmechanization.crimson_block.name=Block of Crimson
 tile.crimsonmechanization.crimson_compactor.name=Crimson Condenser
 tile.crimsonmechanization.crimson_alloyer.name=Crimson Alloyer
 tile.crimsonmechanization.crimson_crusher.name=Crimson Shatterer

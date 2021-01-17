@@ -1,0 +1,69 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "builtin/generated",
+    "textures": {
+      "layer0": "blocks/dirt"
+    },
+    "transform": "forge:default-item"
+  },
+  "variants": {
+    "material": {
+      "bronze": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_bronze"
+        }
+      },
+      "copper": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_copper"
+        }
+      },
+      "crimson": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_crimson"
+        }
+      },
+      "crimson_iron": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_crimson_iron"
+        }
+      },
+      "crimson_steel": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_crimson_steel"
+        }
+      },
+      "diamond": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_diamond"
+        }
+      },
+      "emerald": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_emerald"
+        }
+      },
+      "gold": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_gold"
+        }
+      },
+      "iron": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_iron"
+        }
+      },
+      "lapis": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_lapis"
+        }
+      },
+      "tin": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_tin"
+        }
+      }
+    }
+  }
+}

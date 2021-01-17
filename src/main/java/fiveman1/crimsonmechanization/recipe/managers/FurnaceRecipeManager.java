@@ -1,8 +1,8 @@
 package fiveman1.crimsonmechanization.recipe.managers;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.enums.EnumItemMaterial;
 import fiveman1.crimsonmechanization.items.ModItems;
-import fiveman1.crimsonmechanization.items.materials.EnumMaterial;
 import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
 import fiveman1.crimsonmechanization.recipe.ComparableOreIngredient;
 import fiveman1.crimsonmechanization.recipe.ComparableOreIngredientOutput;
@@ -40,7 +40,7 @@ public class FurnaceRecipeManager implements IRecipeManager {
 
     public static void initRecipes() {
         FurnaceRecipes instance = FurnaceRecipes.instance();
-        instance.addSmeltingRecipe(new ItemStack(ModItems.itemDust, 1, EnumMaterial.COAL.getMetadata()), new ItemStack(Items.COAL), 0f);
+        instance.addSmeltingRecipe(new ItemStack(ModItems.itemDust, 1, EnumItemMaterial.COAL.getMetadata()), new ItemStack(Items.COAL), 0f);
         String[] oreNames = OreDictionary.getOreNames();
         for (String name : oreNames) {
             if (name.startsWith("dust")) {

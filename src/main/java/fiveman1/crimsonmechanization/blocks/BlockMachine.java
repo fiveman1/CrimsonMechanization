@@ -1,7 +1,6 @@
 package fiveman1.crimsonmechanization.blocks;
 
 import fiveman1.crimsonmechanization.tile.TileMachine;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -22,7 +21,9 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
-public abstract class BlockMachine extends BlockBase implements ITileEntityProvider {
+import javax.annotation.Nullable;
+
+public abstract class BlockMachine extends BlockBase {
 
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool ACTIVE = PropertyBool.create("active");
@@ -67,15 +68,20 @@ public abstract class BlockMachine extends BlockBase implements ITileEntityProvi
         return new BlockStateContainer(this, FACING, ACTIVE);
     }
 
-    protected static void removeItems(World worldIn, BlockPos pos, TileEntity tileentity) {
-        IItemHandler inventory = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-        int slots = inventory != null ? inventory.getSlots() : 0;
-        for (int i = 0; i < slots; i++) {
-            ItemStack itemstack = inventory.getStackInSlot(i);
-            if (!itemstack.isEmpty()) {
-                InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), itemstack);
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        TileEntity te = worldIn.getTileEntity(pos);
+        if (te instanceof TileMachine) {
+            IItemHandler inventory = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+            int slots = inventory != null ? inventory.getSlots() : 0;
+            for (int i = 0; i < slots; i++) {
+                ItemStack itemstack = inventory.getStackInSlot(i);
+                if (!itemstack.isEmpty()) {
+                    InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), itemstack);
+                }
             }
         }
+        super.breakBlock(worldIn, pos, state);
     }
 
     @Override
@@ -87,9 +93,14 @@ public abstract class BlockMachine extends BlockBase implements ITileEntityProvi
         return 0;
     }
 
-
     @Override
-    public abstract TileEntity createNewTileEntity(World world, int meta);
+    public boolean hasTileEntity(IBlockState state) {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public abstract TileEntity createTileEntity(World world, IBlockState state);
 
     @Override
     public abstract boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ);
