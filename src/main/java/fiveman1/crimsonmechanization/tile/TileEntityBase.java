@@ -17,16 +17,4 @@ public abstract class TileEntityBase extends TileEntity {
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
         return getCapability(capability, facing) != null;
     }
-
-    /*@Override
-    public final SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound compound = new NBTTagCompound();
-        this.writeToNBT(compound);
-        return new SPacketUpdateTileEntity(this.pos, -1, compound);
-    }
-
-    @Override
-    public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-        this.readFromNBT(pkt.getNbtCompound());
-    }*/
 }

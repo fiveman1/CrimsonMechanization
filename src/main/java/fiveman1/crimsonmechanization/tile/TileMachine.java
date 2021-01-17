@@ -30,7 +30,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public static final int MAX_RECEIVE_ID = 3;
     public static final int MAX_EXTRACT_ID = 4;
     public static final int RECIPE_ENERGY_ID = 5;
-    public static final int IS_ACTIVE_ID = 6;
 
     // these MUST BE UPDATED WHEN CHANGED as they are used for the progress bar
     protected int recipeEnergy = 0;
@@ -40,7 +39,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     protected final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
     protected int previousEnergyStored = energyStorage.getEnergyStored();
     protected boolean active = false;
-    protected boolean blockStateActive = false;
+    protected boolean blockStateActive = true;
     private int counter = 0;
 
     public abstract int getInputSlots();
@@ -219,13 +218,12 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
 
 
     public void setActive(boolean isActive) {
-        blockStateActive = isActive;
-        markDirty();
-        IBlockState blockState = world.getBlockState(pos);
-        world.notifyBlockUpdate(pos, blockState, blockState, 3);
-        // I don't know why this has to be here but if it doesn't then the light level
-        // surrouding the block doesn't render properly after exiting the game and reloading
-        world.checkLightFor(EnumSkyBlock.BLOCK, pos);
+        if (blockStateActive != isActive) {
+            blockStateActive = isActive;
+            markDirty();
+            IBlockState blockState = world.getBlockState(pos);
+            world.notifyBlockUpdate(pos, blockState, blockState, 3);
+        }
     }
 
     public boolean isActive() {
@@ -236,20 +234,27 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         return blockStateActive ? 12 : 0;
     }
 
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        NBTTagCompound nbtTag = super.getUpdateTag();
+        nbtTag.setBoolean("active", blockStateActive);
+        return nbtTag;
+    }
+
     @Nullable
     @Override
     public SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound nbtTag = new NBTTagCompound();
-        nbtTag.setBoolean("active", blockStateActive);
-        return new SPacketUpdateTileEntity(pos, -1, nbtTag);
+        return new SPacketUpdateTileEntity(pos, -1, getUpdateTag());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
         boolean isActive = pkt.getNbtCompound().getBoolean("active");
         if (isActive != blockStateActive) {
-            blockStateActive = isActive;
-            world.markBlockRangeForRenderUpdate(pos, pos);
+            if (world.isRemote) {
+                blockStateActive = isActive;
+                world.markBlockRangeForRenderUpdate(pos, pos);
+            }
             world.checkLightFor(EnumSkyBlock.BLOCK, pos);
         }
     }
