@@ -48,15 +48,16 @@ public abstract class ContainerMachine extends ContainerBase {
             if (listener instanceof EntityPlayerMP) {
                 EntityPlayerMP playerMP = (EntityPlayerMP) listener;
                 if (energyStored != ENERGY_STORED) {
-                    Messages.INSTANCE.sendTo(new PacketMachineInfo(energyStored), playerMP);
+                    Messages.INSTANCE.sendTo(new PacketMachineInfo(PacketMachineInfo.ENERGY_ID, energyStored), playerMP);
                 }
-
                 if (capacity != CAPACITY || maxReceieve != MAX_RECEIVE || maxExtract != MAX_EXTRACT) {
-                    Messages.INSTANCE.sendTo(new PacketMachineInfo(capacity, maxReceieve, maxExtract), playerMP);
+                    Messages.INSTANCE.sendTo(new PacketMachineInfo(PacketMachineInfo.ENERGY_STORAGE_ID, capacity, maxReceieve, maxExtract), playerMP);
                 }
-                // TODO: progress should be its own packet separate from recipe energy
-                if (progress != PROGRESS || recipeEnergy != RECIPE_ENERGY) {
-                    Messages.INSTANCE.sendTo(new PacketMachineInfo(progress, recipeEnergy), playerMP);
+                if (progress != PROGRESS) {
+                    Messages.INSTANCE.sendTo(new PacketMachineInfo(PacketMachineInfo.PROGRESS_ID, progress), playerMP);
+                }
+                if (recipeEnergy != RECIPE_ENERGY) {
+                    Messages.INSTANCE.sendTo(new PacketMachineInfo(PacketMachineInfo.RECIPE_ENERGY_ID, recipeEnergy), playerMP);
                 }
             }
         }

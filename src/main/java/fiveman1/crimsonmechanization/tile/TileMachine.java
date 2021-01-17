@@ -1,6 +1,5 @@
 package fiveman1.crimsonmechanization.tile;
 
-import fiveman1.crimsonmechanization.blocks.BlockMachine;
 import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
 import fiveman1.crimsonmechanization.recipe.managers.IRecipeManager;
 import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
@@ -8,10 +7,11 @@ import fiveman1.crimsonmechanization.util.ItemStackHandlerUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -30,6 +30,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public static final int MAX_RECEIVE_ID = 3;
     public static final int MAX_EXTRACT_ID = 4;
     public static final int RECIPE_ENERGY_ID = 5;
+    public static final int IS_ACTIVE_ID = 6;
 
     // these MUST BE UPDATED WHEN CHANGED as they are used for the progress bar
     protected int recipeEnergy = 0;
@@ -84,7 +85,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
             int currentEnergyStored = energyStorage.getEnergyStored();
             if (canProcess()) {
                 if (!active) {
-                    updateActive(true);
+                    setActive(true);
                     active = true;
                     counter = 0;
                 }
@@ -106,7 +107,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
                 counter++;
                 counter %= 40;
                 if (counter == 0) {
-                    updateActive(false);
+                    setActive(false);
                 }
             }
             previousEnergyStored = currentEnergyStored;
@@ -163,18 +164,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         previousInput = currentInput;
     }
 
-    // TODO: updating blockstate should be done via getActualState and networking between server/client
-    protected void updateActive(boolean isActive) {
-        blockStateActive = isActive;
-        IBlockState state = world.getBlockState(pos);
-        world.setBlockState(pos, state.withProperty(BlockMachine.ACTIVE, isActive), 3);
-    }
-
-    @Override
-    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-        return oldState.getBlock() != newState.getBlock();
-    }
-
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
@@ -185,6 +174,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
             outputHandler.deserializeNBT((NBTTagCompound) compound.getTag("itemsOut"));
         }
         energyStorage.readFromNBT(compound);
+        blockStateActive = compound.getBoolean("active");
         progress = compound.getInteger("progress");
         counter = compound.getInteger("counter");
     }
@@ -195,6 +185,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         compound.setTag("itemsIn", inputHandler.serializeNBT());
         compound.setTag("itemsOut", outputHandler.serializeNBT());
         energyStorage.writeToNBT(compound);
+        compound.setBoolean("active", blockStateActive);
         compound.setInteger("progress", progress);
         compound.setInteger("counter", counter);
         return compound;
@@ -224,6 +215,43 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     protected CustomEnergyStorage getEnergyStorage(EnumFacing facing) {
         return energyStorage;
+    }
+
+
+    public void setActive(boolean isActive) {
+        blockStateActive = isActive;
+        markDirty();
+        IBlockState blockState = world.getBlockState(pos);
+        world.notifyBlockUpdate(pos, blockState, blockState, 3);
+        // I don't know why this has to be here but if it doesn't then the light level
+        // surrouding the block doesn't render properly after exiting the game and reloading
+        world.checkLightFor(EnumSkyBlock.BLOCK, pos);
+    }
+
+    public boolean isActive() {
+        return blockStateActive;
+    }
+
+    public int getLightLevel() {
+        return blockStateActive ? 12 : 0;
+    }
+
+    @Nullable
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        NBTTagCompound nbtTag = new NBTTagCompound();
+        nbtTag.setBoolean("active", blockStateActive);
+        return new SPacketUpdateTileEntity(pos, -1, nbtTag);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        boolean isActive = pkt.getNbtCompound().getBoolean("active");
+        if (isActive != blockStateActive) {
+            blockStateActive = isActive;
+            world.markBlockRangeForRenderUpdate(pos, pos);
+            world.checkLightFor(EnumSkyBlock.BLOCK, pos);
+        }
     }
 
     public int getField(int id) {

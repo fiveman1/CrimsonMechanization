@@ -1,9 +1,6 @@
 package fiveman1.crimsonmechanization.tile;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -21,7 +18,7 @@ public abstract class TileEntityBase extends TileEntity {
         return getCapability(capability, facing) != null;
     }
 
-    @Override
+    /*@Override
     public final SPacketUpdateTileEntity getUpdatePacket() {
         NBTTagCompound compound = new NBTTagCompound();
         this.writeToNBT(compound);
@@ -31,5 +28,5 @@ public abstract class TileEntityBase extends TileEntity {
     @Override
     public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
         this.readFromNBT(pkt.getNbtCompound());
-    }
+    }*/
 }

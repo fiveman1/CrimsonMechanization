@@ -47,7 +47,7 @@ public class ItemStackHandlerUtil {
         return true;
     }
 
-    // should be used in conjunction with canProcessOutputs
+    // should be used in conjunction with canProcessOutputs, this is responsible for zero checking
     public static void processOutputs(ItemStackHandler outputHandler, List<ItemStack> outputs, int[] chances) {
         int slots = outputHandler.getSlots();
         for (int output = 0; output < outputs.size() && random.nextInt(100) < chances[output]; output++) {
