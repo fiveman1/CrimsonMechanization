@@ -3,7 +3,7 @@
   "defaults": {
     "model": "crimsonmechanization:crimson_machine",
     "textures": {
-      "front": "crimsonmechanization:blocks/crimson_crusher"
+      "front": "crimsonmechanization:blocks/crimson_crusher_off"
     }
   },
   "variants": {
@@ -21,7 +21,7 @@
       "false": {},
       "true": {
         "textures": {
-          "front": "crimsonmechanization:blocks/crimson_crusher"
+          "front": "crimsonmechanization:blocks/crimson_crusher_on"
         }
       }
     }

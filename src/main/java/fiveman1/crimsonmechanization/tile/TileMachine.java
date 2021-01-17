@@ -39,7 +39,8 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     protected final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
     protected int previousEnergyStored = energyStorage.getEnergyStored();
     protected boolean active = false;
-    protected boolean blockStateActive = true;
+    protected boolean blockStateActive = false;
+    protected boolean init = true;
     private int counter = 0;
 
     public abstract int getInputSlots();
@@ -111,6 +112,10 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
             }
             previousEnergyStored = currentEnergyStored;
             endUpdate();
+        }
+        if (init) {
+            world.checkLightFor(EnumSkyBlock.BLOCK, pos);
+            init = false;
         }
     }
 
