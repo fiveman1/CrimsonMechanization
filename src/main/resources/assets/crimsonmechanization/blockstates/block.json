@@ -34,6 +34,11 @@
         "textures": {
           "all": "crimsonmechanization:blocks/block_bronze"
         }
+      },
+      "iridescent": {
+        "textures": {
+          "all": "crimsonmechanization:blocks/block_iridescent"
+        }
       }
     }
   }

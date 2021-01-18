@@ -17,6 +17,7 @@ public enum EnumItemMaterial implements IStringSerializable {
     CRIMSON(16, "crimson", "Crimson"),
     CRIMSON_IRON(17, "crimson_iron", "CrimsonIron"),
     CRIMSON_STEEL(18, "crimson_steel", "CrimsonSteel"),
+    IRIDESCENT(19, "iridescent", "Iridescent"),
 
     COPPER(32, "copper", "Copper"),
     TIN(33, "tin", "Tin"),

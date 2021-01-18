@@ -1,7 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "builtin/generated",
+    "model": "item/handheld",
     "textures": {
       "layer0": "blocks/dirt"
     },
@@ -11,12 +11,7 @@
     "material": {
       "crimson": {
         "textures": {
-          "layer0": "crimsonmechanization:items/gem_crimson"
-        }
-      },
-      "iridescent": {
-        "textures": {
-          "layer0": "crimsonmechanization:items/gem_iridescent"
+          "layer0": "crimsonmechanization:items/crimson_pickaxe"
         }
       }
     }

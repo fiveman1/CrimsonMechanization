@@ -68,6 +68,11 @@
         "textures": {
           "layer0": "crimsonmechanization:items/dust_tin"
         }
+      },
+      "iridescent": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/dust_iridescent"
+        }
       }
     }
   }

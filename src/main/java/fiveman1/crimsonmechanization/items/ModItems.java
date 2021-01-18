@@ -1,6 +1,7 @@
 package fiveman1.crimsonmechanization.items;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.enums.EnumToolMaterial;
 import fiveman1.crimsonmechanization.items.armor.ItemArmorBase;
 import fiveman1.crimsonmechanization.items.materials.*;
 import fiveman1.crimsonmechanization.items.tools.*;
@@ -13,17 +14,27 @@ import net.minecraftforge.common.util.EnumHelper;
 
 public class ModItems {
 
-    public static ItemCrimsonPickaxe itemCrimsonPickaxe;
-    public static ItemCrimsonSpade itemCrimsonSpade;
-    public static ItemCrimsonAxe itemCrimsonAxe;
-    public static ItemCrimsonHoe itemCrimsonHoe;
-    public static ItemCrimsonSword itemCrimsonSword;
     public static ItemDust itemDust;
     public static ItemGem itemGem;
     public static ItemIngot itemIngot;
     public static ItemNugget itemNugget;
     public static ItemPlate itemPlate;
 
+    // TOOLS
+    // Crimson Tools
+    public static ItemPickaxeBase itemCrimsonPickaxe;
+    public static ItemCrimsonSpade itemCrimsonSpade;
+    public static ItemCrimsonAxe itemCrimsonAxe;
+    public static ItemCrimsonHoe itemCrimsonHoe;
+    public static ItemCrimsonSword itemCrimsonSword;
+
+    // Crimson Iron Tools
+
+    // Crimson Steel Tools
+
+    // Iridescent Tools
+
+    // ARMOR
     // Crimson Armor
     public static final ItemArmor.ArmorMaterial CRIMSON_MODEL_MATERIAL = EnumHelper.addArmorMaterial("crimson_model",
             CrimsonMechanization.MODID + ":crimson_model", 100, new int[] {7,8,8,9}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC
@@ -51,19 +62,32 @@ public class ModItems {
     public static ItemArmorBase crimsonSteel_leggings;
     public static ItemArmorBase crimsonSteel_boots;
 
+    // Iridescent Armor
+    public static final ItemArmor.ArmorMaterial IRIDESCENT_MODEL_MATERIAL = EnumHelper.addArmorMaterial("iridescent_model",
+            CrimsonMechanization.MODID + ":iridescent_model", 100, new int[] {7,8,8,9}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC
+            , 2.0f);
+    public static ItemArmorBase iridescent_helmet;
+    public static ItemArmorBase iridescent_chestplate;
+    public static ItemArmorBase iridescent_leggings;
+    public static ItemArmorBase iridescent_boots;
+
 
     public static void init() {
-        itemCrimsonPickaxe = new ItemCrimsonPickaxe("crimson_pickaxe");
-        itemCrimsonSpade = new ItemCrimsonSpade("crimson_shovel");
-        itemCrimsonAxe = new ItemCrimsonAxe("crimson_axe");
-        itemCrimsonHoe = new ItemCrimsonHoe("crimson_hoe");
-        itemCrimsonSword = new ItemCrimsonSword("crimson_sword");
         itemDust = new ItemDust("dust");
         itemGem = new ItemGem("gem");
         itemIngot = new ItemIngot("ingot");
         itemNugget = new ItemNugget("nugget");
         itemPlate = new ItemPlate("plate");
 
+        // TOOLS
+        itemCrimsonPickaxe = new ItemPickaxeBase(EnumToolMaterial.CRIMSON);
+        itemCrimsonSpade = new ItemCrimsonSpade("crimson_shovel");
+        itemCrimsonAxe = new ItemCrimsonAxe("crimson_axe");
+        itemCrimsonHoe = new ItemCrimsonHoe("crimson_hoe");
+        itemCrimsonSword = new ItemCrimsonSword("crimson_sword");
+
+
+        // ARMOR
         crimson_helmet = new ItemArmorBase("crimson_helmet", EntityEquipmentSlot.HEAD);
         crimson_chestplate = new ItemArmorBase("crimson_chestplate", EntityEquipmentSlot.CHEST);
         crimson_leggings = new ItemArmorBase("crimson_leggings", EntityEquipmentSlot.LEGS);
@@ -78,5 +102,10 @@ public class ModItems {
         crimsonSteel_chestplate = new ItemArmorBase("crimsonSteel_chestplate", EntityEquipmentSlot.CHEST);
         crimsonSteel_leggings = new ItemArmorBase("crimsonSteel_leggings", EntityEquipmentSlot.LEGS);
         crimsonSteel_boots = new ItemArmorBase("crimsonSteel_boots", EntityEquipmentSlot.FEET);
+
+        iridescent_helmet = new ItemArmorBase("iridescent_helmet", EntityEquipmentSlot.HEAD);
+        iridescent_chestplate = new ItemArmorBase("iridescent_chestplate", EntityEquipmentSlot.CHEST);
+        iridescent_leggings = new ItemArmorBase("iridescent_leggings", EntityEquipmentSlot.LEGS);
+        iridescent_boots = new ItemArmorBase("iridescent_boots", EntityEquipmentSlot.FEET);
     }
 }

@@ -1,15 +1,17 @@
 # Blocks
 tile.crimsonmechanization.blockBronze.name=Block of Bronze
 tile.crimsonmechanization.blockCopper.name=Block of Copper
-tile.crimsonmechanization.blockCrimson.name=BLock of Crimson
+tile.crimsonmechanization.blockCrimson.name=Block of Crimson
 tile.crimsonmechanization.blockCrimsonIron.name=Block of Crimson Iron
 tile.crimsonmechanization.blockCrimsonSteel.name=Block of Crimson Steel
 tile.crimsonmechanization.blockTin.name=Block of Tin
+tile.crimsonmechanization.blockIridescent.name=Block of Iridescent Crystals
 
 tile.crimsonmechanization.bart_block.name=John Blockman
 tile.crimsonmechanization.crimson_compactor.name=Crimson Condenser
 tile.crimsonmechanization.crimson_alloyer.name=Crimson Alloyer
 tile.crimsonmechanization.crimson_crusher.name=Crimson Shatterer
+tile.crimsonmechanization.crimson_furnace.name=Crimson Forger
 
 # Items
 item.crimsonmechanization.crimson_pickaxe.name=Crimson Pickaxe
@@ -33,6 +35,11 @@ item.crimsonmechanization.crimsonSteel_chestplate.name=Crimson Steel Chestplate
 item.crimsonmechanization.crimsonSteel_leggings.name=Crimson Steel Leggings
 item.crimsonmechanization.crimsonSteel_boots.name=Crimson Steel Boots
 
+item.crimsonmechanization.iridescent_helmet.name=Iridescent Helmet
+item.crimsonmechanization.iridescent_chestplate.name=Iridescent Chestplate
+item.crimsonmechanization.iridescent_leggings.name=Iridescent Leggings
+item.crimsonmechanization.iridescent_boots.name=Iridescent Boots
+
 item.crimsonmechanization.dustCrimson.name=Crimson Dust
 item.crimsonmechanization.dustIron.name=Iron Dust
 item.crimsonmechanization.dustGold.name=Gold Dust
@@ -45,8 +52,10 @@ item.crimsonmechanization.dustCrimsonSteel.name=Crimson Steel Dust
 item.crimsonmechanization.dustCopper.name=Copper Dust
 item.crimsonmechanization.dustTin.name=Tin Dust
 item.crimsonmechanization.dustBronze.name=Bronze Dust
+item.crimsonmechanization.dustIridescent.name=Iridescent Dust
 
 item.crimsonmechanization.gemCrimson.name=Crimson Crystal
+item.crimsonmechanization.gemIridescent.name=Iridescent Crystal
 item.crimsonmechanization.ingotBronze.name=Bronze Ingot
 item.crimsonmechanization.ingotCopper.name=Copper Ingot
 item.crimsonmechanization.ingotTin.name=Tin Ingot
@@ -70,6 +79,7 @@ item.crimsonmechanization.plateCrimsonSteel.name=Crimson Steel Plate
 item.crimsonmechanization.plateCopper.name=Copper Plate
 item.crimsonmechanization.plateTin.name=Tin Plate
 item.crimsonmechanization.plateBronze.name=Bronze Plate
+item.crimsonmechanization.plateIridescent.name=Iridescent Plate
 
 # Containers
 container.crimsonmechanization.crimson_furnace.name=Crimson Forger

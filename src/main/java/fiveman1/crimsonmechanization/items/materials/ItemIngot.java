@@ -7,6 +7,6 @@ public class ItemIngot extends ItemMaterial {
     public ItemIngot(String name) {
         super(name);
         removeMaterials(EnumItemMaterial.vanillaMaterials);
-        removeMaterials(EnumItemMaterial.CRIMSON);
+        removeMaterials(EnumItemMaterial.CRIMSON, EnumItemMaterial.IRIDESCENT);
     }
 }

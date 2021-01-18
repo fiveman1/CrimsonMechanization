@@ -63,6 +63,11 @@
         "textures": {
           "layer0": "crimsonmechanization:items/plate_tin"
         }
+      },
+      "iridescent": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/plate_iridescent"
+        }
       }
     }
   }

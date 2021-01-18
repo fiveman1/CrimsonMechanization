@@ -9,7 +9,8 @@ public enum EnumBlockMaterial implements IStringSerializable {
     CRIMSON_STEEL(2, "crimson_steel", "CrimsonSteel"),
     COPPER(3, "copper", "Copper"),
     TIN(4, "tin", "Tin"),
-    BRONZE(5, "bronze", "Bronze");
+    BRONZE(5, "bronze", "Bronze"),
+    IRIDESCENT(6, "iridescent", "Iridescent");
 
     private final int meta;
     private final String name;

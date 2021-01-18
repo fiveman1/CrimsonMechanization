@@ -7,6 +7,6 @@ public class ItemGem extends ItemMaterial {
     public ItemGem(String name) {
         super(name);
         clearMaterials();
-        addMaterials(EnumItemMaterial.CRIMSON);
+        addMaterials(EnumItemMaterial.CRIMSON, EnumItemMaterial.IRIDESCENT);
     }
 }
