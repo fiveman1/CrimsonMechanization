@@ -1,0 +1,34 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "builtin/generated",
+    "textures": {
+      "layer0": "blocks/dirt"
+    },
+    "transform": "forge:default-item"
+  },
+  "variants": {
+    "material": {
+      "crimson": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/crimson_shovel"
+        }
+      },
+      "crimson_iron": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/crimson_iron_shovel"
+        }
+      },
+      "crimson_steel": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/crimson_steel_shovel"
+        }
+      },
+      "iridescent": {
+        "textures": {
+          "layer0": "crimsonmechanization:items/iridescent_shovel"
+        }
+      }
+    }
+  }
+}

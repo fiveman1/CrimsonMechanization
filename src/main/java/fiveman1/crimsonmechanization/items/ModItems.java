@@ -9,6 +9,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.util.EnumHelper;
 
@@ -23,16 +24,31 @@ public class ModItems {
     // TOOLS
     // Crimson Tools
     public static ItemPickaxeBase itemCrimsonPickaxe;
-    public static ItemCrimsonSpade itemCrimsonSpade;
-    public static ItemCrimsonAxe itemCrimsonAxe;
-    public static ItemCrimsonHoe itemCrimsonHoe;
-    public static ItemCrimsonSword itemCrimsonSword;
+    public static ItemSpadeBase itemCrimsonSpade;
+    public static ItemAxeBase itemCrimsonAxe;
+    public static ItemHoeBase itemCrimsonHoe;
+    public static ItemSwordBase itemCrimsonSword;
 
     // Crimson Iron Tools
+    public static ItemPickaxeBase itemCrimsonIronPickaxe;
+    public static ItemSpadeBase itemCrimsonIronSpade;
+    public static ItemAxeBase itemCrimsonIronAxe;
+    public static ItemHoeBase itemCrimsonIronHoe;
+    public static ItemSwordBase itemCrimsonIronSword;
 
     // Crimson Steel Tools
+    public static ItemPickaxeBase itemCrimsonSteelPickaxe;
+    public static ItemSpadeBase itemCrimsonSteelSpade;
+    public static ItemAxeBase itemCrimsonSteelAxe;
+    public static ItemHoeBase itemCrimsonSteelHoe;
+    public static ItemSwordBase itemCrimsonSteelSword;
 
     // Iridescent Tools
+    public static ItemPickaxeBase itemIridescentPickaxe;
+    public static ItemSpadeBase itemIridescentSpade;
+    public static ItemAxeBase itemIridescentAxe;
+    public static ItemHoeBase itemIridescentHoe;
+    public static ItemSwordBase itemIridescentSword;
 
     // ARMOR
     // Crimson Armor
@@ -81,11 +97,28 @@ public class ModItems {
 
         // TOOLS
         itemCrimsonPickaxe = new ItemPickaxeBase(EnumToolMaterial.CRIMSON);
-        itemCrimsonSpade = new ItemCrimsonSpade("crimson_shovel");
-        itemCrimsonAxe = new ItemCrimsonAxe("crimson_axe");
-        itemCrimsonHoe = new ItemCrimsonHoe("crimson_hoe");
-        itemCrimsonSword = new ItemCrimsonSword("crimson_sword");
+        itemCrimsonSpade = new ItemSpadeBase(EnumToolMaterial.CRIMSON);
+        itemCrimsonAxe = new ItemAxeBase(EnumToolMaterial.CRIMSON);
+        itemCrimsonHoe = new ItemHoeBase(EnumToolMaterial.CRIMSON);
+        itemCrimsonSword = new ItemSwordBase(EnumToolMaterial.CRIMSON);
 
+        itemCrimsonIronPickaxe = new ItemPickaxeBase(EnumToolMaterial.CRIMSON_IRON);
+        itemCrimsonIronSpade = new ItemSpadeBase(EnumToolMaterial.CRIMSON_IRON);
+        itemCrimsonIronAxe = new ItemAxeBase(EnumToolMaterial.CRIMSON_IRON);
+        itemCrimsonIronHoe = new ItemHoeBase(EnumToolMaterial.CRIMSON_IRON);
+        itemCrimsonIronSword = new ItemSwordBase(EnumToolMaterial.CRIMSON_IRON);
+
+        itemCrimsonSteelPickaxe = new ItemPickaxeBase(EnumToolMaterial.CRIMSON_STEEL);
+        itemCrimsonSteelSpade = new ItemSpadeBase(EnumToolMaterial.CRIMSON_STEEL);
+        itemCrimsonSteelAxe = new ItemAxeBase(EnumToolMaterial.CRIMSON_STEEL);
+        itemCrimsonSteelHoe = new ItemHoeBase(EnumToolMaterial.CRIMSON_STEEL);
+        itemCrimsonSteelSword = new ItemSwordBase(EnumToolMaterial.CRIMSON_STEEL);
+
+        itemIridescentPickaxe = new ItemPickaxeBase(EnumToolMaterial.IRIDESCENT);
+        itemIridescentSpade = new ItemSpadeBase(EnumToolMaterial.IRIDESCENT);
+        itemIridescentAxe = new ItemAxeBase(EnumToolMaterial.IRIDESCENT);
+        itemIridescentHoe = new ItemHoeBase(EnumToolMaterial.IRIDESCENT);
+        itemIridescentSword = new ItemSwordBase(EnumToolMaterial.IRIDESCENT);
 
         // ARMOR
         crimson_helmet = new ItemArmorBase("crimson_helmet", EntityEquipmentSlot.HEAD);

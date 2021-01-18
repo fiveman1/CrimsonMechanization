@@ -31,6 +31,7 @@ public enum EnumToolMaterial implements IStringSerializable {
     public String getName() {
         return name;
     }
+
     public String getUnlocalizedName(){
         return unlocalizedName;
     }

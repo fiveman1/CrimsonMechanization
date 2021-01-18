@@ -16,16 +16,11 @@ public class ItemPickaxeBase extends ItemPickaxe implements IInitializeable {
 
     private String name;
 
-    public ItemPickaxeBase(ToolMaterial material, String name) {
-        super(material);
-        RegistryHandler.initItem(this, name);
-        RegistryHandler.INITIALIZEABLES.add(this);
-    }
-
     public ItemPickaxeBase(EnumToolMaterial material){
         super(ToolMaterial.IRON);
         setMaxDamage(material.getMaxUses());
         setMaxStackSize(1);
+        setHarvestLevel("pickaxe", material.getHarvestLevel());
         efficiency = material.getEfficiency();
         attackDamage = material.getDamageVsEntity();
 
@@ -45,6 +40,6 @@ public class ItemPickaxeBase extends ItemPickaxe implements IInitializeable {
     @Override
     public void initModel(ModelRegistryEvent event) {
         ModelLoader.setCustomModelResourceLocation(this, 0 , new ModelResourceLocation(CrimsonMechanization.MODID + ":pickaxe",
-                "material:" + name));
+                "material=" + name));
     }
 }

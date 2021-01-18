@@ -14,11 +14,29 @@ tile.crimsonmechanization.crimson_crusher.name=Crimson Shatterer
 tile.crimsonmechanization.crimson_furnace.name=Crimson Forger
 
 # Items
-item.crimsonmechanization.crimson_pickaxe.name=Crimson Pickaxe
-item.crimsonmechanization.crimson_shovel.name=Crimson Shovel
-item.crimsonmechanization.crimson_axe.name=Crimson Axe
-item.crimsonmechanization.crimson_hoe.name=Crimson Hoe
-item.crimsonmechanization.crimson_sword.name=Crimson Sword
+item.crimsonmechanization.pickaxeCrimson.name=Crimson Pickaxe
+item.crimsonmechanization.shovelCrimson.name=Crimson Shovel
+item.crimsonmechanization.axeCrimson.name=Crimson Axe
+item.crimsonmechanization.hoeCrimson.name=Crimson Hoe
+item.crimsonmechanization.swordCrimson.name=Crimson Sword
+
+item.crimsonmechanization.pickaxeCrimsonIron.name=Crimson Iron Pickaxe
+item.crimsonmechanization.shovelCrimsonIron.name=Crimson Iron Shovel
+item.crimsonmechanization.axeCrimsonIron.name=Crimson Iron Axe
+item.crimsonmechanization.hoeCrimsonIron.name=Crimson Iron Hoe
+item.crimsonmechanization.swordCrimsonIron.name=Crimson Iron Sword
+
+item.crimsonmechanization.pickaxeCrimsonSteel.name=Crimson Steel Pickaxe
+item.crimsonmechanization.shovelCrimsonSteel.name=Crimson Steel Shovel
+item.crimsonmechanization.axeCrimsonSteel.name=Crimson Steel Axe
+item.crimsonmechanization.hoeCrimsonSteel.name=Crimson Steel Hoe
+item.crimsonmechanization.swordCrimsonSteel.name=Crimson Steel Sword
+
+item.crimsonmechanization.pickaxeIridescent.name=Iridescent Pickaxe
+item.crimsonmechanization.shovelIridescent.name=Iridescent Shovel
+item.crimsonmechanization.axeIridescent.name=Iridescent Axe
+item.crimsonmechanization.hoeIridescent.name=Iridescent Hoe
+item.crimsonmechanization.swordIridescent.name=Iridescent Sword
 
 item.crimsonmechanization.crimson_helmet.name=Crimson Helmet
 item.crimsonmechanization.crimson_chestplate.name=Crimson Chestplate
