@@ -1,4 +1,4 @@
-package fiveman1.crimsonmechanization.items;
+package fiveman1.crimsonmechanization.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;

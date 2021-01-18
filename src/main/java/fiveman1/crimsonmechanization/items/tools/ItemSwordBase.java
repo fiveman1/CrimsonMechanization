@@ -1,6 +1,6 @@
 package fiveman1.crimsonmechanization.items.tools;
 
-import fiveman1.crimsonmechanization.items.IInitializeable;
+import fiveman1.crimsonmechanization.util.IInitializeable;
 import fiveman1.crimsonmechanization.util.RegistryHandler;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;

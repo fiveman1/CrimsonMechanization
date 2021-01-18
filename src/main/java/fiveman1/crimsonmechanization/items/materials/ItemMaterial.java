@@ -2,7 +2,7 @@ package fiveman1.crimsonmechanization.items.materials;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.enums.EnumItemMaterial;
-import fiveman1.crimsonmechanization.items.IInitializeable;
+import fiveman1.crimsonmechanization.util.IInitializeable;
 import fiveman1.crimsonmechanization.util.RegistryHandler;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
