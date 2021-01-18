@@ -1,10 +1,11 @@
-package fiveman1.crimsonmechanization.blocks;
+package fiveman1.crimsonmechanization.blocks.materials;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.enums.EnumBlockMaterial;
-import fiveman1.crimsonmechanization.items.IInitializeable;
+import fiveman1.crimsonmechanization.util.IInitializeable;
 import fiveman1.crimsonmechanization.util.RegistryHandler;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -46,6 +47,7 @@ public class BlockMaterial extends Block implements IInitializeable {
 
         setHardness(3.0F);
         setResistance(5.0F);
+        setSoundType(SoundType.METAL);
         setHarvestLevel("pickaxe", 2);
         setHarvestLevel("pickaxe", 1, getStateFromMeta(EnumBlockMaterial.COPPER.getMetadata()));
         setHarvestLevel("pickaxe", 1, getStateFromMeta(EnumBlockMaterial.TIN.getMetadata()));

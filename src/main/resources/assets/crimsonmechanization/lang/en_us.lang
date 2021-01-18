@@ -109,3 +109,6 @@ container.crimsonmechanization.crimson_crusher.name=Crimson Shatterer
 category.crimsonmechanization.compactor=Condenser
 category.crimsonmechanization.alloyer=Alloyer
 category.crimsonmechanization.crusher=Shatterer
+
+# Messages
+message.crimsonmechanization.machine_tooltip=@9@lEnergy: %d

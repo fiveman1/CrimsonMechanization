@@ -1,6 +1,6 @@
 package fiveman1.crimsonmechanization.blocks;
 
-import fiveman1.crimsonmechanization.items.IInitializeable;
+import fiveman1.crimsonmechanization.util.IInitializeable;
 import fiveman1.crimsonmechanization.util.RegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

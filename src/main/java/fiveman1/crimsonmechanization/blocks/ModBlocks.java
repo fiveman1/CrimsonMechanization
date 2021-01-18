@@ -1,5 +1,7 @@
 package fiveman1.crimsonmechanization.blocks;
 
+import fiveman1.crimsonmechanization.blocks.materials.BlockMaterialBlock;
+
 public class ModBlocks {
 
     public static BlockBart blockBart;

@@ -170,6 +170,18 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     }
 
     @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+        compound.setTag("itemsIn", inputHandler.serializeNBT());
+        compound.setTag("itemsOut", outputHandler.serializeNBT());
+        writeRestorableToNBT(compound);
+        compound.setBoolean("active", blockStateActive);
+        compound.setInteger("progress", progress);
+        compound.setInteger("counter", counter);
+        return compound;
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         if (compound.hasKey("itemsIn")) {
@@ -184,16 +196,13 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         counter = compound.getInteger("counter");
     }
 
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-        compound.setTag("itemsIn", inputHandler.serializeNBT());
-        compound.setTag("itemsOut", outputHandler.serializeNBT());
+    public NBTTagCompound writeRestorableToNBT(NBTTagCompound compound) {
         energyStorage.writeToNBT(compound);
-        compound.setBoolean("active", blockStateActive);
-        compound.setInteger("progress", progress);
-        compound.setInteger("counter", counter);
         return compound;
+    }
+
+    public void readRestorableToNBT(NBTTagCompound compound) {
+        energyStorage.readFromNBT(compound);
     }
 
     @Nullable

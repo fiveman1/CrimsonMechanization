@@ -17,12 +17,12 @@ public abstract class ContainerMachine extends ContainerBase {
     protected final TileMachine machine;
 
     // these are client side (!!!)
-    protected int ENERGY_STORED = 0;
-    protected int CAPACITY = 0;
-    protected int MAX_RECEIVE = 0;
-    protected int MAX_EXTRACT = 0;
-    protected int RECIPE_ENERGY = 0;
-    protected int PROGRESS = 0;
+    protected int ENERGY_STORED = -1;
+    protected int CAPACITY = -1;
+    protected int MAX_RECEIVE = -1;
+    protected int MAX_EXTRACT = -1;
+    protected int RECIPE_ENERGY = -1;
+    protected int PROGRESS = -1;
 
     public ContainerMachine(IInventory playerInventory, TileMachine tileEntity, int xOffsetInventory, int yOffsetInventory) {
         super(playerInventory, tileEntity, xOffsetInventory, yOffsetInventory);

@@ -2,7 +2,6 @@ package fiveman1.crimsonmechanization.util;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.blocks.ModBlocks;
-import fiveman1.crimsonmechanization.items.IInitializeable;
 import fiveman1.crimsonmechanization.items.ModItems;
 import fiveman1.crimsonmechanization.tile.ModTileEntities;
 import net.minecraft.block.Block;
