@@ -3,7 +3,7 @@
   "defaults": {
     "model": "crimsonmechanization:machine_iridescent",
     "textures": {
-      "front": "crimsonmechanization:blocks/compactor_refined_off"
+      "front": "crimsonmechanization:blocks/compactor_iridescent_off"
     }
   },
   "variants": {
@@ -21,7 +21,7 @@
       "false": {},
       "true": {
         "textures": {
-          "front": "crimsonmechanization:blocks/compactor_refined_on"
+          "front": "crimsonmechanization:blocks/compactor_iridescent_on"
         }
       }
     }

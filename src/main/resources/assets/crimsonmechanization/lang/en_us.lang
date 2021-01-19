@@ -8,10 +8,20 @@ tile.crimsonmechanization.blockTin.name=Block of Tin
 tile.crimsonmechanization.blockIridescent.name=Block of Iridescent Crystals
 
 tile.crimsonmechanization.bart_block.name=John Blockman
-tile.crimsonmechanization.crimson_compactor.name=Crimson Condenser
-tile.crimsonmechanization.crimson_alloyer.name=Crimson Alloyer
-tile.crimsonmechanization.crimson_crusher.name=Crimson Shatterer
-tile.crimsonmechanization.crimson_furnace.name=Crimson Forger
+tile.crimsonmechanization.compactorCrimson.name=Crimson Condenser
+tile.crimsonmechanization.alloyerCrimson.name=Crimson Alloyer
+tile.crimsonmechanization.crusherCrimson.name=Crimson Shatterer
+tile.crimsonmechanization.furnaceCrimson.name=Crimson Forger
+
+tile.crimsonmechanization.compactorRefined.name=Refined Condenser
+tile.crimsonmechanization.alloyerRefined.name=Refined Alloyer
+tile.crimsonmechanization.crusherRefined.name=Refined Shatterer
+tile.crimsonmechanization.furnaceRefined.name=Refined Forger
+
+tile.crimsonmechanization.compactorIridescent.name=Iridescent Condenser
+tile.crimsonmechanization.alloyerIridescent.name=Iridescent Alloyer
+tile.crimsonmechanization.crusherIridescent.name=Iridescent Shatterer
+tile.crimsonmechanization.furnaceIridescent.name=Iridescent Forger
 
 # Items
 item.crimsonmechanization.pickaxeCrimson.name=Crimson Pickaxe
@@ -100,10 +110,10 @@ item.crimsonmechanization.plateBronze.name=Bronze Plate
 item.crimsonmechanization.plateIridescent.name=Iridescent Plate
 
 # Containers
-container.crimsonmechanization.crimson_furnace.name=Crimson Forger
-container.crimsonmechanization.crimson_compactor.name=Crimson Condenser
-container.crimsonmechanization.crimson_alloyer.name=Crimson Alloyer
-container.crimsonmechanization.crimson_crusher.name=Crimson Shatterer
+container.crimsonmechanization.furnace.name=Forger
+container.crimsonmechanization.compactor.name=Condenser
+container.crimsonmechanization.alloyer.name=Alloyer
+container.crimsonmechanization.crusher.name=Shatterer
 
 # JEI Categories
 category.crimsonmechanization.compactor=Condenser
