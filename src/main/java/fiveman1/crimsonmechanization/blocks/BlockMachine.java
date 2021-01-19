@@ -108,8 +108,8 @@ public abstract class BlockMachine extends BlockBase {
     public int getMetaFromState(IBlockState state) {
         // meta: 4 bits
         // TTFF
-        // T: PropertyEnum<EnumMachineTier>, 0 - 3 represent a tier of machine
-        // F: PropertyDirection FACING (0 - 3, represent a direction north, east, south, or west)
+        // T: tier, 0 - 3 represent a tier of machine
+        // F: facing, 0 - 3, represent a direction north, east, south, or west
         return state.getValue(FACING).getHorizontalIndex() | (state.getValue(TIER).getMetadata() << 2);
     }
 

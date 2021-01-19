@@ -192,6 +192,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         compound.setInteger("progress", progress);
         compound.setInteger("counter", counter);
         compound.setInteger("tier", tierMeta);
+        energyStorage.writeToNBT(compound);
         return compound;
     }
 
@@ -208,23 +209,26 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         blockStateActive = compound.getBoolean("active");
         progress = compound.getInteger("progress");
         counter = compound.getInteger("counter");
+        energyStorage.readFromNBT(compound);
     }
 
     public NBTTagCompound writeRestorableToNBT(NBTTagCompound compound) {
-        energyStorage.writeToNBT(compound);
+        compound.setInteger("energy", energyStorage.getEnergyStored());
         compound.setInteger("tier", tierMeta);
         return compound;
     }
 
     public void readRestorableToNBT(NBTTagCompound compound) {
-        energyStorage.readFromNBT(compound);
         tierMeta = compound.getInteger("tier");
         updateTier(tierMeta);
+        energyStorage.setEnergy(compound.getInteger("energy"));
     }
 
     protected void updateTier(int meta) {
         tier = EnumMachineTier.byMetadata(meta);
         ENERGY_RATE = tier.getEnergyUse();
+        energyStorage.setMaxReceive(tier.getMaxReceive());
+        energyStorage.setCapacity(tier.getCapacity());
     }
 
     @Nullable
