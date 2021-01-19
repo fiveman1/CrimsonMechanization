@@ -2,6 +2,8 @@ package fiveman1.crimsonmechanization.enums;
 
 import net.minecraft.util.IStringSerializable;
 
+import java.util.Hashtable;
+
 public enum EnumBlockMaterial implements IStringSerializable {
 
     CRIMSON(0, "crimson", "Crimson"),
@@ -17,6 +19,12 @@ public enum EnumBlockMaterial implements IStringSerializable {
     private final String unlocalizedName;
 
     public static final EnumBlockMaterial[] values = values();
+    private static final Hashtable<Integer, EnumBlockMaterial> metaToEnum = new Hashtable<>();
+    static {
+        for (EnumBlockMaterial enumBlockMaterial : values) {
+            metaToEnum.put(enumBlockMaterial.getMetadata(), enumBlockMaterial);
+        }
+    }
 
     EnumBlockMaterial(int metaIn, String nameIn, String unlocalizedNameIn) {
         this.meta = metaIn;
@@ -40,12 +48,7 @@ public enum EnumBlockMaterial implements IStringSerializable {
     }
 
     public static EnumBlockMaterial byMetadata(int meta) {
-        for (EnumBlockMaterial enumBlockMaterial : values) {
-            if (enumBlockMaterial.getMetadata() == meta) {
-                return enumBlockMaterial;
-            }
-        }
-        // need a default, this typically shouldn't happen
-        return CRIMSON;
+        EnumBlockMaterial enumBlockMaterial = metaToEnum.get(meta);
+        return enumBlockMaterial != null ? enumBlockMaterial : CRIMSON;
     }
 }

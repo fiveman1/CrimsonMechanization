@@ -22,7 +22,7 @@ public class BlockCrusher extends BlockMachine {
     @Nullable
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileCrusher();
+        return new TileCrusher(state.getValue(TIER));
     }
 
     @Override

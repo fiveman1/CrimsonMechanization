@@ -2,6 +2,8 @@ package fiveman1.crimsonmechanization.enums;
 
 import net.minecraft.util.IStringSerializable;
 
+import java.util.Hashtable;
+
 public enum EnumItemMaterial implements IStringSerializable {
 
     // Vanilla
@@ -30,6 +32,12 @@ public enum EnumItemMaterial implements IStringSerializable {
 
     public static final EnumItemMaterial[] values = values();
     public static final EnumItemMaterial[] vanillaMaterials = {EnumItemMaterial.IRON, EnumItemMaterial.GOLD, EnumItemMaterial.DIAMOND, EnumItemMaterial.EMERALD, EnumItemMaterial.LAPIS, EnumItemMaterial.COAL, EnumItemMaterial.REDSTONE};
+    private static final Hashtable<Integer, EnumItemMaterial> metaToEnum = new Hashtable<>();
+    static {
+        for (EnumItemMaterial enumItemMaterial : values) {
+            metaToEnum.put(enumItemMaterial.getMetadata(), enumItemMaterial);
+        }
+    }
 
     EnumItemMaterial(int metaIn, String nameIn, String unlocalizedNameIn) {
         this.meta = metaIn;
@@ -53,12 +61,7 @@ public enum EnumItemMaterial implements IStringSerializable {
     }
 
     public static EnumItemMaterial byMetadata(int meta) {
-        for (EnumItemMaterial enumItemMaterial : values) {
-            if (enumItemMaterial.getMetadata() == meta) {
-                return enumItemMaterial;
-            }
-        }
-        // need a default, this typically shouldn't happen
-        return IRON;
+        EnumItemMaterial enumItemMaterial = metaToEnum.get(meta);
+        return enumItemMaterial != null ? enumItemMaterial : IRON;
     }
 }

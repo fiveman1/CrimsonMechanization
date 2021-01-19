@@ -1,5 +1,6 @@
 package fiveman1.crimsonmechanization.tile;
 
+import fiveman1.crimsonmechanization.enums.EnumMachineTier;
 import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
 import fiveman1.crimsonmechanization.recipe.managers.IRecipeManager;
 import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
@@ -31,12 +32,15 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public static final int MAX_EXTRACT_ID = 4;
     public static final int RECIPE_ENERGY_ID = 5;
 
+    protected EnumMachineTier tier;
+    protected int tierMeta;
+
     // these MUST BE UPDATED WHEN CHANGED as they are used for the progress bar
     protected int recipeEnergy = 0;
     protected int progress = 0;
 
     protected int ENERGY_RATE = 20;
-    protected final CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
+    protected CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
     protected int previousEnergyStored = energyStorage.getEnergyStored();
     protected boolean active = false;
     protected boolean blockStateActive = false;
@@ -78,6 +82,15 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     protected ItemStack[] previousInput = ItemStackHandlerUtil.getStacks(inputHandler);
     protected ItemStack[] currentInput;
     protected BaseEnergyRecipe currentRecipe = recipes.getRecipe(previousInput);
+
+    public TileMachine() {}
+
+    public TileMachine(EnumMachineTier enumMachineTier) {
+        energyStorage = new CustomEnergyStorage(enumMachineTier.getCapacity(), enumMachineTier.getMaxReceive(), 0);
+        ENERGY_RATE = enumMachineTier.getEnergyUse();
+        tier = enumMachineTier;
+        tierMeta = enumMachineTier.getMetadata();
+    }
 
     @Override
     public void update() {
@@ -178,6 +191,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         compound.setBoolean("active", blockStateActive);
         compound.setInteger("progress", progress);
         compound.setInteger("counter", counter);
+        compound.setInteger("tier", tierMeta);
         return compound;
     }
 
@@ -190,7 +204,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         if (compound.hasKey("itemsOut")) {
             outputHandler.deserializeNBT((NBTTagCompound) compound.getTag("itemsOut"));
         }
-        energyStorage.readFromNBT(compound);
+        readRestorableToNBT(compound);
         blockStateActive = compound.getBoolean("active");
         progress = compound.getInteger("progress");
         counter = compound.getInteger("counter");
@@ -198,11 +212,19 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
 
     public NBTTagCompound writeRestorableToNBT(NBTTagCompound compound) {
         energyStorage.writeToNBT(compound);
+        compound.setInteger("tier", tierMeta);
         return compound;
     }
 
     public void readRestorableToNBT(NBTTagCompound compound) {
         energyStorage.readFromNBT(compound);
+        tierMeta = compound.getInteger("tier");
+        updateTier(tierMeta);
+    }
+
+    protected void updateTier(int meta) {
+        tier = EnumMachineTier.byMetadata(meta);
+        ENERGY_RATE = tier.getEnergyUse();
     }
 
     @Nullable

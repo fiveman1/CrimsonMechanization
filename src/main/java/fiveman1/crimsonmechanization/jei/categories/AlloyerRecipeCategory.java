@@ -17,7 +17,7 @@ public class AlloyerRecipeCategory implements IRecipeCategory<BaseEnergyRecipeWr
     private final IDrawable progressBar;
 
     public AlloyerRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/crimson_alloyer.png");
+        ResourceLocation location = new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/alloyer.png");
 
         background = guiHelper.createDrawable(location, 14, 22, 129, 39);
         IDrawableStatic arrow = guiHelper.createDrawable(location, 176, 0, 23, 16);

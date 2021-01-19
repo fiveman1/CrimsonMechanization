@@ -39,7 +39,6 @@ public class ItemMaterial extends Item implements IInitializeable {
         oreDictTitle = name;
         Collections.addAll(values, EnumItemMaterial.values);
         RegistryHandler.INITIALIZEABLES.add(this);
-        //RegistryHandler.ITEM_MATERIALS.add(this);
     }
 
     protected void removeMaterials(EnumItemMaterial... enumItemMaterials) {
@@ -63,7 +62,7 @@ public class ItemMaterial extends Item implements IInitializeable {
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
         if (this.isInCreativeTab(tab)) {
             for (EnumItemMaterial enumItemMaterial : values) {
-                items.add(new ItemStack(this, 1, enumItemMaterial.getMetadata()));
+                items.add(getItemStack(this, enumItemMaterial));
             }
         }
 
@@ -73,7 +72,7 @@ public class ItemMaterial extends Item implements IInitializeable {
     public void initItem(RegistryEvent.Register<Item> event) {
         event.getRegistry().register(this);
         for (EnumItemMaterial enumItemMaterial : values) {
-            OreDictionary.registerOre(oreDictTitle + enumItemMaterial.getUnlocalizedName(), new ItemStack(this, 1, enumItemMaterial.getMetadata()));
+            OreDictionary.registerOre(oreDictTitle + enumItemMaterial.getUnlocalizedName(), getItemStack(this, enumItemMaterial));
         }
     }
 
@@ -84,5 +83,9 @@ public class ItemMaterial extends Item implements IInitializeable {
             ModelLoader.setCustomModelResourceLocation(this, enumItemMaterial.getMetadata(),
                     new ModelResourceLocation(getRegistryName(), "material=" + enumItemMaterial.getName()));
         }
+    }
+
+    public static ItemStack getItemStack(ItemMaterial itemMaterial, EnumItemMaterial enumItemMaterial) {
+        return new ItemStack(itemMaterial, 1, enumItemMaterial.getMetadata());
     }
 }

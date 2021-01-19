@@ -17,7 +17,7 @@ public class CompactorRecipeCategory implements IRecipeCategory<BaseEnergyRecipe
     private final IDrawable progressBar;
 
     public CompactorRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/crimson_compactor.png");
+        ResourceLocation location = new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/compactor.png");
 
         background = guiHelper.createDrawable(location, 38, 22, 105, 39);
         IDrawableStatic arrow = guiHelper.createDrawable(location, 176, 0, 23, 16);

@@ -19,7 +19,7 @@ public class BlockAlloyer extends BlockMachine {
     @Nullable
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileAlloyer();
+        return new TileAlloyer(state.getValue(TIER));
     }
 
     @Override

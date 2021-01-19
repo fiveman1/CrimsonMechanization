@@ -12,7 +12,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 
 public class ItemSpadeBase extends ItemSpade implements IInitializeable {
-    private String name;
+    private final String name;
 
     public ItemSpadeBase(EnumToolMaterial material){
         super(ToolMaterial.IRON);

@@ -1,0 +1,29 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "crimsonmechanization:machine_iridescent",
+    "textures": {
+      "front": "crimsonmechanization:blocks/compactor_refined_off"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "facing": {
+      "north": {},
+      "south": {"y": 180},
+      "west": {"y": 270},
+      "east": {"y": 90},
+      "up": {"x": -90},
+      "down": {"x": 90}
+    },
+    "active": {
+      "false": {},
+      "true": {
+        "textures": {
+          "front": "crimsonmechanization:blocks/compactor_refined_on"
+        }
+      }
+    }
+  }
+}

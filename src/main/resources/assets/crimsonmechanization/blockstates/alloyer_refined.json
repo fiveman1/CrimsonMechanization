@@ -1,9 +1,9 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "crimsonmechanization:crimson_machine",
+    "model": "crimsonmechanization:machine_refined",
     "textures": {
-      "front": "crimsonmechanization:blocks/crimson_forger_off"
+      "front": "crimsonmechanization:blocks/alloyer_refined_off"
     }
   },
   "variants": {
@@ -21,7 +21,7 @@
       "false": {},
       "true": {
         "textures": {
-          "front": "crimsonmechanization:blocks/crimson_forger_on"
+          "front": "crimsonmechanization:blocks/alloyer_refined_on"
         }
       }
     }

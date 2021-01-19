@@ -1,11 +1,18 @@
 package fiveman1.crimsonmechanization.tile;
 
+import fiveman1.crimsonmechanization.enums.EnumMachineTier;
 import fiveman1.crimsonmechanization.inventory.container.ContainerAlloyer;
 import fiveman1.crimsonmechanization.recipe.managers.AlloyerRecipeManager;
 import fiveman1.crimsonmechanization.recipe.managers.IRecipeManager;
 import net.minecraft.entity.player.InventoryPlayer;
 
 public class TileAlloyer extends TileMachine {
+    public TileAlloyer() {
+    }
+
+    public TileAlloyer(EnumMachineTier enumMachineTier) {
+        super(enumMachineTier);
+    }
 
     public static final int INPUT_SLOTS = 2;
     public static final int OUTPUT_SLOTS = 1;

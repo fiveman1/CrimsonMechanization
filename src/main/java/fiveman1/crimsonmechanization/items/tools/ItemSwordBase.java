@@ -12,7 +12,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 
 public class ItemSwordBase extends ItemSword implements IInitializeable {
-    private EnumToolMaterial mat;
+    private final EnumToolMaterial mat;
 
     public ItemSwordBase(EnumToolMaterial material){
         super(ToolMaterial.IRON);

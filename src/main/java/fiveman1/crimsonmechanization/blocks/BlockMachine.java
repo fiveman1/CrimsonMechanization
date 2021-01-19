@@ -1,17 +1,25 @@
 package fiveman1.crimsonmechanization.blocks;
 
+import com.google.common.collect.Maps;
+import fiveman1.crimsonmechanization.enums.EnumMachineTier;
 import fiveman1.crimsonmechanization.tile.TileMachine;
 import fiveman1.crimsonmechanization.util.StringUtil;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -23,21 +31,26 @@ import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 public abstract class BlockMachine extends BlockBase {
 
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+    public static final PropertyEnum<EnumMachineTier> TIER = PropertyEnum.create("tier", EnumMachineTier.class);
     public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
     public BlockMachine(String name) {
         super(name);
         setSoundType(SoundType.METAL);
-        setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false));
+        setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(ACTIVE, false).withProperty(TIER, EnumMachineTier.CRIMSON));
     }
 
     @Override
@@ -53,15 +66,11 @@ public abstract class BlockMachine extends BlockBase {
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
-    }
-
-    @Override
     public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof TileMachine) {
             ItemStack itemStack = new ItemStack(Item.getItemFromBlock(this));
+            itemStack.setItemDamage(damageDropped(state));
             NBTTagCompound nbtTag = new NBTTagCompound();
             ((TileMachine) te).writeRestorableToNBT(nbtTag);
             itemStack.setTagCompound(nbtTag);
@@ -79,8 +88,6 @@ public abstract class BlockMachine extends BlockBase {
         }
     }
 
-
-
     @Override
     public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
         return willHarvest || super.removedByPlayer(state, world, pos, player, false);
@@ -93,12 +100,22 @@ public abstract class BlockMachine extends BlockBase {
     }
 
     @Override
+    public IBlockState getStateFromMeta(int meta) {
+        return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 0b11)).withProperty(TIER, EnumMachineTier.byMetadata((meta >> 2) & 0b11));
+    }
+
+    @Override
     public int getMetaFromState(IBlockState state) {
         // meta: 4 bits
-        // XXFF
-        // X: unused
+        // TTFF
+        // T: PropertyEnum<EnumMachineTier>, 0 - 3 represent a tier of machine
         // F: PropertyDirection FACING (0 - 3, represent a direction north, east, south, or west)
-        return state.getValue(FACING).getHorizontalIndex();
+        return state.getValue(FACING).getHorizontalIndex() | (state.getValue(TIER).getMetadata() << 2);
+    }
+
+    @Override
+    public int damageDropped(IBlockState state) {
+        return state.getValue(TIER).getMetadata() << 2;
     }
 
     @Override
@@ -113,7 +130,14 @@ public abstract class BlockMachine extends BlockBase {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, ACTIVE);
+        return new BlockStateContainer(this, FACING, ACTIVE, TIER);
+    }
+
+    @Override
+    public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+        for (EnumMachineTier enumMachineTier : EnumMachineTier.values) {
+            items.add(new ItemStack(this, 1, enumMachineTier.getMetadata() << 2));
+        }
     }
 
     @Override
@@ -141,6 +165,31 @@ public abstract class BlockMachine extends BlockBase {
         return 0;
     }
 
+    public String getUnlocalizedName(ItemStack stack) {
+        return super.getUnlocalizedName() + EnumMachineTier.byMetadata(stack.getMetadata() >> 2).getUnlocalizedName();
+    }
+
+    @Override
+    public void initItem(RegistryEvent.Register<Item> event) {
+        event.getRegistry().register(new ItemBlockMachine(this).setRegistryName(getRegistryName()));
+    }
+
+    @Override
+    public void initModel(ModelRegistryEvent event) {
+        ModelLoader.setCustomStateMapper(this, new StateMapperBase() {
+            protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+                Map<IProperty<?>, Comparable<?>> map = Maps.newLinkedHashMap(state.getProperties());
+                map.remove(TIER);
+                return new ModelResourceLocation(getRegistryName() + "_" + state.getValue(TIER).getName(), getPropertyString(map));
+            }
+        });
+        for (EnumMachineTier enumMachineTier : EnumMachineTier.values) {
+            String location = getRegistryName() + "_" + enumMachineTier.getName();
+            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), (enumMachineTier.getMetadata() << 2),
+                    new ModelResourceLocation(location, "inventory"));
+        }
+    }
+
     @Override
     public boolean hasTileEntity(IBlockState state) {
         return true;
@@ -152,4 +201,27 @@ public abstract class BlockMachine extends BlockBase {
 
     @Override
     public abstract boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ);
+
+    static class ItemBlockMachine extends ItemBlock {
+
+        private final BlockMachine blockMachine;
+
+        public ItemBlockMachine(BlockMachine block) {
+            super(block);
+            this.blockMachine = block;
+            setHasSubtypes(true);
+            setMaxDamage(0);
+            setNoRepair();
+        }
+
+        @Override
+        public String getUnlocalizedName(ItemStack stack) {
+            return blockMachine.getUnlocalizedName(stack);
+        }
+
+        @Override
+        public int getMetadata(int damage) {
+            return damage;
+        }
+    }
 }

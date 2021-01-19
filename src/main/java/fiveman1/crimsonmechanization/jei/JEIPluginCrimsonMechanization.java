@@ -1,6 +1,8 @@
 package fiveman1.crimsonmechanization.jei;
 
+import fiveman1.crimsonmechanization.blocks.BlockMachine;
 import fiveman1.crimsonmechanization.blocks.ModBlocks;
+import fiveman1.crimsonmechanization.enums.EnumMachineTier;
 import fiveman1.crimsonmechanization.inventory.container.ContainerAlloyer;
 import fiveman1.crimsonmechanization.inventory.container.ContainerCompactor;
 import fiveman1.crimsonmechanization.inventory.container.ContainerCrimsonFurnace;
@@ -45,13 +47,13 @@ public class JEIPluginCrimsonMechanization implements IModPlugin {
         IRecipeTransferRegistry transferRegistry = registry.getRecipeTransferRegistry();
 
         // Furnace
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.blockCrimsonFurnace), VanillaRecipeCategoryUid.SMELTING);
+        addMachineRecipeCatalyst(registry, ModBlocks.blockCrimsonFurnace, VanillaRecipeCategoryUid.SMELTING);
         registry.addRecipeClickArea(GuiCrimsonFurnace.class, 76, 35, 21, 16, VanillaRecipeCategoryUid.SMELTING);
         transferRegistry.addRecipeTransferHandler(ContainerCrimsonFurnace.class, VanillaRecipeCategoryUid.SMELTING, 0, TileCrimsonFurnace.INPUT_SLOTS,
                 TileCrimsonFurnace.SIZE, 36);
 
         // Compactor
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.blockCompactor), COMPACTOR_ID);
+        addMachineRecipeCatalyst(registry, ModBlocks.blockCompactor, COMPACTOR_ID);
         registry.addRecipes(CompactorRecipeManager.getRecipeCollection(), COMPACTOR_ID);
         registry.handleRecipes(BaseEnergyRecipe.class, BaseEnergyRecipeWrapper::new, COMPACTOR_ID);
         registry.addRecipeClickArea(GuiCompactor.class, 76, 35, 21, 16, COMPACTOR_ID);
@@ -59,7 +61,7 @@ public class JEIPluginCrimsonMechanization implements IModPlugin {
                 TileCompactor.SIZE, 36);
 
         // Alloyer
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.blockAlloyer), ALLOYER_ID);
+        addMachineRecipeCatalyst(registry, ModBlocks.blockAlloyer, ALLOYER_ID);
         registry.addRecipes(AlloyerRecipeManager.getRecipeCollection(), ALLOYER_ID);
         registry.handleRecipes(BaseEnergyRecipe.class, BaseEnergyRecipeWrapper::new, ALLOYER_ID);
         registry.addRecipeClickArea(GuiAlloyer.class, 76, 35, 21, 16, ALLOYER_ID);
@@ -67,7 +69,7 @@ public class JEIPluginCrimsonMechanization implements IModPlugin {
                 TileAlloyer.SIZE, 36);
 
         // Crusher
-        registry.addRecipeCatalyst(new ItemStack(ModBlocks.blockCrusher), CRUSHER_ID);
+        addMachineRecipeCatalyst(registry, ModBlocks.blockCrusher, CRUSHER_ID);
         registry.addRecipes(CrusherRecipeManager.getRecipeCollection(), CRUSHER_ID);
         registry.handleRecipes(BaseEnergyRecipe.class, CrusherRecipeWrapper::new, CRUSHER_ID);
         registry.addRecipeClickArea(GuiCrusher.class, 76, 35, 21, 16, CRUSHER_ID);
@@ -95,5 +97,11 @@ public class JEIPluginCrimsonMechanization implements IModPlugin {
 
         CRUSHER_ID = ModBlocks.blockCrusher.getRegistryName().toString();
         registry.addRecipeCategories(new CrusherRecipeCategory(guiHelper));
+    }
+
+    private void addMachineRecipeCatalyst(IModRegistry registry, BlockMachine blockMachine, String id) {
+        for (EnumMachineTier enumMachineTier : EnumMachineTier.values) {
+            registry.addRecipeCatalyst(new ItemStack(blockMachine, 1, enumMachineTier.getMetadata() << 2), id);
+        }
     }
 }

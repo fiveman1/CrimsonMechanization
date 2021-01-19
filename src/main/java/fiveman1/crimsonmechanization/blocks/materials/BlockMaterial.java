@@ -95,8 +95,8 @@ public class BlockMaterial extends Block implements IInitializeable {
         return state.getValue(MATERIAL).getMetadata();
     }
 
-    public String getUnlocalizedName(ItemStack itemStack) {
-        return getUnlocalizedName() + EnumBlockMaterial.byMetadata(itemStack.getMetadata()).getUnlocalizedName();
+    public String getUnlocalizedName(ItemStack stack) {
+        return super.getUnlocalizedName() + EnumBlockMaterial.byMetadata(stack.getMetadata()).getUnlocalizedName();
     }
 
     @Override

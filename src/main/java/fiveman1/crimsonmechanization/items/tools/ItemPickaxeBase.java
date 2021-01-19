@@ -13,7 +13,7 @@ import net.minecraftforge.event.RegistryEvent;
 
 public class ItemPickaxeBase extends ItemPickaxe implements IInitializeable {
 
-    private String name;
+    private final String name;
 
     public ItemPickaxeBase(EnumToolMaterial material){
         super(ToolMaterial.IRON);

@@ -12,7 +12,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 
 public class ItemHoeBase extends ItemHoe implements IInitializeable {
-    private String name;
+    private final String name;
 
     public ItemHoeBase(EnumToolMaterial material){
         super(ToolMaterial.IRON);

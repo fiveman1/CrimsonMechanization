@@ -12,7 +12,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 
 public class ItemAxeBase extends ItemAxe implements IInitializeable {
-    private String name;
+    private final String name;
 
     public ItemAxeBase(EnumToolMaterial material){
         super(ToolMaterial.IRON);

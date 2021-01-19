@@ -20,7 +20,7 @@ public class BlockCompactor extends BlockMachine {
     @Nullable
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileCompactor();
+        return new TileCompactor(state.getValue(TIER));
     }
 
     @Override

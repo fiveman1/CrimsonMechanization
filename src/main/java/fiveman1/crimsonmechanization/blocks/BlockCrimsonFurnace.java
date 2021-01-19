@@ -21,7 +21,7 @@ public class BlockCrimsonFurnace extends BlockMachine {
     @Nullable
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileCrimsonFurnace();
+        return new TileCrimsonFurnace(state.getValue(TIER));
     }
 
     @Override
