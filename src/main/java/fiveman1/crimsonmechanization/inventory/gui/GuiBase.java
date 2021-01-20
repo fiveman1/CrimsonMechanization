@@ -2,6 +2,7 @@ package fiveman1.crimsonmechanization.inventory.gui;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.util.ColorUtil;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,12 +11,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Hashtable;
+
 @SideOnly(Side.CLIENT)
 public class GuiBase extends GuiContainer {
 
     protected final ResourceLocation background;
     protected final InventoryPlayer playerInventory;
     protected final String NAME;
+    protected final Hashtable<Integer, String> tooltipHash = new Hashtable<>();
 
     public GuiBase(Container container, InventoryPlayer playerInv, String name, int width, int height) {
         super(container);
@@ -47,5 +51,13 @@ public class GuiBase extends GuiContainer {
         drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
         renderHoveredToolTip(mouseX, mouseY);
+        for (GuiButton button : buttonList) {
+            if (button.isMouseOver()) {
+                String tooltip = tooltipHash.get(button.id);
+                if (tooltip != null) {
+                    drawHoveringText(I18n.format(tooltip), mouseX, mouseY);
+                }
+            }
+        }
     }
 }

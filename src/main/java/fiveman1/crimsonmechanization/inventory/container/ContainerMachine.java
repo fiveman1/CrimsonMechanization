@@ -1,6 +1,5 @@
 package fiveman1.crimsonmechanization.inventory.container;
 
-import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.network.Messages;
 import fiveman1.crimsonmechanization.network.PacketMachineInfo;
 import fiveman1.crimsonmechanization.tile.TileMachine;
@@ -35,7 +34,6 @@ public abstract class ContainerMachine extends ContainerBase {
 
     @Override
     public void detectAndSendChanges() {
-        CrimsonMechanization.logger.info("here");
         super.detectAndSendChanges();
         TileMachine machine = getTileMachine();
         int energyStored = machine.getField(TileMachine.ENERGY_ID);

@@ -14,7 +14,7 @@ public class ContainerMachineUpgrades extends ContainerBase {
         super(playerInventory, tileEntity, 8, 84);
     }
 
-    protected TileMachine getTileMachine() {
+    public TileMachine getTileMachine() {
         return (TileMachine) te;
     }
 
