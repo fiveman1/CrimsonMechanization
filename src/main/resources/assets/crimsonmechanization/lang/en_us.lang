@@ -123,3 +123,7 @@ category.crimsonmechanization.crusher=Shatterer
 
 # Messages
 message.crimsonmechanization.machine_tooltip=@9@lEnergy: %d
+
+# GUI Info
+info.crimsonmechanization.button_upgrade=Upgrades
+info.crimsonmechanization.button_back=Go back

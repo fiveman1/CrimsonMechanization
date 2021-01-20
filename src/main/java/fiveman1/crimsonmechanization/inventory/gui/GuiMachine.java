@@ -6,7 +6,6 @@ import fiveman1.crimsonmechanization.inventory.container.ContainerMachine;
 import fiveman1.crimsonmechanization.tile.TileMachine;
 import fiveman1.crimsonmechanization.util.PacketUtil;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiButtonImage;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -18,13 +17,11 @@ import java.io.IOException;
 @SideOnly(Side.CLIENT)
 public class GuiMachine extends GuiBase {
 
-    protected final ContainerMachine machineContainer;
-    protected final TileMachine te;
+    private final TileMachine te;
 
     public GuiMachine(ContainerMachine container, InventoryPlayer playerInv, String name) {
         super(container, playerInv, name, 176, 166);
-        machineContainer = container;
-        te = machineContainer.getTileMachine();
+        te = container.getTileMachine();
     }
 
     @Override
@@ -38,10 +35,10 @@ public class GuiMachine extends GuiBase {
     @Override
     public void initGui() {
         super.initGui();
-        GuiButtonImage buttonUpgrade = new GuiButtonImage(0, guiLeft + 151, guiTop + 4, 16, 16, 0, 0, 0,
-                new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/buttons/button_upgrade.png"));
-        //GuiButton buttonUpgrade = new GuiButton(0, guiLeft + 151, guiTop + 4, 20, 20, "U");
+        CustomGuiButtonImage buttonUpgrade = new CustomGuiButtonImage(0, guiLeft + 151, guiTop + 4, 16, 16, 16, 0,
+                new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/buttons.png"));
         buttonList.add(buttonUpgrade);
+        tooltipHash.put(buttonUpgrade.id, "info.crimsonmechanization.button_upgrade");
     }
 
     @Override
