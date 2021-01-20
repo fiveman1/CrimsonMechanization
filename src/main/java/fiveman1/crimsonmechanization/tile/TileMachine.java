@@ -1,6 +1,7 @@
 package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.enums.EnumMachineTier;
+import fiveman1.crimsonmechanization.items.ModItems;
 import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
 import fiveman1.crimsonmechanization.recipe.managers.IRecipeManager;
 import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
@@ -31,15 +32,16 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public static final int MAX_RECEIVE_ID = 3;
     public static final int MAX_EXTRACT_ID = 4;
     public static final int RECIPE_ENERGY_ID = 5;
+    public static final int TIER_ID = 6;
 
-    protected EnumMachineTier tier;
-    protected int tierMeta;
+    protected int tierMeta = 0;
 
     // these MUST BE UPDATED WHEN CHANGED as they are used for the progress bar
     protected int recipeEnergy = 0;
     protected int progress = 0;
 
     protected int ENERGY_RATE = 20;
+    protected int PROGRESS_RATE = 1;
     protected CustomEnergyStorage energyStorage = new CustomEnergyStorage(100000, 120, 0);
     protected int previousEnergyStored = energyStorage.getEnergyStored();
     protected boolean active = false;
@@ -79,11 +81,29 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     };
     protected final ItemStackHandler upgradeHandler = new ItemStackHandler(4) {
         @Override
+        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+            switch (slot) {
+                case 1:
+                    return ItemStack.areItemsEqual(stack, new ItemStack(ModItems.itemUpgradeSpeed));
+                case 2:
+                    return ItemStack.areItemsEqual(stack, new ItemStack(ModItems.itemUpgradeEfficiency));
+                case 3:
+                    return ItemStack.areItemsEqual(stack, new ItemStack(ModItems.itemUpgradeLuck));
+            }
+            return false;
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return getTier(tierMeta).getUpgradeStackLimit();
+        }
+
+        @Override
         protected void onContentsChanged(int slot) {
             markDirty();
         }
     };
-    protected final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler, upgradeHandler);
+    protected final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler);
 
     public ItemStackHandler getUpgradeHandler() {
         return upgradeHandler;
@@ -98,7 +118,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public TileMachine(EnumMachineTier enumMachineTier) {
         energyStorage = new CustomEnergyStorage(enumMachineTier.getCapacity(), enumMachineTier.getMaxReceive(), 0);
         ENERGY_RATE = enumMachineTier.getEnergyUse();
-        tier = enumMachineTier;
         tierMeta = enumMachineTier.getMetadata();
     }
 
@@ -153,6 +172,13 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
                 break;
             }
         }
+        EnumMachineTier tier = getTier(tierMeta);
+        int speed = upgradeHandler.getStackInSlot(1).getCount();
+        int efficiency = upgradeHandler.getStackInSlot(2).getCount();
+        double powerMultiplier = Math.pow(1.3, speed) * Math.pow(0.95, efficiency);
+        ENERGY_RATE = (int) Math.ceil(tier.getEnergyUse() * powerMultiplier);
+        PROGRESS_RATE = tier.getEnergyUse() * (speed + 1);
+        energyStorage.setMaxReceive(ENERGY_RATE * 5);
     }
 
     // returns true if: inputs are a valid recipe, output has space in output slot,
@@ -171,7 +197,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
                 break;
             }
         }
-        progress += ENERGY_RATE;
+        progress += PROGRESS_RATE;
         recipeEnergy = currentRecipe.getEnergyRequired();
     }
 
@@ -197,7 +223,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         super.writeToNBT(compound);
         compound.setTag("itemsIn", inputHandler.serializeNBT());
         compound.setTag("itemsOut", outputHandler.serializeNBT());
-        compound.setTag("upgrades", upgradeHandler.serializeNBT());
         writeRestorableToNBT(compound);
         compound.setBoolean("active", blockStateActive);
         compound.setInteger("progress", progress);
@@ -216,9 +241,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         if (compound.hasKey("itemsOut")) {
             outputHandler.deserializeNBT((NBTTagCompound) compound.getTag("itemsOut"));
         }
-        if (compound.hasKey("upgrades")) {
-            upgradeHandler.deserializeNBT((NBTTagCompound) compound.getTag("upgrades"));
-        }
+
         readRestorableToNBT(compound);
         blockStateActive = compound.getBoolean("active");
         progress = compound.getInteger("progress");
@@ -229,20 +252,21 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public NBTTagCompound writeRestorableToNBT(NBTTagCompound compound) {
         compound.setInteger("energy", energyStorage.getEnergyStored());
         compound.setInteger("tier", tierMeta);
+        compound.setTag("upgrades", upgradeHandler.serializeNBT());
         return compound;
     }
 
     public void readRestorableToNBT(NBTTagCompound compound) {
-        tierMeta = compound.getInteger("tier");
-        updateTier(tierMeta);
         energyStorage.setEnergy(compound.getInteger("energy"));
+        tierMeta = compound.getInteger("tier");
+        energyStorage.setCapacity(getTier(tierMeta).getCapacity());
+        if (compound.hasKey("upgrades")) {
+            upgradeHandler.deserializeNBT((NBTTagCompound) compound.getTag("upgrades"));
+        }
     }
 
-    protected void updateTier(int meta) {
-        tier = EnumMachineTier.byMetadata(meta);
-        ENERGY_RATE = tier.getEnergyUse();
-        energyStorage.setMaxReceive(tier.getMaxReceive());
-        energyStorage.setCapacity(tier.getCapacity());
+    public EnumMachineTier getTier(int meta) {
+        return EnumMachineTier.byMetadata(meta);
     }
 
     @Nullable
@@ -327,6 +351,8 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
                 return energyStorage.getMaxExtract();
             case RECIPE_ENERGY_ID:
                 return recipeEnergy;
+            case TIER_ID:
+                return tierMeta;
             default:
                 return 0;
         }
@@ -351,6 +377,9 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
                 return;
             case RECIPE_ENERGY_ID:
                 recipeEnergy = value;
+                return;
+            case TIER_ID:
+                tierMeta = value;
         }
     }
 }

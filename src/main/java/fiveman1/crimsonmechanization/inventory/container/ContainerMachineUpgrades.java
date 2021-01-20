@@ -41,7 +41,7 @@ public class ContainerMachineUpgrades extends ContainerBase {
                     return ItemStack.EMPTY;
                 }
                 slot.onSlotChange(currentItemStack, itemstack);
-            } else if (!this.mergeItemStack(currentItemStack, 0, machine.getInputSlots(), false)) {
+            } else if (!this.mergeItemStack(currentItemStack, 0, 4, false)) {
                 return ItemStack.EMPTY;
             }
             if (currentItemStack.isEmpty()) {

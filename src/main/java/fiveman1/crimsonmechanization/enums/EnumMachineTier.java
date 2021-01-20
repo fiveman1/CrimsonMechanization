@@ -6,9 +6,9 @@ import java.util.Hashtable;
 
 public enum EnumMachineTier implements IStringSerializable {
 
-    CRIMSON(0, "crimson", "Crimson", 20, 100000),
-    REFINED(1, "refined", "Refined", 40, 200000),
-    IRIDESCENT(3, "iridescent", "Iridescent", 80, 400000)
+    CRIMSON(0, "crimson", "Crimson", 20, 100000, 2),
+    REFINED(1, "refined", "Refined", 40, 200000, 4),
+    IRIDESCENT(3, "iridescent", "Iridescent", 80, 400000, 16)
     ;
 
     private final int meta;
@@ -16,6 +16,7 @@ public enum EnumMachineTier implements IStringSerializable {
     private final String unlocalizedName;
     private final int energyUse;
     private final int capacity;
+    private final int upgradeStackLimit;
 
     public static final EnumMachineTier[] values = values();
     private static final Hashtable<Integer, EnumMachineTier> metaToEnum = new Hashtable<>();
@@ -25,12 +26,13 @@ public enum EnumMachineTier implements IStringSerializable {
         }
     }
 
-    EnumMachineTier(int metaIn, String nameIn, String unlocalizedNameIn, int energyUse, int capacity) {
+    EnumMachineTier(int metaIn, String nameIn, String unlocalizedNameIn, int energyUse, int capacity, int upgradeStackLimit) {
         this.meta = metaIn;
         this.name = nameIn;
         this.unlocalizedName = unlocalizedNameIn;
         this.energyUse = energyUse;
         this.capacity = capacity;
+        this.upgradeStackLimit = upgradeStackLimit;
     }
 
     @Override
@@ -58,6 +60,10 @@ public enum EnumMachineTier implements IStringSerializable {
 
     public int getMaxReceive() {
         return energyUse * 6;
+    }
+
+    public int getUpgradeStackLimit() {
+        return upgradeStackLimit;
     }
 
     public static EnumMachineTier byMetadata(int meta) {

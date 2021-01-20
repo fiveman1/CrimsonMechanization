@@ -5,12 +5,10 @@ import fiveman1.crimsonmechanization.enums.EnumToolMaterial;
 import fiveman1.crimsonmechanization.items.armor.ItemArmorBase;
 import fiveman1.crimsonmechanization.items.materials.*;
 import fiveman1.crimsonmechanization.items.tools.*;
+import fiveman1.crimsonmechanization.items.upgrades.ItemUpgrade;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemSword;
-import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class ModItems {
@@ -87,6 +85,11 @@ public class ModItems {
     public static ItemArmorBase iridescent_leggings;
     public static ItemArmorBase iridescent_boots;
 
+    // Upgrades
+    public static ItemUpgrade itemUpgradeSpeed;
+    public static ItemUpgrade itemUpgradeEfficiency;
+    public static ItemUpgrade itemUpgradeLuck;
+
 
     public static void init() {
         itemDust = new ItemDust("dust");
@@ -140,5 +143,9 @@ public class ModItems {
         iridescent_chestplate = new ItemArmorBase("iridescent_chestplate", EntityEquipmentSlot.CHEST);
         iridescent_leggings = new ItemArmorBase("iridescent_leggings", EntityEquipmentSlot.LEGS);
         iridescent_boots = new ItemArmorBase("iridescent_boots", EntityEquipmentSlot.FEET);
+
+        itemUpgradeSpeed = new ItemUpgrade(ItemUpgrade.EnumUpgrade.SPEED);
+        itemUpgradeEfficiency = new ItemUpgrade(ItemUpgrade.EnumUpgrade.EFFICIENCY);
+        itemUpgradeLuck = new ItemUpgrade(ItemUpgrade.EnumUpgrade.LUCK);
     }
 }

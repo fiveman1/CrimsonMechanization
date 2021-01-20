@@ -9,22 +9,25 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketMachineInfo implements IMessage {
+public class PacketServerToClient implements IMessage {
 
     public static byte ENERGY_ID = 0;
     public static byte ENERGY_STORAGE_ID = 1;
     public static byte PROGRESS_ID = 2;
     public static byte RECIPE_ENERGY_ID = 3;
+    public static byte TIER_ID = 4;
 
     // if you implement a packet type with more than 4 arguments
     // then you better increase the args size
     private int[] args = new int[4];
     private byte packetID;
 
+    // TODO: clean this mess up
+
     @Override
     public void fromBytes(ByteBuf buf) {
         packetID = buf.readByte();
-        if (packetID == ENERGY_ID || packetID == PROGRESS_ID || packetID == RECIPE_ENERGY_ID) {
+        if (packetID == ENERGY_ID || packetID == PROGRESS_ID || packetID == RECIPE_ENERGY_ID || packetID == TIER_ID) {
             args[0] = buf.readInt();
         } else if (packetID == ENERGY_STORAGE_ID) {
             args[0] = buf.readInt();
@@ -36,7 +39,7 @@ public class PacketMachineInfo implements IMessage {
     @Override
     public void toBytes(ByteBuf buf) {
         buf.writeByte(packetID );
-        if (packetID == ENERGY_ID || packetID == PROGRESS_ID || packetID == RECIPE_ENERGY_ID) {
+        if (packetID == ENERGY_ID || packetID == PROGRESS_ID || packetID == RECIPE_ENERGY_ID || packetID == TIER_ID) {
             buf.writeInt(args[0]);
         } else if (packetID == ENERGY_STORAGE_ID) {
             buf.writeInt(args[0]);
@@ -46,22 +49,22 @@ public class PacketMachineInfo implements IMessage {
     }
 
     // have to include default constructor for registry
-    public PacketMachineInfo() {}
+    public PacketServerToClient() {}
 
-    public PacketMachineInfo (byte packetID, int... args) {
+    public PacketServerToClient(byte packetID, int... args) {
         this.packetID = packetID;
         this.args = args;
     }
 
-    public static class Handler implements IMessageHandler<PacketMachineInfo, IMessage> {
+    public static class Handler implements IMessageHandler<PacketServerToClient, IMessage> {
 
         @Override
-        public IMessage onMessage(PacketMachineInfo message, MessageContext ctx) {
+        public IMessage onMessage(PacketServerToClient message, MessageContext ctx) {
             CrimsonMechanization.proxy.addScheduledTaskClient(() -> handle(message, ctx));
             return null;
         }
 
-        private void handle(PacketMachineInfo message, MessageContext ctx) {
+        private void handle(PacketServerToClient message, MessageContext ctx) {
             EntityPlayer player = CrimsonMechanization.proxy.getClientPlayer();
             Container container = player.openContainer;
             if (message.packetID == ENERGY_ID) {
@@ -74,6 +77,8 @@ public class PacketMachineInfo implements IMessage {
                 container.updateProgressBar(TileMachine.PROGRESS_ID, message.args[0]);
             } else if (message.packetID == RECIPE_ENERGY_ID) {
                 container.updateProgressBar(TileMachine.RECIPE_ENERGY_ID, message.args[0]);
+            } else if (message.packetID == TIER_ID) {
+                container.updateProgressBar(TileMachine.TIER_ID, message.args[0]);
             }
         }
     }

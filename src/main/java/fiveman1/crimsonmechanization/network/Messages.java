@@ -20,6 +20,6 @@ public class Messages {
         INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
 
         INSTANCE.registerMessage(PacketClientToServer.Handler.class, PacketClientToServer.class, nextID(), Side.SERVER);
-        INSTANCE.registerMessage(PacketMachineInfo.Handler.class, PacketMachineInfo.class, nextID(), Side.CLIENT);
+        INSTANCE.registerMessage(PacketServerToClient.Handler.class, PacketServerToClient.class, nextID(), Side.CLIENT);
     }
 }

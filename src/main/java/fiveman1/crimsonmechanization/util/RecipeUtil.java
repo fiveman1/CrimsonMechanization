@@ -31,9 +31,10 @@ public class RecipeUtil {
     }
 
     public static ItemStack getStackFromOreDict(NonNullList<ItemStack> ores, int count) {
-        ItemStack oreCopy = ores.get(0).copy();
-        oreCopy.setCount(count);
-        return oreCopy;
+        if (ores.size() < 1) return ItemStack.EMPTY;
+            ItemStack oreCopy = ores.get(0).copy();
+            oreCopy.setCount(count);
+            return oreCopy;
     }
 
     public static ItemStack getModStackFromOreDict(NonNullList<ItemStack> ores, String modID) {
@@ -41,6 +42,7 @@ public class RecipeUtil {
     }
 
     public static ItemStack getModStackFromOreDict(NonNullList<ItemStack> ores, String modID, int count) {
+        if (ores.size() < 1) return ItemStack.EMPTY;
         for (ItemStack ore : ores) {
             if (ore.getItem().getRegistryName().getResourceDomain().equals(modID)) {
                 ItemStack oreCopy = ore.copy();
@@ -58,6 +60,7 @@ public class RecipeUtil {
     }
 
     public static ItemStack getStrictlyModStackFromOreDict(NonNullList<ItemStack> ores, String modID, int count) {
+        if (ores.size() < 1) return ItemStack.EMPTY;
         for (ItemStack ore : ores) {
             if (ore.getItem().getRegistryName().getResourceDomain().equals(modID)) {
                 ItemStack oreCopy = ore.copy();

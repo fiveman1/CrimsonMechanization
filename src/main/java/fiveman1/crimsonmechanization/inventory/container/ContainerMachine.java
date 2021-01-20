@@ -1,7 +1,7 @@
 package fiveman1.crimsonmechanization.inventory.container;
 
 import fiveman1.crimsonmechanization.network.Messages;
-import fiveman1.crimsonmechanization.network.PacketMachineInfo;
+import fiveman1.crimsonmechanization.network.PacketServerToClient;
 import fiveman1.crimsonmechanization.tile.TileMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -14,13 +14,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ContainerMachine extends ContainerBase {
 
-    // these are client side (!!!)
+    // client side
     protected int ENERGY_STORED = -1;
     protected int CAPACITY = -1;
     protected int MAX_RECEIVE = -1;
     protected int MAX_EXTRACT = -1;
     protected int RECIPE_ENERGY = -1;
     protected int PROGRESS = -1;
+    protected int TIER = -1;
 
     public ContainerMachine(IInventory playerInventory, TileMachine tileEntity) {
         super(playerInventory, tileEntity, 8, 84);
@@ -42,20 +43,24 @@ public abstract class ContainerMachine extends ContainerBase {
         int maxExtract = machine.getField(TileMachine.MAX_EXTRACT_ID);
         int progress = machine.getField(TileMachine.PROGRESS_ID);
         int recipeEnergy = machine.getField(TileMachine.RECIPE_ENERGY_ID);
+        int tierMeta = machine.getField(TileMachine.TIER_ID);
         for (IContainerListener listener : listeners) {
             if (listener instanceof EntityPlayerMP) {
                 EntityPlayerMP playerMP = (EntityPlayerMP) listener;
                 if (energyStored != ENERGY_STORED) {
-                    Messages.INSTANCE.sendTo(new PacketMachineInfo(PacketMachineInfo.ENERGY_ID, energyStored), playerMP);
+                    Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.ENERGY_ID, energyStored), playerMP);
                 }
                 if (capacity != CAPACITY || maxReceieve != MAX_RECEIVE || maxExtract != MAX_EXTRACT) {
-                    Messages.INSTANCE.sendTo(new PacketMachineInfo(PacketMachineInfo.ENERGY_STORAGE_ID, capacity, maxReceieve, maxExtract), playerMP);
+                    Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.ENERGY_STORAGE_ID, capacity, maxReceieve, maxExtract), playerMP);
                 }
                 if (progress != PROGRESS) {
-                    Messages.INSTANCE.sendTo(new PacketMachineInfo(PacketMachineInfo.PROGRESS_ID, progress), playerMP);
+                    Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.PROGRESS_ID, progress), playerMP);
                 }
                 if (recipeEnergy != RECIPE_ENERGY) {
-                    Messages.INSTANCE.sendTo(new PacketMachineInfo(PacketMachineInfo.RECIPE_ENERGY_ID, recipeEnergy), playerMP);
+                    Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.RECIPE_ENERGY_ID, recipeEnergy), playerMP);
+                }
+                if (tierMeta != TIER) {
+                    Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.TIER_ID, tierMeta), playerMP);
                 }
             }
         }
@@ -65,6 +70,7 @@ public abstract class ContainerMachine extends ContainerBase {
         MAX_EXTRACT = maxExtract;
         PROGRESS = progress;
         RECIPE_ENERGY = recipeEnergy;
+        TIER = tierMeta;
     }
 
     @Override
