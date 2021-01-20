@@ -48,8 +48,4 @@ public class GuiBase extends GuiContainer {
         super.drawScreen(mouseX, mouseY, partialTicks);
         renderHoveredToolTip(mouseX, mouseY);
     }
-
-    public ResourceLocation getResourceLocation() {
-        return background;
-    }
 }

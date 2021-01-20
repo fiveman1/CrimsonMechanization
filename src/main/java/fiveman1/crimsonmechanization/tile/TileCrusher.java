@@ -34,6 +34,6 @@ public class TileCrusher extends TileMachine {
     }
 
     public ContainerCrusher createContainer(InventoryPlayer playerInventory) {
-        return new ContainerCrusher(playerInventory, this, 8, 84);
+        return new ContainerCrusher(playerInventory, this);
     }
 }

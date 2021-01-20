@@ -9,8 +9,8 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerCompactor extends ContainerMachine {
 
-    public ContainerCompactor(IInventory playerInventory, TileCompactor tileEntity, int xOffsetInventory, int yOffsetInventory) {
-        super(playerInventory, tileEntity, xOffsetInventory, yOffsetInventory);
+    public ContainerCompactor(IInventory playerInventory, TileCompactor tileEntity) {
+        super(playerInventory, tileEntity);
     }
 
     @Override

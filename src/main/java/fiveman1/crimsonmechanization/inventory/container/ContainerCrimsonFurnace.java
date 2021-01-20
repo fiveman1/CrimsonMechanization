@@ -10,8 +10,8 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerCrimsonFurnace extends ContainerMachine {
 
-    public ContainerCrimsonFurnace(IInventory playerInventory, TileCrimsonFurnace tileCrimsonFurnace, int xOffsetInventory, int yOffsetInventory) {
-        super(playerInventory, tileCrimsonFurnace, xOffsetInventory, yOffsetInventory);
+    public ContainerCrimsonFurnace(IInventory playerInventory, TileCrimsonFurnace tileCrimsonFurnace) {
+        super(playerInventory, tileCrimsonFurnace);
     }
 
     @Override

@@ -8,8 +8,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerCrusher extends ContainerMachine {
-    public ContainerCrusher(IInventory playerInventory, TileMachine tileEntity, int xOffsetInventory, int yOffsetInventory) {
-        super(playerInventory, tileEntity, xOffsetInventory, yOffsetInventory);
+    public ContainerCrusher(IInventory playerInventory, TileMachine tileEntity) {
+        super(playerInventory, tileEntity);
     }
 
     @Override

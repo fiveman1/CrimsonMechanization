@@ -11,15 +11,15 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketMachineInfo implements IMessage {
 
-    public static int ENERGY_ID = 0;
-    public static int ENERGY_STORAGE_ID = 1;
-    public static int PROGRESS_ID = 2;
-    public static int RECIPE_ENERGY_ID = 3;
+    public static byte ENERGY_ID = 0;
+    public static byte ENERGY_STORAGE_ID = 1;
+    public static byte PROGRESS_ID = 2;
+    public static byte RECIPE_ENERGY_ID = 3;
 
-    // if you imeplement a packet type with more than 4 arguments
+    // if you implement a packet type with more than 4 arguments
     // then you better increase the args size
     private int[] args = new int[4];
-    private int packetID;
+    private byte packetID;
 
     @Override
     public void fromBytes(ByteBuf buf) {
@@ -48,7 +48,7 @@ public class PacketMachineInfo implements IMessage {
     // have to include default constructor for registry
     public PacketMachineInfo() {}
 
-    public PacketMachineInfo (int packetID, int... args) {
+    public PacketMachineInfo (byte packetID, int... args) {
         this.packetID = packetID;
         this.args = args;
     }

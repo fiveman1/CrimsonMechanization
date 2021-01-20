@@ -1,5 +1,6 @@
 package fiveman1.crimsonmechanization.inventory.container;
 
+import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.network.Messages;
 import fiveman1.crimsonmechanization.network.PacketMachineInfo;
 import fiveman1.crimsonmechanization.tile.TileMachine;
@@ -14,8 +15,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ContainerMachine extends ContainerBase {
 
-    protected final TileMachine machine;
-
     // these are client side (!!!)
     protected int ENERGY_STORED = -1;
     protected int CAPACITY = -1;
@@ -24,20 +23,21 @@ public abstract class ContainerMachine extends ContainerBase {
     protected int RECIPE_ENERGY = -1;
     protected int PROGRESS = -1;
 
-    public ContainerMachine(IInventory playerInventory, TileMachine tileEntity, int xOffsetInventory, int yOffsetInventory) {
-        super(playerInventory, tileEntity, xOffsetInventory, yOffsetInventory);
-        machine = tileEntity;
+    public ContainerMachine(IInventory playerInventory, TileMachine tileEntity) {
+        super(playerInventory, tileEntity, 8, 84);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void updateProgressBar(int id, int data) {
-        machine.setField(id, data);
+        getTileMachine().setField(id, data);
     }
 
     @Override
     public void detectAndSendChanges() {
+        CrimsonMechanization.logger.info("here");
         super.detectAndSendChanges();
+        TileMachine machine = getTileMachine();
         int energyStored = machine.getField(TileMachine.ENERGY_ID);
         int capacity = machine.getField(TileMachine.CAPACITY_ID);
         int maxReceieve = machine.getField(TileMachine.MAX_RECEIVE_ID);
@@ -71,6 +71,7 @@ public abstract class ContainerMachine extends ContainerBase {
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+        TileMachine machine = getTileMachine();
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = inventorySlots.get(index);
 
@@ -98,6 +99,6 @@ public abstract class ContainerMachine extends ContainerBase {
     }
 
     public TileMachine getTileMachine() {
-        return machine;
+        return (TileMachine) te;
     }
 }

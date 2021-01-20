@@ -34,6 +34,6 @@ public class TileCompactor extends TileMachine {
     }
 
     public ContainerCompactor createContainer(InventoryPlayer playerInventory) {
-        return new ContainerCompactor(playerInventory, this, 8, 84);
+        return new ContainerCompactor(playerInventory, this);
     }
 }

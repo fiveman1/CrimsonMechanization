@@ -34,7 +34,7 @@ public class TileAlloyer extends TileMachine {
     }
 
     public ContainerAlloyer createContainer(InventoryPlayer playerInventory) {
-        return new ContainerAlloyer(playerInventory, this, 8, 84);
+        return new ContainerAlloyer(playerInventory, this);
     }
 }
 

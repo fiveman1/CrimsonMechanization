@@ -9,8 +9,8 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerAlloyer extends ContainerMachine {
 
-    public ContainerAlloyer(IInventory playerInventory, TileAlloyer tileEntity, int xOffsetInventory, int yOffsetInventory) {
-        super(playerInventory, tileEntity, xOffsetInventory, yOffsetInventory);
+    public ContainerAlloyer(IInventory playerInventory, TileAlloyer tileEntity) {
+        super(playerInventory, tileEntity);
     }
 
     @Override

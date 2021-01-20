@@ -19,9 +19,7 @@ public class Messages {
     public static void registerMessages(String channelName) {
         INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
 
-        // Server side
-
-        // Client side
+        INSTANCE.registerMessage(PacketClientToServer.Handler.class, PacketClientToServer.class, nextID(), Side.SERVER);
         INSTANCE.registerMessage(PacketMachineInfo.Handler.class, PacketMachineInfo.class, nextID(), Side.CLIENT);
     }
 }

@@ -77,7 +77,17 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
             markDirty();
         }
     };
-    protected final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler);
+    protected final ItemStackHandler upgradeHandler = new ItemStackHandler(4) {
+        @Override
+        protected void onContentsChanged(int slot) {
+            markDirty();
+        }
+    };
+    protected final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler, upgradeHandler);
+
+    public ItemStackHandler getUpgradeHandler() {
+        return upgradeHandler;
+    }
 
     protected ItemStack[] previousInput = ItemStackHandlerUtil.getStacks(inputHandler);
     protected ItemStack[] currentInput;
@@ -187,6 +197,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         super.writeToNBT(compound);
         compound.setTag("itemsIn", inputHandler.serializeNBT());
         compound.setTag("itemsOut", outputHandler.serializeNBT());
+        compound.setTag("upgrades", upgradeHandler.serializeNBT());
         writeRestorableToNBT(compound);
         compound.setBoolean("active", blockStateActive);
         compound.setInteger("progress", progress);
@@ -204,6 +215,9 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         }
         if (compound.hasKey("itemsOut")) {
             outputHandler.deserializeNBT((NBTTagCompound) compound.getTag("itemsOut"));
+        }
+        if (compound.hasKey("upgrades")) {
+            upgradeHandler.deserializeNBT((NBTTagCompound) compound.getTag("upgrades"));
         }
         readRestorableToNBT(compound);
         blockStateActive = compound.getBoolean("active");
@@ -256,7 +270,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     protected CustomEnergyStorage getEnergyStorage(EnumFacing facing) {
         return energyStorage;
     }
-
 
     public void setActive(boolean isActive) {
         if (blockStateActive != isActive) {

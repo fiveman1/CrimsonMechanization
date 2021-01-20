@@ -34,6 +34,6 @@ public class TileCrimsonFurnace extends TileMachine {
     }
 
     public ContainerCrimsonFurnace createContainer(InventoryPlayer playerInventory) {
-        return new ContainerCrimsonFurnace(playerInventory, this, 8, 84);
+        return new ContainerCrimsonFurnace(playerInventory, this);
     }
 }

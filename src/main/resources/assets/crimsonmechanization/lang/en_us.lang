@@ -114,6 +114,7 @@ container.crimsonmechanization.furnace.name=Forger
 container.crimsonmechanization.compactor.name=Condenser
 container.crimsonmechanization.alloyer.name=Alloyer
 container.crimsonmechanization.crusher.name=Shatterer
+container.crimsonmechanization.upgrades.name=Upgrades
 
 # JEI Categories
 category.crimsonmechanization.compactor=Condenser

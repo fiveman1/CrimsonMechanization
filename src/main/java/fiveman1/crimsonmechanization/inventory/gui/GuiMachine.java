@@ -1,12 +1,19 @@
 package fiveman1.crimsonmechanization.inventory.gui;
 
+import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.inventory.GuiHandler;
 import fiveman1.crimsonmechanization.inventory.container.ContainerMachine;
 import fiveman1.crimsonmechanization.tile.TileMachine;
+import fiveman1.crimsonmechanization.util.PacketUtil;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiButtonImage;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.awt.*;
+import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class GuiMachine extends GuiBase {
@@ -14,8 +21,8 @@ public class GuiMachine extends GuiBase {
     protected final ContainerMachine machineContainer;
     protected final TileMachine te;
 
-    public GuiMachine(ContainerMachine container, InventoryPlayer playerInv, String name, int width, int height) {
-        super(container, playerInv, name, width, height);
+    public GuiMachine(ContainerMachine container, InventoryPlayer playerInv, String name) {
+        super(container, playerInv, name, 176, 166);
         machineContainer = container;
         te = machineContainer.getTileMachine();
     }
@@ -25,6 +32,23 @@ public class GuiMachine extends GuiBase {
         super.drawScreen(mouseX, mouseY, partialTicks);
         if (isMouseOverEnergyBar(mouseX, mouseY)) {
             drawHoveringText(te.getField(TileMachine.ENERGY_ID) + " / " + te.getField(TileMachine.CAPACITY_ID) + " RF", mouseX, mouseY);
+        }
+    }
+
+    @Override
+    public void initGui() {
+        super.initGui();
+        GuiButtonImage buttonUpgrade = new GuiButtonImage(0, guiLeft + 151, guiTop + 4, 16, 16, 0, 0, 0,
+                new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/buttons/button_upgrade.png"));
+        //GuiButton buttonUpgrade = new GuiButton(0, guiLeft + 151, guiTop + 4, 20, 20, "U");
+        buttonList.add(buttonUpgrade);
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button) throws IOException {
+        switch (button.id) {
+            case 0:
+                PacketUtil.sendButtonPacket(te, GuiHandler.UPGRADE_GUI_ID);
         }
     }
 
