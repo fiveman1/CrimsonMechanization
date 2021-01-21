@@ -16,35 +16,28 @@ public class PacketServerToClient implements IMessage {
     public static byte PROGRESS_ID = 2;
     public static byte RECIPE_ENERGY_ID = 3;
     public static byte TIER_ID = 4;
+    public static byte ENERGY_RATE_ID = 5;
 
-    // if you implement a packet type with more than 4 arguments
-    // then you better increase the args size
-    private int[] args = new int[4];
+    private int[] args;
     private byte packetID;
-
-    // TODO: clean this mess up
+    private byte size;
 
     @Override
     public void fromBytes(ByteBuf buf) {
         packetID = buf.readByte();
-        if (packetID == ENERGY_ID || packetID == PROGRESS_ID || packetID == RECIPE_ENERGY_ID || packetID == TIER_ID) {
-            args[0] = buf.readInt();
-        } else if (packetID == ENERGY_STORAGE_ID) {
-            args[0] = buf.readInt();
-            args[1] = buf.readInt();
-            args[2] = buf.readInt();
+        size = buf.readByte();
+        args = new int[size];
+        for (int i = 0; i < size; i++) {
+            args[i] = buf.readInt();
         }
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeByte(packetID );
-        if (packetID == ENERGY_ID || packetID == PROGRESS_ID || packetID == RECIPE_ENERGY_ID || packetID == TIER_ID) {
-            buf.writeInt(args[0]);
-        } else if (packetID == ENERGY_STORAGE_ID) {
-            buf.writeInt(args[0]);
-            buf.writeInt(args[1]);
-            buf.writeInt(args[2]);
+        buf.writeByte(packetID);
+        buf.writeByte(size);
+        for (int i = 0; i < size; i++) {
+            buf.writeInt(args[i]);
         }
     }
 
@@ -53,6 +46,7 @@ public class PacketServerToClient implements IMessage {
 
     public PacketServerToClient(byte packetID, int... args) {
         this.packetID = packetID;
+        this.size = (byte) args.length;
         this.args = args;
     }
 
@@ -79,6 +73,8 @@ public class PacketServerToClient implements IMessage {
                 container.updateProgressBar(TileMachine.RECIPE_ENERGY_ID, message.args[0]);
             } else if (message.packetID == TIER_ID) {
                 container.updateProgressBar(TileMachine.TIER_ID, message.args[0]);
+            } else if (message.packetID == ENERGY_RATE_ID) {
+                container.updateProgressBar(TileMachine.ENERGY_RATE_ID, message.args[0]);
             }
         }
     }

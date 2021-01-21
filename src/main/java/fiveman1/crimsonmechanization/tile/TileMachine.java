@@ -33,6 +33,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     public static final int MAX_EXTRACT_ID = 4;
     public static final int RECIPE_ENERGY_ID = 5;
     public static final int TIER_ID = 6;
+    public static final int ENERGY_RATE_ID = 7;
 
     protected int tierMeta = 0;
 
@@ -136,7 +137,7 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
                 energyStorage.consumeEnergy(ENERGY_RATE);
                 if (progress >= recipeEnergy) {
                     processRecipe();
-                    progress = 0;
+                    progress -= recipeEnergy;
                 }
                 markDirty();
             } else {
@@ -172,12 +173,12 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
                 break;
             }
         }
-        EnumMachineTier tier = getTier(tierMeta);
+        int baseEnergyUse = getTier(tierMeta).getEnergyUse();
         int speed = upgradeHandler.getStackInSlot(1).getCount();
         int efficiency = upgradeHandler.getStackInSlot(2).getCount();
         double powerMultiplier = Math.pow(1.3, speed) * Math.pow(0.95, efficiency);
-        ENERGY_RATE = (int) Math.ceil(tier.getEnergyUse() * powerMultiplier);
-        PROGRESS_RATE = tier.getEnergyUse() * (speed + 1);
+        ENERGY_RATE = (int) Math.ceil(baseEnergyUse * powerMultiplier);
+        PROGRESS_RATE = baseEnergyUse + (baseEnergyUse * speed) / 2;
         energyStorage.setMaxReceive(ENERGY_RATE * 5);
     }
 
@@ -209,7 +210,6 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
             for (int j = 0; j < currentInput.length; j++) {
                 inputHandler.extractItem(j, currentRecipe.getInputCount(currentInput[j]), false);
             }
-            progress = 0;
         }
     }
 
@@ -353,6 +353,8 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
                 return recipeEnergy;
             case TIER_ID:
                 return tierMeta;
+            case ENERGY_RATE_ID:
+                return ENERGY_RATE;
             default:
                 return 0;
         }
@@ -362,24 +364,27 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
         switch (id) {
             case PROGRESS_ID:
                 progress = value;
-                return;
+                break;
             case ENERGY_ID:
                 energyStorage.setEnergy(value);
-                return;
+                break;
             case CAPACITY_ID:
                 energyStorage.setCapacity(value);
-                return;
+                break;
             case MAX_RECEIVE_ID:
                 energyStorage.setMaxReceive(value);
-                return;
+                break;
             case MAX_EXTRACT_ID:
                 energyStorage.setMaxExtract(value);
-                return;
+                break;
             case RECIPE_ENERGY_ID:
                 recipeEnergy = value;
-                return;
+                break;
             case TIER_ID:
                 tierMeta = value;
+                break;
+            case ENERGY_RATE_ID:
+                ENERGY_RATE = value;
         }
     }
 }

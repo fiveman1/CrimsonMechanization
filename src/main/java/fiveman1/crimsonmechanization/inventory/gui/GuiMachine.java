@@ -6,6 +6,7 @@ import fiveman1.crimsonmechanization.inventory.container.ContainerMachine;
 import fiveman1.crimsonmechanization.tile.TileMachine;
 import fiveman1.crimsonmechanization.util.PacketUtil;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,6 +14,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiMachine extends GuiBase {
@@ -28,7 +31,10 @@ public class GuiMachine extends GuiBase {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         if (isMouseOverEnergyBar(mouseX, mouseY)) {
-            drawHoveringText(te.getField(TileMachine.ENERGY_ID) + " / " + te.getField(TileMachine.CAPACITY_ID) + " RF", mouseX, mouseY);
+            List<String> lines = new ArrayList<>();
+            lines.add(I18n.format("message.crimsonmechanization.machine_energy", te.getField(TileMachine.ENERGY_ID), te.getField(TileMachine.CAPACITY_ID)));
+            lines.add(I18n.format("message.crimsonmechanization.machine_energy_rate", te.getField(TileMachine.ENERGY_RATE_ID)));
+            drawHoveringText(lines, mouseX, mouseY);
         }
     }
 

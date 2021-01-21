@@ -1,3 +1,5 @@
+#PARSE_ESCAPES
+
 # Blocks
 tile.crimsonmechanization.blockBronze.name=Block of Bronze
 tile.crimsonmechanization.blockCopper.name=Block of Copper
@@ -123,6 +125,8 @@ category.crimsonmechanization.crusher=Shatterer
 
 # Messages
 message.crimsonmechanization.machine_tooltip=@9@lEnergy: %d
+message.crimsonmechanization.machine_energy=%d / %d
+message.crimsonmechanization.machine_energy_rate=Max RF/T: %d
 
 # GUI Info
 info.crimsonmechanization.button_upgrade=Upgrades

@@ -22,6 +22,7 @@ public abstract class ContainerMachine extends ContainerBase {
     protected int RECIPE_ENERGY = -1;
     protected int PROGRESS = -1;
     protected int TIER = -1;
+    protected int ENERGY_RATE = -1;
 
     public ContainerMachine(IInventory playerInventory, TileMachine tileEntity) {
         super(playerInventory, tileEntity, 8, 84);
@@ -44,6 +45,7 @@ public abstract class ContainerMachine extends ContainerBase {
         int progress = machine.getField(TileMachine.PROGRESS_ID);
         int recipeEnergy = machine.getField(TileMachine.RECIPE_ENERGY_ID);
         int tierMeta = machine.getField(TileMachine.TIER_ID);
+        int energyRate = machine.getField(TileMachine.ENERGY_RATE_ID);
         for (IContainerListener listener : listeners) {
             if (listener instanceof EntityPlayerMP) {
                 EntityPlayerMP playerMP = (EntityPlayerMP) listener;
@@ -62,6 +64,9 @@ public abstract class ContainerMachine extends ContainerBase {
                 if (tierMeta != TIER) {
                     Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.TIER_ID, tierMeta), playerMP);
                 }
+                if (energyRate != ENERGY_RATE) {
+                    Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.ENERGY_RATE_ID, energyRate), playerMP);
+                }
             }
         }
         ENERGY_STORED = energyStored;
@@ -71,6 +76,7 @@ public abstract class ContainerMachine extends ContainerBase {
         PROGRESS = progress;
         RECIPE_ENERGY = recipeEnergy;
         TIER = tierMeta;
+        ENERGY_RATE = energyRate;
     }
 
     @Override
