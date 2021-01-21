@@ -1,5 +1,3 @@
-#PARSE_ESCAPES
-
 # Blocks
 tile.crimsonmechanization.blockBronze.name=Block of Bronze
 tile.crimsonmechanization.blockCopper.name=Block of Copper
@@ -111,6 +109,10 @@ item.crimsonmechanization.plateTin.name=Tin Plate
 item.crimsonmechanization.plateBronze.name=Bronze Plate
 item.crimsonmechanization.plateIridescent.name=Iridescent Plate
 
+item.crimsonmechanization.upgradeSpeed.name=Speed Upgrade
+item.crimsonmechanization.upgradeEfficiency.name=Efficiency Upgrade
+item.crimsonmechanization.upgradeLuck.name=Luck Upgrade
+
 # Containers
 container.crimsonmechanization.furnace.name=Forger
 container.crimsonmechanization.compactor.name=Condenser
@@ -127,6 +129,10 @@ category.crimsonmechanization.crusher=Shatterer
 message.crimsonmechanization.machine_tooltip=@9@lEnergy: %d
 message.crimsonmechanization.machine_energy=%d / %d
 message.crimsonmechanization.machine_energy_rate=Max RF/T: %d
+messages.crimsonmechanization.upgrade_efficiency=Power Usage x0.95
+messages.crimsonmechanization.upgrade_speed1=Machine Speed +50%%
+messages.crimsonmechanization.upgrade_speed2=Power Usage x1.30
+messages.crimsonmechanization.upgrade_luck=Not implemented
 
 # GUI Info
 info.crimsonmechanization.button_upgrade=Upgrades
