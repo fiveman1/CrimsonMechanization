@@ -52,8 +52,14 @@ public abstract class ContainerMachine extends ContainerBase {
                 if (energyStored != ENERGY_STORED) {
                     Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.ENERGY_ID, energyStored), playerMP);
                 }
-                if (capacity != CAPACITY || maxReceieve != MAX_RECEIVE || maxExtract != MAX_EXTRACT) {
-                    Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.ENERGY_STORAGE_ID, capacity, maxReceieve, maxExtract), playerMP);
+                if (capacity != CAPACITY) {
+                    Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.CAPACITY_ID, capacity), playerMP);
+                }
+                if (maxReceieve != MAX_RECEIVE) {
+                    Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.MAX_RECEIVE_ID, maxReceieve), playerMP);
+                }
+                if (maxExtract != MAX_EXTRACT) {
+                    Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.MAX_EXTRACT_ID, maxExtract), playerMP);
                 }
                 if (progress != PROGRESS) {
                     Messages.INSTANCE.sendTo(new PacketServerToClient(PacketServerToClient.PROGRESS_ID, progress), playerMP);

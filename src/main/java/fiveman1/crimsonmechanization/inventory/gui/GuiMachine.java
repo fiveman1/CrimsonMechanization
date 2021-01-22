@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiMachine extends GuiBase {
+public class GuiMachine extends GuiContainerBase {
 
     private final TileMachine te;
 
@@ -49,9 +49,8 @@ public class GuiMachine extends GuiBase {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        switch (button.id) {
-            case 0:
-                PacketUtil.sendButtonPacket(te, GuiHandler.UPGRADE_GUI_ID);
+        if (button.id == 0) {
+            PacketUtil.sendButtonPacket(te, GuiHandler.UPGRADE_GUI_ID);
         }
     }
 
