@@ -9,7 +9,9 @@ import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 
-public class GuiMachineUpgrades extends GuiBase {
+public class GuiMachineUpgrades extends GuiContainerBase {
+
+    // TODO: display the current machine speed increase and power mulitiplier
 
     private final ContainerMachineUpgrades container;
 
@@ -34,9 +36,8 @@ public class GuiMachineUpgrades extends GuiBase {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        switch (button.id) {
-            case 0:
-                PacketUtil.sendButtonPacket(container.getTileMachine(), 0);
+        if (button.id == 0) {
+            PacketUtil.sendButtonPacket(container.getTileMachine(), 0);
         }
     }
 }

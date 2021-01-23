@@ -14,14 +14,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.Hashtable;
 
 @SideOnly(Side.CLIENT)
-public class GuiBase extends GuiContainer {
+public class GuiContainerBase extends GuiContainer {
 
     protected final ResourceLocation background;
     protected final InventoryPlayer playerInventory;
     protected final String NAME;
     protected final Hashtable<Integer, String> tooltipHash = new Hashtable<>();
 
-    public GuiBase(Container container, InventoryPlayer playerInv, String name, int width, int height) {
+    public GuiContainerBase(Container container, InventoryPlayer playerInv, String name, int width, int height) {
         super(container);
         background = new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/" + name + ".png");
         playerInventory = playerInv;

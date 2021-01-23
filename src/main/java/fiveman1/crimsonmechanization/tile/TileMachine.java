@@ -2,6 +2,7 @@ package fiveman1.crimsonmechanization.tile;
 
 import fiveman1.crimsonmechanization.enums.EnumMachineTier;
 import fiveman1.crimsonmechanization.items.ModItems;
+import fiveman1.crimsonmechanization.network.PacketServerToClient;
 import fiveman1.crimsonmechanization.recipe.BaseEnergyRecipe;
 import fiveman1.crimsonmechanization.recipe.managers.IRecipeManager;
 import fiveman1.crimsonmechanization.util.CustomEnergyStorage;
@@ -26,14 +27,14 @@ import javax.annotation.Nullable;
 
 public abstract class TileMachine extends TileEntityBase implements ITickable {
 
-    public static final int PROGRESS_ID = 0;
-    public static final int ENERGY_ID = 1;
-    public static final int CAPACITY_ID = 2;
-    public static final int MAX_RECEIVE_ID = 3;
-    public static final int MAX_EXTRACT_ID = 4;
-    public static final int RECIPE_ENERGY_ID = 5;
-    public static final int TIER_ID = 6;
-    public static final int ENERGY_RATE_ID = 7;
+    public static final int PROGRESS_ID = PacketServerToClient.PROGRESS_ID;
+    public static final int ENERGY_ID = PacketServerToClient.ENERGY_ID;
+    public static final int CAPACITY_ID = PacketServerToClient.CAPACITY_ID;
+    public static final int MAX_RECEIVE_ID = PacketServerToClient.MAX_RECEIVE_ID;
+    public static final int MAX_EXTRACT_ID = PacketServerToClient.MAX_EXTRACT_ID;
+    public static final int RECIPE_ENERGY_ID = PacketServerToClient.RECIPE_ENERGY_ID;
+    public static final int TIER_ID = PacketServerToClient.TIER_ID;
+    public static final int ENERGY_RATE_ID = PacketServerToClient.ENERGY_RATE_ID;
 
     protected int tierMeta = 0;
 
@@ -338,53 +339,43 @@ public abstract class TileMachine extends TileEntityBase implements ITickable {
     }
 
     public int getField(int id) {
-        switch (id) {
-            case PROGRESS_ID:
-                return progress;
-            case ENERGY_ID:
-                return energyStorage.getEnergyStored();
-            case CAPACITY_ID:
-                return energyStorage.getCapacity();
-            case MAX_RECEIVE_ID:
-                return energyStorage.getMaxReceive();
-            case MAX_EXTRACT_ID:
-                return energyStorage.getMaxExtract();
-            case RECIPE_ENERGY_ID:
-                return recipeEnergy;
-            case TIER_ID:
-                return tierMeta;
-            case ENERGY_RATE_ID:
-                return ENERGY_RATE;
-            default:
-                return 0;
+        if (id == PROGRESS_ID) {
+            return progress;
+        } else if (id == ENERGY_ID) {
+            return energyStorage.getEnergyStored();
+        } else if (id == CAPACITY_ID) {
+            return energyStorage.getCapacity();
+        } else if (id == MAX_RECEIVE_ID) {
+            return energyStorage.getMaxReceive();
+        } else if (id == MAX_EXTRACT_ID) {
+            return energyStorage.getMaxExtract();
+        } else if (id == RECIPE_ENERGY_ID) {
+            return recipeEnergy;
+        } else if (id == ENERGY_RATE_ID) {
+            return ENERGY_RATE;
+        } else if (id == TIER_ID) {
+            return tierMeta;
         }
+        return 0;
     }
 
     public void setField(int id, int value) {
-        switch (id) {
-            case PROGRESS_ID:
-                progress = value;
-                break;
-            case ENERGY_ID:
-                energyStorage.setEnergy(value);
-                break;
-            case CAPACITY_ID:
-                energyStorage.setCapacity(value);
-                break;
-            case MAX_RECEIVE_ID:
-                energyStorage.setMaxReceive(value);
-                break;
-            case MAX_EXTRACT_ID:
-                energyStorage.setMaxExtract(value);
-                break;
-            case RECIPE_ENERGY_ID:
-                recipeEnergy = value;
-                break;
-            case TIER_ID:
-                tierMeta = value;
-                break;
-            case ENERGY_RATE_ID:
-                ENERGY_RATE = value;
+        if (id == PROGRESS_ID) {
+            progress = value;
+        } else if (id == ENERGY_ID) {
+            energyStorage.setEnergy(value);
+        } else if (id == CAPACITY_ID) {
+            energyStorage.setCapacity(value);
+        } else if (id == MAX_RECEIVE_ID) {
+            energyStorage.setMaxReceive(value);
+        } else if (id == MAX_EXTRACT_ID) {
+            energyStorage.setMaxExtract(value);
+        } else if (id == RECIPE_ENERGY_ID) {
+            recipeEnergy = value;
+        } else if (id == ENERGY_RATE_ID) {
+            ENERGY_RATE = value;
+        } else if (id == TIER_ID) {
+            tierMeta = value;
         }
     }
 }

@@ -1,7 +1,6 @@
 package fiveman1.crimsonmechanization.network;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
-import fiveman1.crimsonmechanization.tile.TileMachine;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -11,12 +10,19 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketServerToClient implements IMessage {
 
-    public static byte ENERGY_ID = 0;
-    public static byte ENERGY_STORAGE_ID = 1;
-    public static byte PROGRESS_ID = 2;
-    public static byte RECIPE_ENERGY_ID = 3;
-    public static byte TIER_ID = 4;
-    public static byte ENERGY_RATE_ID = 5;
+    private static byte id = 0;
+    private static byte nextID() {
+        return id++;
+    }
+
+    public static byte ENERGY_ID = nextID();
+    public static byte CAPACITY_ID = nextID();
+    public static byte MAX_RECEIVE_ID = nextID();
+    public static byte MAX_EXTRACT_ID = nextID();
+    public static byte PROGRESS_ID = nextID();
+    public static byte RECIPE_ENERGY_ID = nextID();
+    public static byte TIER_ID = nextID();
+    public static byte ENERGY_RATE_ID = nextID();
 
     private int[] args;
     private byte packetID;
@@ -61,20 +67,8 @@ public class PacketServerToClient implements IMessage {
         private void handle(PacketServerToClient message, MessageContext ctx) {
             EntityPlayer player = CrimsonMechanization.proxy.getClientPlayer();
             Container container = player.openContainer;
-            if (message.packetID == ENERGY_ID) {
-                container.updateProgressBar(TileMachine.ENERGY_ID, message.args[0]);
-            } else if (message.packetID == ENERGY_STORAGE_ID) {
-                container.updateProgressBar(TileMachine.CAPACITY_ID, message.args[0]);
-                container.updateProgressBar(TileMachine.MAX_RECEIVE_ID, message.args[1]);
-                container.updateProgressBar(TileMachine.MAX_EXTRACT_ID, message.args[2]);
-            } else if (message.packetID == PROGRESS_ID) {
-                container.updateProgressBar(TileMachine.PROGRESS_ID, message.args[0]);
-            } else if (message.packetID == RECIPE_ENERGY_ID) {
-                container.updateProgressBar(TileMachine.RECIPE_ENERGY_ID, message.args[0]);
-            } else if (message.packetID == TIER_ID) {
-                container.updateProgressBar(TileMachine.TIER_ID, message.args[0]);
-            } else if (message.packetID == ENERGY_RATE_ID) {
-                container.updateProgressBar(TileMachine.ENERGY_RATE_ID, message.args[0]);
+            if (message.packetID >= ENERGY_ID && message.packetID <= ENERGY_RATE_ID) {
+                container.updateProgressBar(message.packetID, message.args[0]);
             }
         }
     }
