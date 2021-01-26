@@ -1,6 +1,0 @@
-{
-  "parent": "crimsonmechanization:block/machine_refined",
-  "textures": {
-    "north": "crimsonmechanization:block/compactor_refined_on"
-  }
-}
