@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:plates/bronze",
+    "#forge:plates/copper",
+    "#forge:plates/crimson",
+    "#forge:plates/crimson_iron",
+    "#forge:plates/crimson_steel",
+    "#forge:plates/diamond",
+    "#forge:plates/emerald",
+    "#forge:plates/gold",
+    "#forge:plates/iridescent",
+    "#forge:plates/iron",
+    "#forge:plates/lapis",
+    "#forge:plates/tin"
+  ]
+}

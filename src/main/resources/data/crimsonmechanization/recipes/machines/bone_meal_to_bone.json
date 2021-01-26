@@ -1,0 +1,14 @@
+{
+  "type": "crimsonmechanization:compactor",
+  "input": [
+    {
+      "item": "minecraft:bone_meal",
+      "count": 16
+    }
+  ],
+  "output": [
+    {
+      "item": "minecraft:bone"
+    }
+  ]
+}

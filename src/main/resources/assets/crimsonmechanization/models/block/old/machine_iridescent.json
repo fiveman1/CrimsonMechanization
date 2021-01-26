@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "crimsonmechanization:blocks/machine_side_iridescent",
+    "down": "crimsonmechanization:blocks/machine_bottom_iridescent",
+    "up": "crimsonmechanization:blocks/machine_top_iridescent",
+    "east": "crimsonmechanization:blocks/machine_side_iridescent",
+    "west": "crimsonmechanization:blocks/machine_side_iridescent",
+    "north": "#front",
+    "south": "crimsonmechanization:blocks/machine_side_iridescent"
+  }
+}
