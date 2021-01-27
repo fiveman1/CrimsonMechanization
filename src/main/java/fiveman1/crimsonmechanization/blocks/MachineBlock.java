@@ -43,7 +43,7 @@ public abstract class MachineBlock extends Block {
         super(AbstractBlock.Properties.create(Material.ROCK)
             .harvestTool(ToolType.PICKAXE)
             .harvestLevel(0)
-            .hardnessAndResistance(3.0f, 5.0f)
+            .hardnessAndResistance(5.0f, 6.0f)
             .setLightLevel((state) -> state.get(ACTIVE) ? 12 : 0)
         );
         setRegistryName(CrimsonMechanization.MODID, machineName + "_" + tier.getName());

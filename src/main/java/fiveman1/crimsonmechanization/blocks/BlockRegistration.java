@@ -1,6 +1,9 @@
 package fiveman1.crimsonmechanization.blocks;
 
+import fiveman1.crimsonmechanization.blocks.materials.MaterialBlock;
+import fiveman1.crimsonmechanization.blocks.materials.StorageBlock;
 import fiveman1.crimsonmechanization.datagen.BlockStates;
+import fiveman1.crimsonmechanization.enums.BaseMaterial;
 import fiveman1.crimsonmechanization.enums.MachineTier;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
@@ -18,28 +21,51 @@ import java.util.List;
 
 public class BlockRegistration {
 
-    public static final List<MachineBlock> MACHINES = new ArrayList<>();
     public static final List<Item> BLOCK_ITEMS = new ArrayList<>();
+    public static final List<MaterialBlock> MATERIAL_BLOCKS = new ArrayList<>();
+    public static final List<MachineBlock> MACHINES = new ArrayList<>();
 
-    public static CompactorMachineBlock compactorMachineBlockCrimson;
-    public static CompactorMachineBlock compactorMachineBlockRefined;
-    public static CompactorMachineBlock compactorMachineBlockIridescent;
+    public static CompactorMachineBlock compactorCrimson;
+    public static CompactorMachineBlock compactorRefined;
+    public static CompactorMachineBlock compactorIridescent;
+
+    public static StorageBlock blockCrimson;
+    public static StorageBlock blockCrimsonIron;
+    public static StorageBlock blockCrimsonSteel;
+    public static StorageBlock blockBronze;
+    public static StorageBlock blockCopper;
+    public static StorageBlock blockTin;
+    public static StorageBlock blockIridescent;
 
     public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
         IForgeRegistry<Block> registry = blockRegistryEvent.getRegistry();
 
-        compactorMachineBlockCrimson = new CompactorMachineBlock(MachineTier.CRIMSON);
-        compactorMachineBlockRefined = new CompactorMachineBlock(MachineTier.REFINED);
-        compactorMachineBlockIridescent = new CompactorMachineBlock(MachineTier.IRIDESCENT);
-        registerMachines(registry, compactorMachineBlockCrimson, compactorMachineBlockRefined, compactorMachineBlockIridescent);
+        // Machines
+        compactorCrimson = new CompactorMachineBlock(MachineTier.CRIMSON);
+        compactorRefined = new CompactorMachineBlock(MachineTier.REFINED);
+        compactorIridescent = new CompactorMachineBlock(MachineTier.IRIDESCENT);
+        registerMachines(registry, compactorCrimson, compactorRefined, compactorIridescent);
+
+        // Materials
+        blockCrimson = new StorageBlock(BaseMaterial.CRIMSON);
+        blockCrimsonIron = new StorageBlock(BaseMaterial.CRIMSON_IRON);
+        blockCrimsonSteel = new StorageBlock(BaseMaterial.CRIMSON_STEEL);
+        blockBronze = new StorageBlock(BaseMaterial.BRONZE);
+        blockCopper = new StorageBlock(BaseMaterial.COPPER);
+        blockTin = new StorageBlock(BaseMaterial.TIN);
+        blockIridescent = new StorageBlock(BaseMaterial.IRIDESCENT);
+        registerMaterials(registry, blockCrimson, blockCrimsonIron, blockCrimsonSteel, blockBronze, blockCopper, blockTin, blockIridescent);
 
     }
 
     private static void registerMachines(IForgeRegistry<Block> registry, MachineBlock... blocks) {
         registry.registerAll(blocks);
-        List<MachineBlock> blockList = Arrays.asList(blocks);
-        MACHINES.addAll(blockList);
-        BlockStates.machineBlocks.addAll(blockList);
+        MACHINES.addAll(Arrays.asList(blocks));
+    }
+
+    private static void registerMaterials(IForgeRegistry<Block> registry, MaterialBlock... blocks) {
+        registry.registerAll(blocks);
+        MATERIAL_BLOCKS.addAll(Arrays.asList(blocks));
     }
 
     public static void onItemsRegistration(final RegistryEvent.Register<Item> itemRegistryEvent) {
@@ -48,6 +74,12 @@ public class BlockRegistration {
 
         for (MachineBlock machineBlock : MACHINES) {
             Item blockItem = getBlockItem(machineBlock, defaultProperty);
+            BLOCK_ITEMS.add(blockItem);
+            registry.register(blockItem);
+        }
+
+        for (MaterialBlock materialBlock : MATERIAL_BLOCKS) {
+            Item blockItem = materialBlock.getBlockItem(defaultProperty);
             BLOCK_ITEMS.add(blockItem);
             registry.register(blockItem);
         }

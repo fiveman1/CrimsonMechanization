@@ -25,6 +25,9 @@ public class ModBlockLootTables extends BlockLootTables {
         for (Block block : BlockRegistration.MACHINES) {
             registerLootTable(block, this::machineLootTable);
         }
+        for (Block block : BlockRegistration.MATERIAL_BLOCKS) {
+            registerLootTable(block, this::simpleLootTable);
+        }
     }
 
     private LootTable.Builder machineLootTable(Block block) {
@@ -34,6 +37,14 @@ public class ModBlockLootTables extends BlockLootTables {
                 .addEntry(ItemLootEntry.builder(block))
                 .acceptFunction(CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY)
                         .addOperation("energy", "BlockEntityTag.energy", CopyNbt.Action.REPLACE));
+        return LootTable.builder().addLootPool(builder);
+    }
+
+    private LootTable.Builder simpleLootTable(Block block) {
+        LootPool.Builder builder = LootPool.builder()
+                .name(block.getRegistryName().toString())
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(block));
         return LootTable.builder().addLootPool(builder);
     }
 

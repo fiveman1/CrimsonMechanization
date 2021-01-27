@@ -17,8 +17,8 @@ public class TileRegistration {
     public static void registerTE(RegistryEvent.Register<TileEntityType<?>> event) {
         registry = event.getRegistry();
 
-        compactorTileType = register(CompactorTile::new, BlockRegistration.compactorMachineBlockCrimson, BlockRegistration.compactorMachineBlockRefined,
-                BlockRegistration.compactorMachineBlockIridescent);
+        compactorTileType = register(CompactorTile::new, BlockRegistration.compactorCrimson, BlockRegistration.compactorRefined,
+                BlockRegistration.compactorIridescent);
     }
 
     private static <T extends TileEntity> TileEntityType<T> register(Supplier<T> factoryIn, Block... validBlocks) {

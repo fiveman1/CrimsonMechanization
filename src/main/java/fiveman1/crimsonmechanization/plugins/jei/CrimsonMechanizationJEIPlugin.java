@@ -44,7 +44,7 @@ public class CrimsonMechanizationJEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(BlockRegistration.compactorMachineBlockCrimson), RecipeTypeRegistration.COMPACTOR_RECIPE_ID);
+        registration.addRecipeCatalyst(new ItemStack(BlockRegistration.compactorCrimson), RecipeTypeRegistration.COMPACTOR_RECIPE_ID);
     }
 
     @Override

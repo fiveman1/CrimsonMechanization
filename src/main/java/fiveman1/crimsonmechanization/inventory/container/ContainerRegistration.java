@@ -27,7 +27,7 @@ public class ContainerRegistration {
             return null;
         });
 
-        compactorContainer.setRegistryName(BlockRegistration.compactorMachineBlockCrimson.getRegistryName());
+        compactorContainer.setRegistryName(BlockRegistration.compactorCrimson.getRegistryName());
         registry.register(compactorContainer);
     }
 }

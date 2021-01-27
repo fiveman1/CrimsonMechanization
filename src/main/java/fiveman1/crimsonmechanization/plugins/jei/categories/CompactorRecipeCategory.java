@@ -15,7 +15,6 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -32,7 +31,7 @@ public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecip
         background = guiHelper.createDrawable(location, 38 ,22, 106, 39);
         IDrawableStatic arrow = guiHelper.createDrawable(location, 176, 0, 23, 16);
         progressBar = guiHelper.createAnimatedDrawable(arrow, 80, IDrawableAnimated.StartDirection.LEFT, false);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockRegistration.compactorMachineBlockCrimson));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockRegistration.compactorCrimson));
     }
 
     @Override

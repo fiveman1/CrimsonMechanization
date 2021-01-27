@@ -1,11 +1,11 @@
 {
-  "tile.crimsonmechanization.block_Bronze": "Block of Bronze",
-  "tile.crimsonmechanization.block_Copper": "Block of Copper",
-  "tile.crimsonmechanization.block_Crimson": "Block of Crimson",
-  "tile.crimsonmechanization.block_CrimsonIron": "Block of Crimson Iron",
-  "tile.crimsonmechanization.block_CrimsonSteel": "Block of Crimson Steel",
-  "tile.crimsonmechanization.block_Tin": "Block of Tin",
-  "tile.crimsonmechanization.block_Iridescent": "Block of Iridescent Crystals",
+  "block.crimsonmechanization.block_bronze": "Block of Bronze",
+  "block.crimsonmechanization.block_copper": "Block of Copper",
+  "block.crimsonmechanization.block_crimson": "Block of Crimson",
+  "block.crimsonmechanization.block_crimson_iron": "Block of Crimson Iron",
+  "block.crimsonmechanization.block_crimson_steel": "Block of Crimson Steel",
+  "block.crimsonmechanization.block_tin": "Block of Tin",
+  "block.crimsonmechanization.block_iridescent": "Block of Iridescence",
 
   "tile.crimsonmechanization.bart_block": "John Blockman",
   "tile.crimsonmechanization.compactorCrimson": "Crimson Condenser",
@@ -113,9 +113,9 @@
   "item.crimsonmechanization.plate_bronze": "Bronze Plate",
   "item.crimsonmechanization.plate_iridescent": "Iridescent Plate",
 
-  "item.crimsonmechanization.upgradeSpeed.name": "Speed Upgrade",
-  "item.crimsonmechanization.upgradeEfficiency.name": "Efficiency Upgrade",
-  "item.crimsonmechanization.upgradeLuck.name": "Luck Upgrade",
+  "item.crimsonmechanization.upgrade_speed.name": "Speed Upgrade",
+  "item.crimsonmechanization.upgrade_efficiency.name": "Efficiency Upgrade",
+  "item.crimsonmechanization.upgrade_luck.name": "Luck Upgrade",
 
   "container.crimsonmechanization.furnace": "Forger",
   "container.crimsonmechanization.compactor": "Condenser",
@@ -128,7 +128,7 @@
   "category.crimsonmechanization.crusher": "Shatterer",
 
   "info.crimsonmechanization.machine_tooltip": "Energy:",
-  "info.crimsonmechanization.machine_energy": "%d / %d",
+  "info.crimsonmechanization.machine_energy": "%d / %d RF",
   "info.crimsonmechanization.machine_energy_rate": "Usage: %d RF/T",
   "info.crimsonmechanization.upgrade_efficiency": "Power Usage x0.95",
   "info.crimsonmechanization.upgrade_speed1": "Machine Speed +50%%",

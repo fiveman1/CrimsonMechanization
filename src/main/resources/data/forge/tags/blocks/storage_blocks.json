@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "crimsonmechanization:block_crimson",
+    "crimsonmechanization:block_crimson_iron",
+    "crimsonmechanization:block_crimson_steel",
+    "crimsonmechanization:block_bronze",
+    "crimsonmechanization:block_copper",
+    "crimsonmechanization:block_tin",
+    "crimsonmechanization:block_iridescent"
+  ]
+}
