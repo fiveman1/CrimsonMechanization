@@ -21,9 +21,10 @@ build
 eclipse
 run
 logs
-src/generated
 CREDITS.txt
 LICENSE.txt
 
 # Files from Forge MDK
 forge*changelog.txt
+/src/generated/
+/src/generated/resources/.cache/

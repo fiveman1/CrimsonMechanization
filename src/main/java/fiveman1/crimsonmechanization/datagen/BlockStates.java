@@ -10,7 +10,13 @@ import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+
 public class BlockStates extends BlockStateProvider {
+
+    public static final List<MachineBlock> machineBlocks = new ArrayList<>();
 
     public BlockStates(DataGenerator gen, ExistingFileHelper fileHelper) {
         super(gen, CrimsonMechanization.MODID, fileHelper);
@@ -19,7 +25,7 @@ public class BlockStates extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         registerMachineBases();
-        registerMachines(BlockRegistration.compactorMachineBlockCrimson, BlockRegistration.compactorMachineBlockRefined, BlockRegistration.compactorMachineBlockIridescent);
+        registerMachines(machineBlocks.toArray(new MachineBlock[0]));
     }
 
     private void registerMachineBases() {
@@ -39,7 +45,7 @@ public class BlockStates extends BlockStateProvider {
 
     private void registerMachines(MachineBlock... blocks) {
         for (MachineBlock block : blocks) {
-            String name = block.getMachineName();
+            String name = block.getRegistryName().getPath();
             ResourceLocation textureOff = new ResourceLocation(CrimsonMechanization.MODID, "block/" + name + "_off");
             ResourceLocation textureOn = new ResourceLocation(CrimsonMechanization.MODID, "block/" + name + "_on");
             ResourceLocation parent = new ResourceLocation(CrimsonMechanization.MODID, "machine_" + block.getTier().getName());
@@ -47,5 +53,11 @@ public class BlockStates extends BlockStateProvider {
             BlockModelBuilder modelOn = models().withExistingParent(name + "_active", parent).texture("north", textureOn);
             horizontalBlock(block, state -> state.get(MachineBlock.ACTIVE) ? modelOn : modelOff);
         }
+    }
+
+    @Nonnull
+    @Override
+    public String getName() {
+        return "Crimson Mechanization Block States";
     }
 }

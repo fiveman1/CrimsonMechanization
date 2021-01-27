@@ -1,5 +1,6 @@
 package fiveman1.crimsonmechanization.blocks;
 
+import fiveman1.crimsonmechanization.datagen.BlockStates;
 import fiveman1.crimsonmechanization.enums.MachineTier;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
@@ -21,7 +22,7 @@ public class BlockRegistration {
     public static CompactorMachineBlock compactorMachineBlockRefined;
     public static CompactorMachineBlock compactorMachineBlockIridescent;
 
-    private static final List<MachineBlock> machines = new ArrayList<>();
+    public static final List<MachineBlock> machines = new ArrayList<>();
     public static final List<Item> blockItems = new ArrayList<>();
 
     public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
@@ -36,7 +37,9 @@ public class BlockRegistration {
 
     private static void registerMachines(IForgeRegistry<Block> registry, MachineBlock... blocks) {
         registry.registerAll(blocks);
-        machines.addAll(Arrays.asList(blocks));
+        List<MachineBlock> blockList = Arrays.asList(blocks);
+        machines.addAll(blockList);
+        BlockStates.machineBlocks.addAll(blockList);
     }
 
     public static void onItemsRegistration(final RegistryEvent.Register<Item> itemRegistryEvent) {

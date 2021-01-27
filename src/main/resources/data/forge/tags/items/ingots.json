@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "#forge:ingots/bronze",
-    "#forge:ingots/copper",
-    "#forge:ingots/crimson_iron",
-    "#forge:ingots/crimson_steel",
-    "#forge:ingots/tin"
+    "crimsonmechanization:ingot_crimson_iron",
+    "crimsonmechanization:ingot_crimson_steel",
+    "crimsonmechanization:ingot_copper",
+    "crimsonmechanization:ingot_tin",
+    "crimsonmechanization:ingot_bronze"
   ]
 }

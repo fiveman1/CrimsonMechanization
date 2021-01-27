@@ -8,6 +8,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
+import javax.annotation.Nonnull;
+
 public class Items extends ItemModelProvider {
     public Items(DataGenerator generator, ExistingFileHelper existingFileHelper) {
         super(generator, CrimsonMechanization.MODID, existingFileHelper);
@@ -18,5 +20,11 @@ public class Items extends ItemModelProvider {
         for (Item blockItem : BlockRegistration.blockItems) {
             withExistingParent(blockItem.getRegistryName().getPath(), new ResourceLocation(CrimsonMechanization.MODID, "block/" + blockItem.getRegistryName().getPath()));
         }
+    }
+
+    @Nonnull
+    @Override
+    public String getName() {
+        return "Crimson Mechanization Items";
     }
 }

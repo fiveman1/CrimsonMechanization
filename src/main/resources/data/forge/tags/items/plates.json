@@ -1,17 +1,17 @@
 {
   "replace": false,
   "values": [
-    "#forge:plates/bronze",
-    "#forge:plates/copper",
-    "#forge:plates/crimson",
-    "#forge:plates/crimson_iron",
-    "#forge:plates/crimson_steel",
-    "#forge:plates/diamond",
-    "#forge:plates/emerald",
-    "#forge:plates/gold",
-    "#forge:plates/iridescent",
-    "#forge:plates/iron",
-    "#forge:plates/lapis",
-    "#forge:plates/tin"
+    "crimsonmechanization:plate_iron",
+    "crimsonmechanization:plate_gold",
+    "crimsonmechanization:plate_diamond",
+    "crimsonmechanization:plate_emerald",
+    "crimsonmechanization:plate_lapis",
+    "crimsonmechanization:plate_crimson",
+    "crimsonmechanization:plate_crimson_iron",
+    "crimsonmechanization:plate_crimson_steel",
+    "crimsonmechanization:plate_iridescent",
+    "crimsonmechanization:plate_copper",
+    "crimsonmechanization:plate_tin",
+    "crimsonmechanization:plate_bronze"
   ]
 }

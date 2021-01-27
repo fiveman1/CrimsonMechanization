@@ -24,6 +24,8 @@ import javax.annotation.Nullable;
 
 public class CompactorMachineBlock extends MachineBlock {
 
+    public static String NAME = "compactor";
+
     public CompactorMachineBlock(MachineTier tier) {
         super("compactor", tier);
     }

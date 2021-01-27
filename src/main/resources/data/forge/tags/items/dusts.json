@@ -1,18 +1,18 @@
 {
   "replace": false,
   "values": [
-    "#forge:dusts/bronze",
-    "#forge:dusts/coal",
-    "#forge:dusts/copper",
-    "#forge:dusts/crimson",
-    "#forge:dusts/crimson_iron",
-    "#forge:dusts/crimson_steel",
-    "#forge:dusts/diamond",
-    "#forge:dusts/emerald",
-    "#forge:dusts/gold",
-    "#forge:dusts/iridescent",
-    "#forge:dusts/iron",
-    "#forge:dusts/lapis",
-    "#forge:dusts/tin"
+    "crimsonmechanization:dust_iron",
+    "crimsonmechanization:dust_gold",
+    "crimsonmechanization:dust_diamond",
+    "crimsonmechanization:dust_emerald",
+    "crimsonmechanization:dust_lapis",
+    "crimsonmechanization:dust_coal",
+    "crimsonmechanization:dust_crimson",
+    "crimsonmechanization:dust_crimson_iron",
+    "crimsonmechanization:dust_crimson_steel",
+    "crimsonmechanization:dust_iridescent",
+    "crimsonmechanization:dust_copper",
+    "crimsonmechanization:dust_tin",
+    "crimsonmechanization:dust_bronze"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:gems/crimson",
-    "#forge:gems/iridescent"
+    "crimsonmechanization:gem_crimson",
+    "crimsonmechanization:gem_iridescent"
   ]
 }

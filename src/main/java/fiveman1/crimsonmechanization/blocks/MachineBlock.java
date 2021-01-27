@@ -1,6 +1,7 @@
 package fiveman1.crimsonmechanization.blocks;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.datagen.BlockStates;
 import fiveman1.crimsonmechanization.enums.MachineTier;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -41,7 +42,7 @@ public abstract class MachineBlock extends Block {
             .with(ACTIVE, false)
         );
         this.tier = tier;
-        this.machineName = machineName + "_" + tier.getName();
+        this.machineName = machineName;
     }
 
     public String getMachineName() {
