@@ -6,6 +6,7 @@ import fiveman1.crimsonmechanization.blocks.BlockRegistration;
 import fiveman1.crimsonmechanization.blocks.CompactorMachineBlock;
 import fiveman1.crimsonmechanization.recipe.RecipeTypeRegistration;
 import fiveman1.crimsonmechanization.recipe.internal.BaseMachineRecipe;
+import fiveman1.crimsonmechanization.util.ColorUtil;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -15,9 +16,11 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
 public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecipe> {
 
@@ -52,6 +55,7 @@ public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecip
     @Override
     public void draw(BaseMachineRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
         progressBar.draw(matrixStack, 37, 13);
+        Minecraft.getInstance().fontRenderer.drawString(matrixStack, I18n.format("info.crimsonmechanization.recipe_energy", recipe.getEnergy()), 0, 0, ColorUtil.GREY);
     }
 
     @Override

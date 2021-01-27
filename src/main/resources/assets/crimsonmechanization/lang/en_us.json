@@ -135,5 +135,6 @@
   "info.crimsonmechanization.upgrade_speed2": "Power Usage x1.30",
   "info.crimsonmechanization.upgrade_luck": "Not implemented",
   "info.crimsonmechanization.button_upgrade": "Upgrades",
-  "info.crimsonmechanization.button_back": "Go back"
+  "info.crimsonmechanization.button_back": "Go back",
+  "info.crimsonmechanization.recipe_energy": "%d RF"
 }
