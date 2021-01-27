@@ -1,5 +1,7 @@
 package fiveman1.crimsonmechanization.recipe.internal;
 
+import fiveman1.crimsonmechanization.recipe.comparables.ComparableStack;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 
@@ -11,6 +13,7 @@ public class BaseMachineRecipe implements Comparable<BaseMachineRecipe> {
     protected final List<Ingredient> inputItems = new ArrayList<>();
     protected final List<ItemStack> outputItems = new ArrayList<>();
     protected final List<Integer> outputChances = new ArrayList<>();
+    protected final Object2IntOpenHashMap<ComparableStack> inputToCount = new Object2IntOpenHashMap<>();
 
     protected final int energy;
 
@@ -19,6 +22,11 @@ public class BaseMachineRecipe implements Comparable<BaseMachineRecipe> {
         this.outputItems.addAll(outputItems);
         this.outputChances.addAll(outputChances);
         this.energy = energy;
+        for (Ingredient ingredient : inputItems) {
+            for (ItemStack stack : ingredient.getMatchingStacks()) {
+                inputToCount.put(new ComparableStack(stack), stack.getCount());
+            }
+        }
     }
 
     public List<Ingredient> getInputItems() {
@@ -38,12 +46,7 @@ public class BaseMachineRecipe implements Comparable<BaseMachineRecipe> {
     }
 
     public int getInputCount(ItemStack itemStack) {
-        for (Ingredient ingredient : inputItems) {
-            if (ingredient.test(itemStack)) {
-                return ingredient.getMatchingStacks()[0].getCount();
-            }
-        }
-        return -1;
+        return inputToCount.getInt(new ComparableStack(itemStack));
     }
 
     @Override

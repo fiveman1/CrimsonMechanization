@@ -1,4 +1,4 @@
-package fiveman1.crimsonmechanization.recipe.managers;
+package fiveman1.crimsonmechanization.recipe.managers.old;
 
 import net.minecraft.item.crafting.Ingredient;
 
@@ -10,13 +10,20 @@ public class ComparableIngredientList {
     private final List<ComparableIngredient> ingredientList;
     private final int hashCode;
 
-    public ComparableIngredientList(List<Ingredient> ingredients) {
-        ingredientList = new ArrayList<>(ingredients.size());
-        int hash = 0;
+    public static ComparableIngredientList fromIngredients(List<Ingredient> ingredients) {
+        List<ComparableIngredient> convertedList = new ArrayList<>(ingredients.size());
         for (Ingredient ingredient : ingredients) {
             ComparableIngredient converted = new ComparableIngredient(ingredient);
-            ingredientList.add(converted);
-            hash += converted.hashCode();
+            convertedList.add(converted);
+        }
+        return new ComparableIngredientList(convertedList);
+    }
+
+    public ComparableIngredientList(List<ComparableIngredient> ingredients) {
+        ingredientList = ingredients;
+        int hash = 0;
+        for (ComparableIngredient ingredient : ingredients) {
+            hash += ingredient.hashCode();
         }
         hashCode = hash;
     }

@@ -1,8 +1,7 @@
 package fiveman1.crimsonmechanization.recipe.managers;
 
-import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.recipe.*;
-import fiveman1.crimsonmechanization.recipe.internal.BaseMachineRecipe;
+import fiveman1.crimsonmechanization.recipe.managers.old.AbstractRecipeManagerOld;
 import fiveman1.crimsonmechanization.util.TagUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,6 +30,11 @@ public class CompactorRecipeManager extends AbstractRecipeManager {
             addRecipe(recipe.getInputItems(), recipe.getOutputItems(), recipe.getOutputChances(), recipe.getEnergy());
         }
         generateRecipes();
+    }
+
+    @Override
+    public String getName() {
+        return "Compactor Recipes";
     }
 
     private static void generateRecipes() {

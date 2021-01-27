@@ -1,4 +1,4 @@
-package fiveman1.crimsonmechanization.recipe.managers;
+package fiveman1.crimsonmechanization.recipe.managers.old;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

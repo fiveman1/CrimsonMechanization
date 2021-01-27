@@ -39,7 +39,8 @@ public class BlockStates extends BlockStateProvider {
                     .texture("up", top)
                     .texture("south", side)
                     .texture("east", side)
-                    .texture("west", side);
+                    .texture("west", side)
+                    .texture("particle", side);
         }
     }
 

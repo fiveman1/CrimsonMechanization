@@ -6,6 +6,10 @@ import fiveman1.crimsonmechanization.recipe.managers.IRecipeManager;
 
 public class CompactorTile extends AbstractMachineTile {
 
+    public static final int INPUT_SLOTS = 1;
+    public static final int OUTPUT_SLOTS = 1;
+    public static final int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
+
     public CompactorTile() {
         super(TileRegistration.compactorTileType);
     }
@@ -16,12 +20,12 @@ public class CompactorTile extends AbstractMachineTile {
 
     @Override
     public int getInputSlots() {
-        return 1;
+        return INPUT_SLOTS;
     }
 
     @Override
     public int getOutputSlots() {
-        return 1;
+        return OUTPUT_SLOTS;
     }
 
     @Override

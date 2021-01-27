@@ -32,7 +32,7 @@ public class ModBlockLootTables extends BlockLootTables {
                 .name(block.getRegistryName().toString())
                 .rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(block))
-                    .acceptFunction(CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY)
+                .acceptFunction(CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY)
                         .addOperation("energy", "BlockEntityTag.energy", CopyNbt.Action.REPLACE));
         return LootTable.builder().addLootPool(builder);
     }
