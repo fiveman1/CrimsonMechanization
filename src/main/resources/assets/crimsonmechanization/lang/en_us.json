@@ -127,14 +127,13 @@
   "category.crimsonmechanization.alloyer": "Alloyer",
   "category.crimsonmechanization.crusher": "Shatterer",
 
-  "message.crimsonmechanization.machine_tooltip": "@9@lEnergy: %d",
-  "message.crimsonmechanization.machine_energy": "%d / %d",
-  "message.crimsonmechanization.machine_energy_rate": "Usage: %d RF/T",
-  "messages.crimsonmechanization.upgrade_efficiency": "Power Usage x0.95",
-  "messages.crimsonmechanization.upgrade_speed1": "Machine Speed +50%%",
-  "messages.crimsonmechanization.upgrade_speed2": "Power Usage x1.30",
-  "messages.crimsonmechanization.upgrade_luck": "Not implemented",
-
+  "info.crimsonmechanization.machine_tooltip": "Energy:",
+  "info.crimsonmechanization.machine_energy": "%d / %d",
+  "info.crimsonmechanization.machine_energy_rate": "Usage: %d RF/T",
+  "info.crimsonmechanization.upgrade_efficiency": "Power Usage x0.95",
+  "info.crimsonmechanization.upgrade_speed1": "Machine Speed +50%%",
+  "info.crimsonmechanization.upgrade_speed2": "Power Usage x1.30",
+  "info.crimsonmechanization.upgrade_luck": "Not implemented",
   "info.crimsonmechanization.button_upgrade": "Upgrades",
   "info.crimsonmechanization.button_back": "Go back"
 }

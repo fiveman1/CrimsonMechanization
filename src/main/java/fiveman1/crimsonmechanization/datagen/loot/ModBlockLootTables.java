@@ -22,7 +22,7 @@ public class ModBlockLootTables extends BlockLootTables {
 
     @Override
     protected void addTables() {
-        for (Block block : BlockRegistration.machines) {
+        for (Block block : BlockRegistration.MACHINES) {
             registerLootTable(block, this::machineLootTable);
         }
     }

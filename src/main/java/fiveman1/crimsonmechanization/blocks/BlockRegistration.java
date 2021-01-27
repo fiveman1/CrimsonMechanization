@@ -18,12 +18,12 @@ import java.util.List;
 
 public class BlockRegistration {
 
+    public static final List<MachineBlock> MACHINES = new ArrayList<>();
+    public static final List<Item> BLOCK_ITEMS = new ArrayList<>();
+
     public static CompactorMachineBlock compactorMachineBlockCrimson;
     public static CompactorMachineBlock compactorMachineBlockRefined;
     public static CompactorMachineBlock compactorMachineBlockIridescent;
-
-    public static final List<MachineBlock> machines = new ArrayList<>();
-    public static final List<Item> blockItems = new ArrayList<>();
 
     public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
         IForgeRegistry<Block> registry = blockRegistryEvent.getRegistry();
@@ -38,7 +38,7 @@ public class BlockRegistration {
     private static void registerMachines(IForgeRegistry<Block> registry, MachineBlock... blocks) {
         registry.registerAll(blocks);
         List<MachineBlock> blockList = Arrays.asList(blocks);
-        machines.addAll(blockList);
+        MACHINES.addAll(blockList);
         BlockStates.machineBlocks.addAll(blockList);
     }
 
@@ -46,15 +46,15 @@ public class BlockRegistration {
         IForgeRegistry<Item> registry = itemRegistryEvent.getRegistry();
         Item.Properties defaultProperty = new Item.Properties().group(ItemGroup.MISC);
 
-        for (MachineBlock machineBlock : machines) {
+        for (MachineBlock machineBlock : MACHINES) {
             Item blockItem = getBlockItem(machineBlock, defaultProperty);
-            blockItems.add(blockItem);
+            BLOCK_ITEMS.add(blockItem);
             registry.register(blockItem);
         }
     }
 
     public static void onClientSetup(FMLClientSetupEvent event) {
-        for (MachineBlock machineBlock : machines) {
+        for (MachineBlock machineBlock : MACHINES) {
             RenderTypeLookup.setRenderLayer(machineBlock, RenderType.getSolid());
         }
     }

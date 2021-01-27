@@ -12,9 +12,14 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class ItemRegistration {
+
+    public static List<Item> ITEMS = new ArrayList<>();
 
     public static DustItem dustIron;
     public static DustItem dustGold;
@@ -70,14 +75,14 @@ public class ItemRegistration {
         dustTin = new DustItem(BaseMaterial.TIN);
         dustBronze = new DustItem(BaseMaterial.BRONZE);
 
-        registry.registerAll(dustIron, dustGold, dustDiamond, dustEmerald, dustLapis, dustCoal, dustCrimson,
+        registerItems(registry, dustIron, dustGold, dustDiamond, dustEmerald, dustLapis, dustCoal, dustCrimson,
                 dustCrimsonIron, dustCrimsonSteel, dustIridescent, dustCopper, dustTin, dustBronze);
 
         // GEMS
         gemCrimson = new GemItem(BaseMaterial.CRIMSON);
         gemIridescent = new GemItem(BaseMaterial.IRIDESCENT);
 
-        registry.registerAll(gemCrimson, gemIridescent);
+        registerItems(registry, gemCrimson, gemIridescent);
 
         // INGOTS
         ingotCrimsonIron = new IngotItem(BaseMaterial.CRIMSON_IRON);
@@ -86,7 +91,7 @@ public class ItemRegistration {
         ingotTin = new IngotItem(BaseMaterial.TIN);
         ingotBronze = new IngotItem(BaseMaterial.BRONZE);
 
-        registry.registerAll(ingotCrimsonIron, ingotCrimsonSteel, ingotCopper, ingotTin, ingotBronze);
+        registerItems(registry, ingotCrimsonIron, ingotCrimsonSteel, ingotCopper, ingotTin, ingotBronze);
 
         // PLATES
         plateIron = new PlateItem(BaseMaterial.IRON);
@@ -102,8 +107,13 @@ public class ItemRegistration {
         plateTin = new PlateItem(BaseMaterial.TIN);
         plateBronze = new PlateItem(BaseMaterial.BRONZE);
 
-        registry.registerAll(plateIron, plateGold, plateDiamond, plateEmerald, plateLapis, plateCrimson,
+        registerItems(registry, plateIron, plateGold, plateDiamond, plateEmerald, plateLapis, plateCrimson,
                 plateCrimsonIron, plateCrimsonSteel, plateIridescent, plateCopper, plateTin, plateBronze);
 
+    }
+
+    private static void registerItems(IForgeRegistry<Item> registry, Item... items) {
+        ITEMS.addAll(Arrays.asList(items));
+        registry.registerAll(items);
     }
 }

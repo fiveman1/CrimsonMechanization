@@ -18,9 +18,8 @@ public class CompactorContainer extends MachineContainer {
 
     @Override
     protected void addSlots() {
-        AtomicReference<IItemHandler> itemHandler = new AtomicReference<>();
-        machineTile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(itemHandler::set);
-        addSlot(new SlotItemHandler(itemHandler.get(), 0, 46, 34));
-        addSlot(new SlotOutput(itemHandler.get(), 1, 116, 34));
+        IItemHandler itemHandler = machineTile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
+        addSlot(new SlotItemHandler(itemHandler, 0, 46, 34));
+        addSlot(new SlotOutput(itemHandler, 1, 116, 34));
     }
 }

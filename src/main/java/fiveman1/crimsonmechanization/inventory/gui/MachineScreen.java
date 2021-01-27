@@ -36,8 +36,8 @@ public class MachineScreen<T extends MachineContainer> extends ContainerScreenBa
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         if (isMouseOverEnergyBar(mouseX, mouseY)) {
             List<TranslationTextComponent> lines = new ArrayList<>();
-            lines.add(new TranslationTextComponent("message.crimsonmechanization.machine_energy", te.getField(PacketServerToClient.ENERGY_ID), te.getField(PacketServerToClient.CAPACITY_ID)));
-            lines.add(new TranslationTextComponent("message.crimsonmechanization.machine_energy_rate", te.getField(PacketServerToClient.ENERGY_RATE_ID)));
+            lines.add(new TranslationTextComponent("info.crimsonmechanization.machine_energy", te.getField(PacketServerToClient.ENERGY_ID), te.getField(PacketServerToClient.CAPACITY_ID)));
+            lines.add(new TranslationTextComponent("info.crimsonmechanization.machine_energy_rate", te.getField(PacketServerToClient.ENERGY_RATE_ID)));
             GuiUtils.drawHoveringText(matrixStack, lines, mouseX, mouseY, width, height, -1, GuiUtils.DEFAULT_BACKGROUND_COLOR, Color.white.getRGB(), Color.cyan.getRGB(), font);
 
         }
