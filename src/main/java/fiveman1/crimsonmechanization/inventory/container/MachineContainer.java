@@ -3,6 +3,7 @@ package fiveman1.crimsonmechanization.inventory.container;
 import fiveman1.crimsonmechanization.network.PacketHandler;
 import fiveman1.crimsonmechanization.network.PacketServerToClient;
 import fiveman1.crimsonmechanization.tile.AbstractMachineTile;
+import fiveman1.crimsonmechanization.util.PacketUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -21,6 +22,7 @@ public abstract class MachineContainer extends AbstractBaseContainer {
     protected int RECIPE_ENERGY = -1;
     protected int PROGRESS = -1;
     protected int ENERGY_RATE = -1;
+    protected int TIER = -1;
 
     public final AbstractMachineTile machineTile;
 
@@ -42,8 +44,15 @@ public abstract class MachineContainer extends AbstractBaseContainer {
         machineTile.setField(id, data);
     }
 
+    public AbstractMachineTile getMachine() {
+        return machineTile;
+    }
+
     @Override
     public void detectAndSendChanges() {
+
+        // TODO: make our own version of trackable ints so we don't have this ugly mess
+
         super.detectAndSendChanges();
         if (listeners != null) {
             int energyStored = machineTile.getField(PacketServerToClient.ENERGY_ID);
@@ -53,30 +62,35 @@ public abstract class MachineContainer extends AbstractBaseContainer {
             int progress = machineTile.getField(PacketServerToClient.PROGRESS_ID);
             int recipeEnergy = machineTile.getField(PacketServerToClient.RECIPE_ENERGY_ID);
             int energyRate = machineTile.getField(PacketServerToClient.ENERGY_RATE_ID);
+            int tier = machineTile.getField(PacketServerToClient.TIER_ID);
             for (IContainerListener listener : listeners) {
                 if (listener instanceof ServerPlayerEntity) {
                     ServerPlayerEntity playerMP = (ServerPlayerEntity) listener;
                     if (energyStored != ENERGY_STORED) {
-                        PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> playerMP), new PacketServerToClient(PacketServerToClient.ENERGY_ID, energyStored));
+                        PacketUtil.updateMachineStat(PacketServerToClient.ENERGY_ID, energyStored, playerMP);
                     }
                     if (capacity != CAPACITY) {
-                        PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> playerMP), new PacketServerToClient(PacketServerToClient.CAPACITY_ID, capacity));
+                        PacketUtil.updateMachineStat(PacketServerToClient.CAPACITY_ID, capacity, playerMP);
                     }
                     if (maxReceieve != MAX_RECEIVE) {
-                        PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> playerMP), new PacketServerToClient(PacketServerToClient.MAX_RECEIVE_ID, maxReceieve));
+                        PacketUtil.updateMachineStat(PacketServerToClient.MAX_RECEIVE_ID, maxReceieve, playerMP);
                     }
                     if (maxExtract != MAX_EXTRACT) {
-                        PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> playerMP), new PacketServerToClient(PacketServerToClient.MAX_EXTRACT_ID, maxExtract));
+                        PacketUtil.updateMachineStat(PacketServerToClient.MAX_EXTRACT_ID, maxExtract, playerMP);
                     }
                     if (progress != PROGRESS) {
-                        PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> playerMP), new PacketServerToClient(PacketServerToClient.PROGRESS_ID, progress));
+                        PacketUtil.updateMachineStat(PacketServerToClient.PROGRESS_ID, progress, playerMP);
                     }
                     if (recipeEnergy != RECIPE_ENERGY) {
-                        PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> playerMP), new PacketServerToClient(PacketServerToClient.RECIPE_ENERGY_ID, recipeEnergy));
+                        PacketUtil.updateMachineStat(PacketServerToClient.RECIPE_ENERGY_ID, recipeEnergy, playerMP);
                     }
                     if (energyRate != ENERGY_RATE) {
-                        PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> playerMP), new PacketServerToClient(PacketServerToClient.ENERGY_RATE_ID, energyRate));
+                        PacketUtil.updateMachineStat(PacketServerToClient.ENERGY_RATE_ID, energyRate, playerMP);
                     }
+                    if (tier != TIER) {
+                        PacketUtil.updateMachineStat(PacketServerToClient.TIER_ID, tier, playerMP);
+                    }
+
                 }
             }
             ENERGY_STORED = energyStored;
@@ -86,6 +100,7 @@ public abstract class MachineContainer extends AbstractBaseContainer {
             PROGRESS = progress;
             RECIPE_ENERGY = recipeEnergy;
             ENERGY_RATE = energyRate;
+            TIER = tier;
         }
     }
 

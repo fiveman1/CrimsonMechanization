@@ -18,8 +18,6 @@ import net.minecraft.util.ResourceLocation;
 @JeiPlugin
 public class CrimsonMechanizationJEIPlugin implements IModPlugin {
 
-
-
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
         registration.addRecipeTransferHandler(CompactorContainer.class, RecipeTypeRegistration.COMPACTOR_RECIPE_ID, 0, CompactorTile.INPUT_SLOTS,
@@ -45,6 +43,9 @@ public class CrimsonMechanizationJEIPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(new ItemStack(BlockRegistration.compactorCrimson), RecipeTypeRegistration.COMPACTOR_RECIPE_ID);
+        registration.addRecipeCatalyst(new ItemStack(BlockRegistration.compactorRefined), RecipeTypeRegistration.COMPACTOR_RECIPE_ID);
+        registration.addRecipeCatalyst(new ItemStack(BlockRegistration.compactorNight), RecipeTypeRegistration.COMPACTOR_RECIPE_ID);
+        registration.addRecipeCatalyst(new ItemStack(BlockRegistration.compactorIridescent), RecipeTypeRegistration.COMPACTOR_RECIPE_ID);
     }
 
     @Override

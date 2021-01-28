@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "crimsonmechanization:compactor_night",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "crimsonmechanization:compactor_night"
+        }
+      ],
+      "functions": [
+        {
+          "function": "minecraft:copy_nbt",
+          "source": "block_entity",
+          "ops": [
+            {
+              "source": "energy",
+              "target": "BlockEntityTag.energy",
+              "op": "replace"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

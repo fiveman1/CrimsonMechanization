@@ -2,7 +2,6 @@ package fiveman1.crimsonmechanization.blocks;
 
 import fiveman1.crimsonmechanization.blocks.materials.MaterialBlock;
 import fiveman1.crimsonmechanization.blocks.materials.StorageBlock;
-import fiveman1.crimsonmechanization.datagen.BlockStates;
 import fiveman1.crimsonmechanization.enums.BaseMaterial;
 import fiveman1.crimsonmechanization.enums.MachineTier;
 import net.minecraft.block.Block;
@@ -23,11 +22,12 @@ public class BlockRegistration {
 
     public static final List<Item> BLOCK_ITEMS = new ArrayList<>();
     public static final List<MaterialBlock> MATERIAL_BLOCKS = new ArrayList<>();
-    public static final List<MachineBlock> MACHINES = new ArrayList<>();
+    public static final List<AbstractMachineBlock> MACHINES = new ArrayList<>();
 
     public static CompactorMachineBlock compactorCrimson;
     public static CompactorMachineBlock compactorRefined;
     public static CompactorMachineBlock compactorIridescent;
+    public static CompactorMachineBlock compactorNight;
 
     public static StorageBlock blockCrimson;
     public static StorageBlock blockCrimsonIron;
@@ -36,6 +36,7 @@ public class BlockRegistration {
     public static StorageBlock blockCopper;
     public static StorageBlock blockTin;
     public static StorageBlock blockIridescent;
+    public static StorageBlock blockNight;
 
     public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
         IForgeRegistry<Block> registry = blockRegistryEvent.getRegistry();
@@ -44,7 +45,8 @@ public class BlockRegistration {
         compactorCrimson = new CompactorMachineBlock(MachineTier.CRIMSON);
         compactorRefined = new CompactorMachineBlock(MachineTier.REFINED);
         compactorIridescent = new CompactorMachineBlock(MachineTier.IRIDESCENT);
-        registerMachines(registry, compactorCrimson, compactorRefined, compactorIridescent);
+        compactorNight = new CompactorMachineBlock(MachineTier.NIGHT);
+        registerMachines(registry, compactorCrimson, compactorRefined, compactorIridescent, compactorNight);
 
         // Materials
         blockCrimson = new StorageBlock(BaseMaterial.CRIMSON);
@@ -54,11 +56,12 @@ public class BlockRegistration {
         blockCopper = new StorageBlock(BaseMaterial.COPPER);
         blockTin = new StorageBlock(BaseMaterial.TIN);
         blockIridescent = new StorageBlock(BaseMaterial.IRIDESCENT);
-        registerMaterials(registry, blockCrimson, blockCrimsonIron, blockCrimsonSteel, blockBronze, blockCopper, blockTin, blockIridescent);
+        blockNight = new StorageBlock(BaseMaterial.NIGHT);
+        registerMaterials(registry, blockCrimson, blockCrimsonIron, blockCrimsonSteel, blockBronze, blockCopper, blockTin, blockIridescent, blockNight);
 
     }
 
-    private static void registerMachines(IForgeRegistry<Block> registry, MachineBlock... blocks) {
+    private static void registerMachines(IForgeRegistry<Block> registry, AbstractMachineBlock... blocks) {
         registry.registerAll(blocks);
         MACHINES.addAll(Arrays.asList(blocks));
     }
@@ -72,7 +75,7 @@ public class BlockRegistration {
         IForgeRegistry<Item> registry = itemRegistryEvent.getRegistry();
         Item.Properties defaultProperty = new Item.Properties().group(ItemGroup.MISC);
 
-        for (MachineBlock machineBlock : MACHINES) {
+        for (AbstractMachineBlock machineBlock : MACHINES) {
             Item blockItem = getBlockItem(machineBlock, defaultProperty);
             BLOCK_ITEMS.add(blockItem);
             registry.register(blockItem);
@@ -86,7 +89,7 @@ public class BlockRegistration {
     }
 
     public static void onClientSetup(FMLClientSetupEvent event) {
-        for (MachineBlock machineBlock : MACHINES) {
+        for (AbstractMachineBlock machineBlock : MACHINES) {
             RenderTypeLookup.setRenderLayer(machineBlock, RenderType.getSolid());
         }
     }

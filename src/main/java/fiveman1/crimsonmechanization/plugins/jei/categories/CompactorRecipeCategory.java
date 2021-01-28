@@ -49,7 +49,7 @@ public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecip
 
     @Override
     public String getTitle() {
-        return I18n.format("category." + CrimsonMechanization.MODID + "." + CompactorMachineBlock.NAME);
+        return I18n.format("container." + CrimsonMechanization.MODID + "." + CompactorMachineBlock.NAME);
     }
 
     @Override

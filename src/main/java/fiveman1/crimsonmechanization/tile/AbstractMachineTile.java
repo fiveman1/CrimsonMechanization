@@ -1,7 +1,8 @@
 package fiveman1.crimsonmechanization.tile;
 
-import fiveman1.crimsonmechanization.blocks.MachineBlock;
+import fiveman1.crimsonmechanization.blocks.AbstractMachineBlock;
 import fiveman1.crimsonmechanization.enums.MachineTier;
+import fiveman1.crimsonmechanization.items.ItemRegistration;
 import fiveman1.crimsonmechanization.network.PacketServerToClient;
 import fiveman1.crimsonmechanization.recipe.internal.BaseMachineRecipe;
 import fiveman1.crimsonmechanization.recipe.managers.IRecipeManager;
@@ -28,12 +29,9 @@ import javax.annotation.Nullable;
 
 public abstract class AbstractMachineTile extends TileEntity implements ITickableTileEntity {
 
-    protected int tierMeta = 0;
-
-    // these MUST BE UPDATED WHEN CHANGED as they are used for the progress bar
     protected int recipeEnergy = 0;
     protected int progress = 0;
-
+    protected int tierOrdinal = 0;
     protected int ENERGY_RATE = 20;
     protected int PROGRESS_RATE = 1;
     protected boolean active = false;
@@ -89,6 +87,34 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
     protected final CombinedInvWrapper combinedHandler = new CombinedInvWrapper(inputHandler, outputHandler);
     private final LazyOptional<CombinedInvWrapper> combinedHandlerLazy = LazyOptional.of(() -> combinedHandler);
 
+    protected final ItemStackHandler upgradeHandler = new ItemStackHandler(4) {
+        @Override
+        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+            switch (slot) {
+                case 1:
+                    return ItemStack.areItemsEqual(stack, new ItemStack(ItemRegistration.upgradeSpeed));
+                case 2:
+                    return ItemStack.areItemsEqual(stack, new ItemStack(ItemRegistration.upgradeEfficiency));
+                case 3:
+                    return ItemStack.areItemsEqual(stack, new ItemStack(ItemRegistration.upgradeLuck));
+            }
+            return false;
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return getTier(tierOrdinal).getUpgradeStackLimit();
+        }
+
+        @Override
+        protected void onContentsChanged(int slot) {
+            markDirty();
+        }
+    };
+    public ItemStackHandler getUpgradeHandler() {
+        return upgradeHandler;
+    }
+
     public AbstractMachineTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
     }
@@ -97,7 +123,7 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
         super(tileEntityTypeIn);
         energyStorage = new CustomEnergyStorage(machineTier.getCapacity(), machineTier.getMaxReceive(), 0);
         ENERGY_RATE = machineTier.getEnergyUse();
-        tierMeta = machineTier.getMetadata();
+        tierOrdinal = machineTier.ordinal();
     }
 
     protected ItemStack[] previousInput = ItemStackHandlerUtil.getStacks(inputHandler);
@@ -146,7 +172,7 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
         if (blockStateActive != isActive) {
             blockStateActive = isActive;
             markDirty();
-            world.setBlockState(pos, world.getBlockState(pos).with(MachineBlock.ACTIVE, blockStateActive),
+            world.setBlockState(pos, world.getBlockState(pos).with(AbstractMachineBlock.ACTIVE, blockStateActive),
                     Constants.BlockFlags.NOTIFY_NEIGHBORS + Constants.BlockFlags.BLOCK_UPDATE);
         }
     }
@@ -161,15 +187,13 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
                 break;
             }
         }
-        int baseEnergyUse = getTier(tierMeta).getEnergyUse();
-        ENERGY_RATE = baseEnergyUse;
-        /*int speed = upgradeHandler.getStackInSlot(1).getCount();
+        int baseEnergyUse = getTier(tierOrdinal).getEnergyUse();
+        int speed = upgradeHandler.getStackInSlot(1).getCount();
         int efficiency = upgradeHandler.getStackInSlot(2).getCount();
         double powerMultiplier = Math.pow(1.3, speed) * Math.pow(0.95, efficiency);
         ENERGY_RATE = (int) Math.ceil(baseEnergyUse * powerMultiplier);
         PROGRESS_RATE = baseEnergyUse + (baseEnergyUse * speed) / 2;
-        energyStorage.setMaxReceive(ENERGY_RATE * 5);*/
-        PROGRESS_RATE = ENERGY_RATE;
+        energyStorage.setMaxReceive(ENERGY_RATE * 5);
     }
 
     // returns true if: inputs are a valid recipe, output has space in output slot,
@@ -217,8 +241,8 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
         previousInput = currentInput;
     }
 
-    protected MachineTier getTier(int meta) {
-        return MachineTier.byMetadata(meta);
+    protected MachineTier getTier(int ordinal) {
+        return MachineTier.values[ordinal];
     }
 
     public boolean isUsableByPlayer(PlayerEntity player) {
@@ -238,10 +262,13 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
         if (compound.contains("itemsOut")) {
             outputHandler.deserializeNBT((CompoundNBT) compound.get("itemsOut"));
         }
+        if (compound.contains("upgrades")) {
+            upgradeHandler.deserializeNBT((CompoundNBT) compound.get("upgrades"));
+        }
         blockStateActive = compound.getBoolean("active");
         progress = compound.getInt("progress");
         counter = compound.getInt("counter");
-        tierMeta = compound.getInt("tier");
+        tierOrdinal = compound.getInt("tier");
         energyStorage.read(compound);
     }
 
@@ -250,10 +277,11 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
         super.write(compound);
         compound.put("itemsIn", inputHandler.serializeNBT());
         compound.put("itemsOut", outputHandler.serializeNBT());
+        compound.put("upgrades", upgradeHandler.serializeNBT());
         compound.putBoolean("active", blockStateActive);
         compound.putInt("progress", progress);
         compound.putInt("counter", counter);
-        compound.putInt("tier", tierMeta);
+        compound.putInt("tier", tierOrdinal);
         energyStorage.write(compound);
         return compound;
     }
@@ -290,6 +318,8 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
             return recipeEnergy;
         } else if (id == PacketServerToClient.ENERGY_RATE_ID) {
             return ENERGY_RATE;
+        } else if (id == PacketServerToClient.TIER_ID) {
+            return tierOrdinal;
         }
         return 0;
     }
@@ -309,6 +339,8 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
             recipeEnergy = value;
         } else if (id == PacketServerToClient.ENERGY_RATE_ID) {
             ENERGY_RATE = value;
+        } else if (id == PacketServerToClient.TIER_ID) {
+            tierOrdinal = value;
         }
     }
 }

@@ -1,12 +1,14 @@
 package fiveman1.crimsonmechanization.inventory.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.inventory.container.MachineContainer;
+import fiveman1.crimsonmechanization.inventory.gui.buttons.SimpleImageButton;
 import fiveman1.crimsonmechanization.network.PacketServerToClient;
 import fiveman1.crimsonmechanization.tile.AbstractMachineTile;
-import net.minecraft.client.resources.I18n;
+import fiveman1.crimsonmechanization.util.PacketUtil;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.client.gui.GuiUtils;
@@ -41,6 +43,19 @@ public class MachineScreen<T extends MachineContainer> extends ContainerScreenBa
             GuiUtils.drawHoveringText(matrixStack, lines, mouseX, mouseY, width, height, -1, GuiUtils.DEFAULT_BACKGROUND_COLOR, Color.white.getRGB(), Color.cyan.getRGB(), font);
 
         }
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        ITextComponent upgradeTooltip = new TranslationTextComponent("info." + CrimsonMechanization.MODID + ".button_upgrade");
+        SimpleImageButton buttonUpgrade = new SimpleImageButton(guiLeft + 151, guiTop + 4, 16, 16, 16, 0,
+                new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/buttons.png"), this, upgradeTooltip, (button) -> {
+
+            PacketUtil.openUpgradeGui(container.getMachine());
+
+        });
+        addButton(buttonUpgrade);
     }
 
     protected void drawProgressBar(MatrixStack matrixStack, int progress, int maxProgress) {

@@ -1,6 +1,7 @@
 package fiveman1.crimsonmechanization.recipe.managers;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.recipe.comparables.ComparableStack;
 import fiveman1.crimsonmechanization.recipe.comparables.ComparableStackList;

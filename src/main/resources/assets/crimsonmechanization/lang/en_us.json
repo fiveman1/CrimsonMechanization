@@ -6,26 +6,26 @@
   "block.crimsonmechanization.block_crimson_steel": "Block of Crimson Steel",
   "block.crimsonmechanization.block_tin": "Block of Tin",
   "block.crimsonmechanization.block_iridescent": "Block of Iridescence",
+  "block.crimsonmechanization.block_night": "Block of Night Gems",
 
-  "tile.crimsonmechanization.bart_block": "John Blockman",
-  "tile.crimsonmechanization.compactorCrimson": "Crimson Condenser",
-  "tile.crimsonmechanization.alloyerCrimson": "Crimson Alloyer",
-  "tile.crimsonmechanization.crusherCrimson": "Crimson Shatterer",
-  "tile.crimsonmechanization.furnaceCrimson": "Crimson Forger",
+  "block.crimsonmechanization.bart_block": "John Blockman",
 
-  "tile.crimsonmechanization.compactorRefined": "Refined Condenser",
-  "tile.crimsonmechanization.alloyerRefined": "Refined Alloyer",
-  "tile.crimsonmechanization.crusherRefined": "Refined Shatterer",
-  "tile.crimsonmechanization.furnaceRefined": "Refined Forger",
+  "block.crimsonmechanization.alloyer_crimson": "Crimson Alloyer",
+  "block.crimsonmechanization.crusher_crimson": "Crimson Shatterer",
+  "block.crimsonmechanization.furnace_crimson": "Crimson Forger",
 
-  "tile.crimsonmechanization.compactorIridescent": "Iridescent Condenser",
-  "tile.crimsonmechanization.alloyerIridescent": "Iridescent Alloyer",
-  "tile.crimsonmechanization.crusherIridescent": "Iridescent Shatterer",
-  "tile.crimsonmechanization.furnaceIridescent": "Iridescent Forger",
+  "block.crimsonmechanization.alloyer_refined": "Refined Alloyer",
+  "block.crimsonmechanization.crusher_refined": "Refined Shatterer",
+  "block.crimsonmechanization.furnace_refined": "Refined Forger",
+
+  "block.crimsonmechanization.alloyer_iridescent": "Iridescent Alloyer",
+  "block.crimsonmechanization.crusher_iridescent": "Iridescent Shatterer",
+  "block.crimsonmechanization.furnace_iridescent": "Iridescent Forger",
 
   "block.crimsonmechanization.compactor_crimson": "Crimson Condenser",
   "block.crimsonmechanization.compactor_refined": "Refined Condenser",
   "block.crimsonmechanization.compactor_iridescent": "Iridescent Condenser",
+  "block.crimsonmechanization.compactor_night": "Night Condenser",
 
   "item.crimsonmechanization.pickaxeCrimson.name": "Crimson Pickaxe",
   "item.crimsonmechanization.shovelCrimson.name": "Crimson Shovel",
@@ -87,6 +87,7 @@
 
   "item.crimsonmechanization.gem_crimson": "Crimson Crystal",
   "item.crimsonmechanization.gem_iridescent": "Iridescent Crystal",
+  "item.crimsonmechanization.gem_night": "Night Gem",
 
   "item.crimsonmechanization.ingot_bronze": "Bronze Ingot",
   "item.crimsonmechanization.ingot_copper": "Copper Ingot",
@@ -113,9 +114,9 @@
   "item.crimsonmechanization.plate_bronze": "Bronze Plate",
   "item.crimsonmechanization.plate_iridescent": "Iridescent Plate",
 
-  "item.crimsonmechanization.upgrade_speed.name": "Speed Upgrade",
-  "item.crimsonmechanization.upgrade_efficiency.name": "Efficiency Upgrade",
-  "item.crimsonmechanization.upgrade_luck.name": "Luck Upgrade",
+  "item.crimsonmechanization.upgrade_speed": "Speed Upgrade",
+  "item.crimsonmechanization.upgrade_efficiency": "Efficiency Upgrade",
+  "item.crimsonmechanization.upgrade_luck": "Luck Upgrade",
 
   "container.crimsonmechanization.furnace": "Forger",
   "container.crimsonmechanization.compactor": "Condenser",
@@ -123,17 +124,17 @@
   "container.crimsonmechanization.crusher": "Shatterer",
   "container.crimsonmechanization.upgrades": "Upgrades",
 
-  "category.crimsonmechanization.compactor": "Condenser",
-  "category.crimsonmechanization.alloyer": "Alloyer",
-  "category.crimsonmechanization.crusher": "Shatterer",
-
   "info.crimsonmechanization.machine_tooltip": "Energy:",
   "info.crimsonmechanization.machine_energy": "%d / %d RF",
   "info.crimsonmechanization.machine_energy_rate": "Usage: %d RF/T",
-  "info.crimsonmechanization.upgrade_efficiency": "Power Usage x0.95",
-  "info.crimsonmechanization.upgrade_speed1": "Machine Speed +50%%",
-  "info.crimsonmechanization.upgrade_speed2": "Power Usage x1.30",
-  "info.crimsonmechanization.upgrade_luck": "Not implemented",
+  "info.crimsonmechanization.upgrade_efficiency1": "Power Usage: ",
+  "info.crimsonmechanization.upgrade_efficiency2": "x0.95",
+  "info.crimsonmechanization.upgrade_speed1": "Machine Speed: ",
+  "info.crimsonmechanization.upgrade_speed2": "+50%%",
+  "info.crimsonmechanization.upgrade_speed3": "Power Usage: ",
+  "info.crimsonmechanization.upgrade_speed4": "x1.30",
+  "info.crimsonmechanization.upgrade_luck1": "Secondary Output: ",
+  "info.crimsonmechanization.upgrade_luck2": "+5%%",
   "info.crimsonmechanization.button_upgrade": "Upgrades",
   "info.crimsonmechanization.button_back": "Go back",
   "info.crimsonmechanization.recipe_energy": "%d RF"

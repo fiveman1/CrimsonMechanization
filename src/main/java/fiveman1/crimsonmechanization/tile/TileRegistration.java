@@ -18,7 +18,7 @@ public class TileRegistration {
         registry = event.getRegistry();
 
         compactorTileType = register(CompactorTile::new, BlockRegistration.compactorCrimson, BlockRegistration.compactorRefined,
-                BlockRegistration.compactorIridescent);
+                BlockRegistration.compactorIridescent, BlockRegistration.compactorNight);
     }
 
     private static <T extends TileEntity> TileEntityType<T> register(Supplier<T> factoryIn, Block... validBlocks) {

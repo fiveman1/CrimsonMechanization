@@ -14,6 +14,7 @@ public enum BaseMaterial {
     CRIMSON("crimson", 1),
     CRIMSON_IRON("crimson_iron", 1),
     CRIMSON_STEEL("crimson_steel", 2),
+    NIGHT("night", 2),
     IRIDESCENT("iridescent", 2),
 
     COPPER("copper", 1),

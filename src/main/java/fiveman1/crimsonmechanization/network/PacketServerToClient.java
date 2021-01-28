@@ -16,13 +16,14 @@ public class PacketServerToClient {
         return id++;
     }
 
-    public static byte ENERGY_ID = nextID();
-    public static byte CAPACITY_ID = nextID();
-    public static byte MAX_RECEIVE_ID = nextID();
-    public static byte MAX_EXTRACT_ID = nextID();
-    public static byte PROGRESS_ID = nextID();
-    public static byte RECIPE_ENERGY_ID = nextID();
-    public static byte ENERGY_RATE_ID = nextID();
+    public static byte ENERGY_ID = 0;
+    public static byte CAPACITY_ID = 1;
+    public static byte MAX_RECEIVE_ID = 2;
+    public static byte MAX_EXTRACT_ID = 3;
+    public static byte PROGRESS_ID = 4;
+    public static byte RECIPE_ENERGY_ID = 5;
+    public static byte ENERGY_RATE_ID = 6;
+    public static byte TIER_ID = 7;
 
     private final int[] args;
     private final byte packetID;
@@ -56,7 +57,7 @@ public class PacketServerToClient {
         ctx.get().enqueueWork(() -> {
             PlayerEntity player = Minecraft.getInstance().player;
             Container container = player.openContainer;
-            if (message.packetID >= ENERGY_ID && message.packetID <= ENERGY_RATE_ID && container instanceof MachineContainer) {
+            if (message.packetID >= ENERGY_ID && message.packetID <= TIER_ID && container instanceof MachineContainer) {
                 ((MachineContainer) container).updateClientData(message.packetID, message.args[0]);
             }
 

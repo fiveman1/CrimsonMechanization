@@ -1,31 +1,21 @@
 package fiveman1.crimsonmechanization.enums;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-
 public enum MachineTier {
 
-    CRIMSON(0, "crimson", 20, 100000, 2),
-    REFINED(1, "refined", 40, 200000, 4),
-    IRIDESCENT(3, "iridescent", 80, 400000, 16)
+    CRIMSON("crimson", 20, 100000, 2),
+    REFINED("refined", 40, 200000, 4),
+    NIGHT("night", 60, 300000, 8),
+    IRIDESCENT("iridescent", 80, 400000, 16)
     ;
 
-    private final int meta;
     private final String name;
     private final int energyUse;
     private final int capacity;
     private final int upgradeStackLimit;
 
     public static final MachineTier[] values = values();
-    private static final Int2ObjectOpenHashMap<MachineTier> metaToEnum = new Int2ObjectOpenHashMap<>();
 
-    static {
-        for (MachineTier machineTier : values) {
-            metaToEnum.put(machineTier.getMetadata(), machineTier);
-        }
-    }
-
-    MachineTier(int metaIn, String nameIn, int energyUse, int capacity, int upgradeStackLimit) {
-        this.meta = metaIn;
+    MachineTier(String nameIn, int energyUse, int capacity, int upgradeStackLimit) {
         this.name = nameIn;
         this.energyUse = energyUse;
         this.capacity = capacity;
@@ -34,11 +24,6 @@ public enum MachineTier {
 
     public String getName() {
         return name;
-    }
-
-    public int getMetadata()
-    {
-        return meta;
     }
 
     public int getEnergyUse() {
@@ -57,8 +42,4 @@ public enum MachineTier {
         return upgradeStackLimit;
     }
 
-    public static MachineTier byMetadata(int meta) {
-        MachineTier machineTier = metaToEnum.get(meta);
-        return machineTier != null ? machineTier : CRIMSON;
-    }
 }

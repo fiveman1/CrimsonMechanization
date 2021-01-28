@@ -1,21 +1,14 @@
 package fiveman1.crimsonmechanization.items;
 
-import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.enums.BaseMaterial;
-import fiveman1.crimsonmechanization.items.materials.DustItem;
-import fiveman1.crimsonmechanization.items.materials.GemItem;
-import fiveman1.crimsonmechanization.items.materials.IngotItem;
-import fiveman1.crimsonmechanization.items.materials.PlateItem;
+import fiveman1.crimsonmechanization.items.materials.*;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class ItemRegistration {
 
@@ -37,12 +30,19 @@ public class ItemRegistration {
 
     public static GemItem gemCrimson;
     public static GemItem gemIridescent;
+    public static GemItem gemNight;
 
     public static IngotItem ingotCrimsonIron;
     public static IngotItem ingotCrimsonSteel;
     public static IngotItem ingotCopper;
     public static IngotItem ingotTin;
     public static IngotItem ingotBronze;
+
+    public static NuggetItem nuggetCrimsonIron;
+    public static NuggetItem nuggetCrimsonSteel;
+    public static NuggetItem nuggetCopper;
+    public static NuggetItem nuggetTin;
+    public static NuggetItem nuggetBronze;
 
     public static PlateItem plateIron;
     public static PlateItem plateGold;
@@ -56,6 +56,10 @@ public class ItemRegistration {
     public static PlateItem plateCopper;
     public static PlateItem plateTin;
     public static PlateItem plateBronze;
+
+    public static UpgradeItem upgradeSpeed;
+    public static UpgradeItem upgradeEfficiency;
+    public static UpgradeItem upgradeLuck;
 
     public static void onItemsRegistration(final RegistryEvent.Register<Item> itemRegisterEvent) {
         IForgeRegistry<Item> registry = itemRegisterEvent.getRegistry();
@@ -80,9 +84,10 @@ public class ItemRegistration {
 
         // GEMS
         gemCrimson = new GemItem(BaseMaterial.CRIMSON);
+        gemNight = new GemItem(BaseMaterial.NIGHT);
         gemIridescent = new GemItem(BaseMaterial.IRIDESCENT);
 
-        registerItems(registry, gemCrimson, gemIridescent);
+        registerItems(registry, gemCrimson, gemIridescent, gemNight);
 
         // INGOTS
         ingotCrimsonIron = new IngotItem(BaseMaterial.CRIMSON_IRON);
@@ -92,6 +97,15 @@ public class ItemRegistration {
         ingotBronze = new IngotItem(BaseMaterial.BRONZE);
 
         registerItems(registry, ingotCrimsonIron, ingotCrimsonSteel, ingotCopper, ingotTin, ingotBronze);
+
+        // NUGGETS
+        nuggetBronze = new NuggetItem(BaseMaterial.BRONZE);
+        nuggetCopper = new NuggetItem(BaseMaterial.COPPER);
+        nuggetCrimsonIron = new NuggetItem(BaseMaterial.CRIMSON_IRON);
+        nuggetCrimsonSteel = new NuggetItem(BaseMaterial.CRIMSON_STEEL);
+        nuggetTin = new NuggetItem(BaseMaterial.TIN);
+
+        registerItems(registry, nuggetBronze, nuggetCopper, nuggetCrimsonIron, nuggetCrimsonSteel, nuggetTin);
 
         // PLATES
         plateIron = new PlateItem(BaseMaterial.IRON);
@@ -109,6 +123,12 @@ public class ItemRegistration {
 
         registerItems(registry, plateIron, plateGold, plateDiamond, plateEmerald, plateLapis, plateCrimson,
                 plateCrimsonIron, plateCrimsonSteel, plateIridescent, plateCopper, plateTin, plateBronze);
+
+        upgradeSpeed = new UpgradeItem(UpgradeItem.Type.SPEED);
+        upgradeEfficiency = new UpgradeItem(UpgradeItem.Type.EFFICIENCY);
+        upgradeLuck = new UpgradeItem(UpgradeItem.Type.LUCK);
+
+        registerItems(registry, upgradeSpeed, upgradeEfficiency, upgradeLuck);
 
     }
 

@@ -34,5 +34,11 @@ public class PacketHandler {
                 PacketServerToClient::decode,
                 PacketServerToClient::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+
+        INSTANCE.registerMessage(nextID(), PacketClientToServer.class,
+                PacketClientToServer::encode,
+                PacketClientToServer::decode,
+                PacketClientToServer::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 }

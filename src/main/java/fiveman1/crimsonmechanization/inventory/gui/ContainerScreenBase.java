@@ -37,8 +37,7 @@ public class ContainerScreenBase<T extends Container> extends ContainerScreen<T>
 
     @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-        String s = this.name;
-        font.drawString(matrixStack, s, xSize / 2.0f - font.getStringWidth(s) / 2.0f, 6, ColorUtil.GREY);
+        font.drawString(matrixStack, this.name, xSize / 2.0f - font.getStringWidth(this.name) / 2.0f, 6, ColorUtil.GREY);
         font.drawString(matrixStack, playerInventory.getDisplayName().getString(), 8, ySize - 96 + 2, ColorUtil.GREY);
     }
 
@@ -47,13 +46,5 @@ public class ContainerScreenBase<T extends Container> extends ContainerScreen<T>
         renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         renderHoveredTooltip(matrixStack, mouseX, mouseY);
-        /*for (GuiButton button : buttonList) {
-            if (button.isMouseOver()) {
-                String tooltip = tooltipHash.get(button.id);
-                if (tooltip != null) {
-                    drawHoveringText(I18n.format(tooltip), mouseX, mouseY);
-                }
-            }
-        }*/
     }
 }

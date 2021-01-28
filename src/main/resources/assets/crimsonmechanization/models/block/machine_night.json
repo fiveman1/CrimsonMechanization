@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "crimsonmechanization:block/machine_night_bottom",
+    "up": "crimsonmechanization:block/machine_night_top",
+    "south": "crimsonmechanization:block/machine_night_side",
+    "east": "crimsonmechanization:block/machine_night_side",
+    "west": "crimsonmechanization:block/machine_night_side",
+    "particle": "crimsonmechanization:block/machine_night_side"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "crimsonmechanization:block/machine_night",
+  "textures": {
+    "north": "crimsonmechanization:block/compactor_night_off"
+  }
+}

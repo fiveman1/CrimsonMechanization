@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "crimsonmechanization:nugget_bronze",
+    "crimsonmechanization:nugget_copper",
+    "crimsonmechanization:nugget_crimson_iron",
+    "crimsonmechanization:nugget_crimson_steel",
+    "crimsonmechanization:nugget_tin"
+  ]
+}
