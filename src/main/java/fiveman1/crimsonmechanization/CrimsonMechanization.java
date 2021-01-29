@@ -19,8 +19,12 @@ import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -48,6 +52,18 @@ public class CrimsonMechanization {
     public static IEventBus MOD_EVENT_BUS;
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
+
+    public static final ItemGroup MOD_GROUP = new ItemGroup(MODID) {
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(ItemRegistration.gemCrimson);
+        }
+
+        @Override
+        public ITextComponent getGroupName() {
+            return new TranslationTextComponent("itemgroup." + MODID);
+        }
+    };
 
     public CrimsonMechanization() {
         MOD_EVENT_BUS = FMLJavaModLoadingContext.get().getModEventBus();

@@ -1,5 +1,6 @@
 package fiveman1.crimsonmechanization.blocks;
 
+import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.blocks.materials.MaterialBlock;
 import fiveman1.crimsonmechanization.blocks.materials.StorageBlock;
 import fiveman1.crimsonmechanization.enums.BaseMaterial;
@@ -22,7 +23,7 @@ public class BlockRegistration {
 
     public static final List<Item> BLOCK_ITEMS = new ArrayList<>();
     public static final List<MaterialBlock> MATERIAL_BLOCKS = new ArrayList<>();
-    public static final List<AbstractMachineBlock> MACHINES = new ArrayList<>();
+    public static final List<AbstractMachineBlock<?, ?>> MACHINES = new ArrayList<>();
 
     public static CompactorMachineBlock compactorCrimson;
     public static CompactorMachineBlock compactorRefined;
@@ -61,7 +62,7 @@ public class BlockRegistration {
 
     }
 
-    private static void registerMachines(IForgeRegistry<Block> registry, AbstractMachineBlock... blocks) {
+    private static void registerMachines(IForgeRegistry<Block> registry, AbstractMachineBlock<?, ?>... blocks) {
         registry.registerAll(blocks);
         MACHINES.addAll(Arrays.asList(blocks));
     }
@@ -73,9 +74,9 @@ public class BlockRegistration {
 
     public static void onItemsRegistration(final RegistryEvent.Register<Item> itemRegistryEvent) {
         IForgeRegistry<Item> registry = itemRegistryEvent.getRegistry();
-        Item.Properties defaultProperty = new Item.Properties().group(ItemGroup.MISC);
+        Item.Properties defaultProperty = new Item.Properties().group(CrimsonMechanization.MOD_GROUP);
 
-        for (AbstractMachineBlock machineBlock : MACHINES) {
+        for (AbstractMachineBlock<?, ?> machineBlock : MACHINES) {
             Item blockItem = getBlockItem(machineBlock, defaultProperty);
             BLOCK_ITEMS.add(blockItem);
             registry.register(blockItem);
@@ -89,9 +90,9 @@ public class BlockRegistration {
     }
 
     public static void onClientSetup(FMLClientSetupEvent event) {
-        for (AbstractMachineBlock machineBlock : MACHINES) {
+        /*for (AbstractMachineBlock machineBlock : MACHINES) {
             RenderTypeLookup.setRenderLayer(machineBlock, RenderType.getSolid());
-        }
+        }*/
     }
 
     private static Item getBlockItem(Block block, Item.Properties properties) {

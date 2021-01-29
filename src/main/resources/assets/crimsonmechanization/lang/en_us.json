@@ -127,15 +127,17 @@
   "info.crimsonmechanization.machine_tooltip": "Energy:",
   "info.crimsonmechanization.machine_energy": "%d / %d RF",
   "info.crimsonmechanization.machine_energy_rate": "Usage: %d RF/T",
-  "info.crimsonmechanization.upgrade_efficiency1": "Power Usage: ",
+  "info.crimsonmechanization.upgrade_efficiency1": "Power Usage:",
   "info.crimsonmechanization.upgrade_efficiency2": "x0.95",
-  "info.crimsonmechanization.upgrade_speed1": "Machine Speed: ",
+  "info.crimsonmechanization.upgrade_speed1": "Machine Speed:",
   "info.crimsonmechanization.upgrade_speed2": "+50%%",
-  "info.crimsonmechanization.upgrade_speed3": "Power Usage: ",
+  "info.crimsonmechanization.upgrade_speed3": "Power Usage:",
   "info.crimsonmechanization.upgrade_speed4": "x1.30",
-  "info.crimsonmechanization.upgrade_luck1": "Secondary Output: ",
+  "info.crimsonmechanization.upgrade_luck1": "Secondary Output:",
   "info.crimsonmechanization.upgrade_luck2": "+5%%",
   "info.crimsonmechanization.button_upgrade": "Upgrades",
   "info.crimsonmechanization.button_back": "Go back",
-  "info.crimsonmechanization.recipe_energy": "%d RF"
+  "info.crimsonmechanization.recipe_energy": "%d RF",
+
+  "itemgroup.crimsonmechanization": "Crimson Mechanization"
 }

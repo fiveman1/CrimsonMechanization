@@ -10,7 +10,7 @@ import net.minecraft.tags.ItemTags;
 public class MaterialItem extends Item {
 
     public MaterialItem(String itemName, BaseMaterial material) {
-        super(new Item.Properties().group(ItemGroup.MISC));
+        super(new Item.Properties().group(CrimsonMechanization.MOD_GROUP));
         setRegistryName(CrimsonMechanization.MODID, itemName + "_" + material.name);
         ModItemTags.createForgeTag(this, itemName + "s/" + material.name);
         ModItemTags.createForgeTag(this, itemName + "s");
