@@ -16,9 +16,9 @@ import java.util.*;
 
 public abstract class AbstractRecipeManager implements IRecipeManager {
 
-    protected static final Object2ObjectOpenHashMap<ComparableStackList, BaseMachineRecipe> recipeHash = new Object2ObjectOpenHashMap<>();
-    protected static List<BaseMachineRecipe> recipes = new ArrayList<>();
-    protected static final HashSet<ComparableStack> validInputs = new HashSet<>();
+    protected final Object2ObjectOpenHashMap<ComparableStackList, BaseMachineRecipe> recipeHash = new Object2ObjectOpenHashMap<>();
+    protected List<BaseMachineRecipe> recipes = new ArrayList<>();
+    protected final HashSet<ComparableStack> validInputs = new HashSet<>();
 
     protected void clear() {
         recipeHash.clear();
@@ -60,7 +60,7 @@ public abstract class AbstractRecipeManager implements IRecipeManager {
     }
 
 
-    protected static void addRecipe(List<Ingredient> inputs, List<ItemStack> outputs, List<Integer> outputChances, int energy) {
+    protected void addRecipe(List<Ingredient> inputs, List<ItemStack> outputs, List<Integer> outputChances, int energy) {
         List<List<ComparableStack>> stacksList = new ArrayList<>();
         for (Ingredient ingredient : inputs) {
             List<ComparableStack> stacks = new ArrayList<>();
@@ -77,7 +77,7 @@ public abstract class AbstractRecipeManager implements IRecipeManager {
         }
     }
 
-    protected static void setIngredientCount(List<Ingredient> ingredients, int count) {
+    protected void setIngredientCount(List<Ingredient> ingredients, int count) {
         for (Ingredient ingredient : ingredients) {
             for (ItemStack itemStack : ingredient.getMatchingStacks()) {
                 itemStack.setCount(count);

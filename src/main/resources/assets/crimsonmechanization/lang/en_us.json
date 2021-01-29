@@ -11,16 +11,20 @@
   "block.crimsonmechanization.bart_block": "John Blockman",
 
   "block.crimsonmechanization.alloyer_crimson": "Crimson Alloyer",
-  "block.crimsonmechanization.crusher_crimson": "Crimson Shatterer",
-  "block.crimsonmechanization.furnace_crimson": "Crimson Forger",
-
   "block.crimsonmechanization.alloyer_refined": "Refined Alloyer",
-  "block.crimsonmechanization.crusher_refined": "Refined Shatterer",
-  "block.crimsonmechanization.furnace_refined": "Refined Forger",
-
+  "block.crimsonmechanization.alloyer_night": "Night Alloyer",
   "block.crimsonmechanization.alloyer_iridescent": "Iridescent Alloyer",
+
+  "block.crimsonmechanization.crusher_crimson": "Crimson Shatterer",
+  "block.crimsonmechanization.crusher_refined": "Refined Shatterer",
+  "block.crimsonmechanization.crusher_night": "Night Shatterer",
   "block.crimsonmechanization.crusher_iridescent": "Iridescent Shatterer",
+
+  "block.crimsonmechanization.furnace_crimson": "Crimson Forger",
+  "block.crimsonmechanization.furnace_refined": "Refined Forger",
+  "block.crimsonmechanization.furnace_night": "Night Forger",
   "block.crimsonmechanization.furnace_iridescent": "Iridescent Forger",
+
 
   "block.crimsonmechanization.compactor_crimson": "Crimson Condenser",
   "block.crimsonmechanization.compactor_refined": "Refined Condenser",

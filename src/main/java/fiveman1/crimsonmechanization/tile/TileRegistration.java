@@ -12,13 +12,17 @@ import java.util.function.Supplier;
 public class TileRegistration {
 
     public static TileEntityType<CompactorTile> compactorTileType;
+    public static TileEntityType<FurnaceTile> furnaceTileType;
     private static IForgeRegistry<TileEntityType<?>> registry;
 
     public static void registerTE(RegistryEvent.Register<TileEntityType<?>> event) {
         registry = event.getRegistry();
 
         compactorTileType = register(CompactorTile::new, BlockRegistration.compactorCrimson, BlockRegistration.compactorRefined,
-                BlockRegistration.compactorIridescent, BlockRegistration.compactorNight);
+                BlockRegistration.compactorNight, BlockRegistration.compactorIridescent);
+
+        furnaceTileType = register(FurnaceTile::new, BlockRegistration.furnaceCrimson, BlockRegistration.furnaceRefined,
+                BlockRegistration.furnaceNight, BlockRegistration.furnaceIridescent);
     }
 
     private static <T extends TileEntity> TileEntityType<T> register(Supplier<T> factoryIn, Block... validBlocks) {

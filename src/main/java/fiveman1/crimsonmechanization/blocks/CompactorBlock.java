@@ -19,11 +19,11 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
-public class CompactorMachineBlock extends AbstractMachineBlock<CompactorTile, CompactorContainer> {
+public class CompactorBlock extends AbstractMachineBlock<CompactorTile, CompactorContainer> {
 
     public static String NAME = "compactor";
 
-    public CompactorMachineBlock(MachineTier tier) {
+    public CompactorBlock(MachineTier tier) {
         super(NAME, tier, CompactorTile.class, CompactorTile::new, CompactorContainer::new);
     }
 }

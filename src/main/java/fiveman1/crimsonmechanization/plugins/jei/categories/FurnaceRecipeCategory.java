@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.blocks.BlockRegistration;
 import fiveman1.crimsonmechanization.blocks.CompactorBlock;
+import fiveman1.crimsonmechanization.blocks.FurnaceBlock;
 import fiveman1.crimsonmechanization.recipe.RecipeTypeRegistration;
 import fiveman1.crimsonmechanization.recipe.internal.BaseMachineRecipe;
 import fiveman1.crimsonmechanization.util.ColorUtil;
@@ -21,24 +22,24 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecipe> {
+public class FurnaceRecipeCategory implements IRecipeCategory<BaseMachineRecipe> {
 
     private final IDrawable background;
     private final IDrawable progressBar;
     private final IDrawable icon;
 
-    public CompactorRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/" + CompactorBlock.NAME + ".png");
+    public FurnaceRecipeCategory(IGuiHelper guiHelper) {
+        ResourceLocation location = new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/" + FurnaceBlock.NAME + ".png");
 
         background = guiHelper.createDrawable(location, 38 ,22, 106, 39);
         IDrawableStatic arrow = guiHelper.createDrawable(location, 176, 0, 23, 16);
         progressBar = guiHelper.createAnimatedDrawable(arrow, 80, IDrawableAnimated.StartDirection.LEFT, false);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockRegistration.compactorCrimson));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockRegistration.furnaceCrimson));
     }
 
     @Override
     public ResourceLocation getUid() {
-        return RecipeTypeRegistration.COMPACTOR_RECIPE_ID;
+        return RecipeTypeRegistration.FURNACE_RECIPE_ID;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecip
 
     @Override
     public String getTitle() {
-        return I18n.format("container." + CrimsonMechanization.MODID + "." + CompactorBlock.NAME);
+        return I18n.format("container." + CrimsonMechanization.MODID + "." + FurnaceBlock.NAME);
     }
 
     @Override

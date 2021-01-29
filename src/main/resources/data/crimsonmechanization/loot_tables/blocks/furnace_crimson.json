@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "crimsonmechanization:furnace_crimson",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "crimsonmechanization:furnace_crimson"
+        }
+      ],
+      "functions": [
+        {
+          "function": "minecraft:copy_nbt",
+          "source": "block_entity",
+          "ops": [
+            {
+              "source": "energy",
+              "target": "BlockEntityTag.energy",
+              "op": "replace"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

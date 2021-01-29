@@ -23,6 +23,8 @@ public class CompactorRecipeManager extends AbstractRecipeManager {
         return INSTANCE;
     }
 
+    private CompactorRecipeManager() {}
+
     @Override
     protected void onRefresh(RecipeManager recipeManager) {
         List<CompactorRecipe> recipes = recipeManager.getRecipesForType(RecipeTypeRegistration.COMPACTOR_RECIPE_TYPE);
@@ -37,7 +39,7 @@ public class CompactorRecipeManager extends AbstractRecipeManager {
         return "Compactor Recipes";
     }
 
-    private static void generateRecipes() {
+    private void generateRecipes() {
         ITagCollection<Item> tagCollection = ItemTags.getCollection();
         Collection<ResourceLocation> registeredTags = tagCollection.getRegisteredTags();
 

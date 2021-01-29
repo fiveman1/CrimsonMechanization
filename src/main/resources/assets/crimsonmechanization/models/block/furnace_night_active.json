@@ -1,0 +1,6 @@
+{
+  "parent": "crimsonmechanization:block/machine_night",
+  "textures": {
+    "north": "crimsonmechanization:block/furnace_night_on"
+  }
+}

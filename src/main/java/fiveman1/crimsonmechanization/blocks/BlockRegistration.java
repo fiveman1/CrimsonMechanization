@@ -6,11 +6,8 @@ import fiveman1.crimsonmechanization.blocks.materials.StorageBlock;
 import fiveman1.crimsonmechanization.enums.BaseMaterial;
 import fiveman1.crimsonmechanization.enums.MachineTier;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -25,10 +22,15 @@ public class BlockRegistration {
     public static final List<MaterialBlock> MATERIAL_BLOCKS = new ArrayList<>();
     public static final List<AbstractMachineBlock<?, ?>> MACHINES = new ArrayList<>();
 
-    public static CompactorMachineBlock compactorCrimson;
-    public static CompactorMachineBlock compactorRefined;
-    public static CompactorMachineBlock compactorIridescent;
-    public static CompactorMachineBlock compactorNight;
+    public static CompactorBlock compactorCrimson;
+    public static CompactorBlock compactorRefined;
+    public static CompactorBlock compactorNight;
+    public static CompactorBlock compactorIridescent;
+
+    public static FurnaceBlock furnaceCrimson;
+    public static FurnaceBlock furnaceRefined;
+    public static FurnaceBlock furnaceNight;
+    public static FurnaceBlock furnaceIridescent;
 
     public static StorageBlock blockCrimson;
     public static StorageBlock blockCrimsonIron;
@@ -43,11 +45,17 @@ public class BlockRegistration {
         IForgeRegistry<Block> registry = blockRegistryEvent.getRegistry();
 
         // Machines
-        compactorCrimson = new CompactorMachineBlock(MachineTier.CRIMSON);
-        compactorRefined = new CompactorMachineBlock(MachineTier.REFINED);
-        compactorIridescent = new CompactorMachineBlock(MachineTier.IRIDESCENT);
-        compactorNight = new CompactorMachineBlock(MachineTier.NIGHT);
+        compactorCrimson = new CompactorBlock(MachineTier.CRIMSON);
+        compactorRefined = new CompactorBlock(MachineTier.REFINED);
+        compactorNight = new CompactorBlock(MachineTier.NIGHT);
+        compactorIridescent = new CompactorBlock(MachineTier.IRIDESCENT);
         registerMachines(registry, compactorCrimson, compactorRefined, compactorIridescent, compactorNight);
+
+        furnaceCrimson = new FurnaceBlock(MachineTier.CRIMSON);
+        furnaceRefined = new FurnaceBlock(MachineTier.REFINED);
+        furnaceNight = new FurnaceBlock(MachineTier.NIGHT);
+        furnaceIridescent = new FurnaceBlock(MachineTier.IRIDESCENT);
+        registerMachines(registry, furnaceCrimson, furnaceRefined, furnaceNight, furnaceIridescent);
 
         // Materials
         blockCrimson = new StorageBlock(BaseMaterial.CRIMSON);
@@ -90,9 +98,7 @@ public class BlockRegistration {
     }
 
     public static void onClientSetup(FMLClientSetupEvent event) {
-        /*for (AbstractMachineBlock machineBlock : MACHINES) {
-            RenderTypeLookup.setRenderLayer(machineBlock, RenderType.getSolid());
-        }*/
+
     }
 
     private static Item getBlockItem(Block block, Item.Properties properties) {

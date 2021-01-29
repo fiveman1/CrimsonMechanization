@@ -1,12 +1,15 @@
 package fiveman1.crimsonmechanization.network;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
-import fiveman1.crimsonmechanization.blocks.CompactorMachineBlock;
+import fiveman1.crimsonmechanization.blocks.CompactorBlock;
+import fiveman1.crimsonmechanization.blocks.FurnaceBlock;
 import fiveman1.crimsonmechanization.inventory.container.CompactorContainer;
+import fiveman1.crimsonmechanization.inventory.container.FurnaceContainer;
 import fiveman1.crimsonmechanization.inventory.container.providers.CustomContainerProvider;
 import fiveman1.crimsonmechanization.inventory.container.UpgradeContainer;
 import fiveman1.crimsonmechanization.tile.AbstractMachineTile;
 import fiveman1.crimsonmechanization.tile.CompactorTile;
+import fiveman1.crimsonmechanization.tile.FurnaceTile;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.network.PacketBuffer;
@@ -65,11 +68,16 @@ public class PacketClientToServer {
                 TileEntity te = player.world.getTileEntity(pos);
                 INamedContainerProvider containerProvider = null;
                 if (te instanceof CompactorTile) {
-                    containerProvider = new CustomContainerProvider<>(CompactorMachineBlock.NAME,
+                    containerProvider = new CustomContainerProvider<>(CompactorBlock.NAME,
                             (id, inv) -> new CompactorContainer(id, inv, (CompactorTile) te));
+                } else if (te instanceof FurnaceTile) {
+                    containerProvider = new CustomContainerProvider<>(FurnaceBlock.NAME,
+                            (id, inv) -> new FurnaceContainer(id, inv, (FurnaceTile) te));
                 }
                 if (containerProvider != null) {
                     NetworkHooks.openGui(player, containerProvider, pos);
+                } else {
+                    CrimsonMechanization.LOGGER.warn("Tile Entity at (X: " + pos.getX() + ", Y: " + pos.getY() + ", Z: " + pos.getZ() + ") does not have a valid container provider!");
                 }
             }
 

@@ -1,0 +1,6 @@
+{
+  "parent": "crimsonmechanization:block/machine_crimson",
+  "textures": {
+    "north": "crimsonmechanization:block/furnace_crimson_off"
+  }
+}
