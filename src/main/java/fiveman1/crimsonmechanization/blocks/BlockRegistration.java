@@ -22,51 +22,62 @@ public class BlockRegistration {
     public static final List<MaterialBlock> MATERIAL_BLOCKS = new ArrayList<>();
     public static final List<AbstractMachineBlock<?, ?>> MACHINES = new ArrayList<>();
 
-    public static CompactorBlock compactorCrimson;
-    public static CompactorBlock compactorRefined;
-    public static CompactorBlock compactorNight;
-    public static CompactorBlock compactorIridescent;
+    public static CompactorBlock COMPACTOR_CRIMSON;
+    public static CompactorBlock COMPACTOR_REFINED;
+    public static CompactorBlock COMPACTOR_NIGHT;
+    public static CompactorBlock COMPACTOR_IRIDESCENT;
 
-    public static FurnaceBlock furnaceCrimson;
-    public static FurnaceBlock furnaceRefined;
-    public static FurnaceBlock furnaceNight;
-    public static FurnaceBlock furnaceIridescent;
+    public static CrusherBlock CRUSHER_CRIMSON;
+    public static CrusherBlock CRUSHER_REFINED;
+    public static CrusherBlock CRUSHER_NIGHT;
+    public static CrusherBlock CRUSHER_IRIDESCENT;
 
-    public static StorageBlock blockCrimson;
-    public static StorageBlock blockCrimsonIron;
-    public static StorageBlock blockCrimsonSteel;
-    public static StorageBlock blockBronze;
-    public static StorageBlock blockCopper;
-    public static StorageBlock blockTin;
-    public static StorageBlock blockIridescent;
-    public static StorageBlock blockNight;
+    public static FurnaceBlock FURNACE_CRIMSON;
+    public static FurnaceBlock FURNACE_REFINED;
+    public static FurnaceBlock FURNACE_NIGHT;
+    public static FurnaceBlock FURNACE_IRIDESCENT;
+
+    public static StorageBlock BLOCK_CRIMSON;
+    public static StorageBlock BLOCK_CRIMSON_IRON;
+    public static StorageBlock BLOCK_CRIMSON_STEEL;
+    public static StorageBlock BLOCK_BRONZE;
+    public static StorageBlock BLOCK_COPPER;
+    public static StorageBlock BLOCK_TIN;
+    public static StorageBlock BLOCK_IRIDESCENT;
+    public static StorageBlock BLOCK_NIGHT;
 
     public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
         IForgeRegistry<Block> registry = blockRegistryEvent.getRegistry();
 
         // Machines
-        compactorCrimson = new CompactorBlock(MachineTier.CRIMSON);
-        compactorRefined = new CompactorBlock(MachineTier.REFINED);
-        compactorNight = new CompactorBlock(MachineTier.NIGHT);
-        compactorIridescent = new CompactorBlock(MachineTier.IRIDESCENT);
-        registerMachines(registry, compactorCrimson, compactorRefined, compactorIridescent, compactorNight);
+        COMPACTOR_CRIMSON = new CompactorBlock(MachineTier.CRIMSON);
+        COMPACTOR_REFINED = new CompactorBlock(MachineTier.REFINED);
+        COMPACTOR_NIGHT = new CompactorBlock(MachineTier.NIGHT);
+        COMPACTOR_IRIDESCENT = new CompactorBlock(MachineTier.IRIDESCENT);
+        registerMachines(registry, COMPACTOR_CRIMSON, COMPACTOR_REFINED, COMPACTOR_IRIDESCENT, COMPACTOR_NIGHT);
 
-        furnaceCrimson = new FurnaceBlock(MachineTier.CRIMSON);
-        furnaceRefined = new FurnaceBlock(MachineTier.REFINED);
-        furnaceNight = new FurnaceBlock(MachineTier.NIGHT);
-        furnaceIridescent = new FurnaceBlock(MachineTier.IRIDESCENT);
-        registerMachines(registry, furnaceCrimson, furnaceRefined, furnaceNight, furnaceIridescent);
+        CRUSHER_CRIMSON = new CrusherBlock(MachineTier.CRIMSON);
+        CRUSHER_REFINED = new CrusherBlock(MachineTier.REFINED);
+        CRUSHER_NIGHT = new CrusherBlock(MachineTier.NIGHT);
+        CRUSHER_IRIDESCENT = new CrusherBlock(MachineTier.IRIDESCENT);
+        registerMachines(registry, CRUSHER_CRIMSON, CRUSHER_REFINED, CRUSHER_NIGHT, CRUSHER_IRIDESCENT);
+
+        FURNACE_CRIMSON = new FurnaceBlock(MachineTier.CRIMSON);
+        FURNACE_REFINED = new FurnaceBlock(MachineTier.REFINED);
+        FURNACE_NIGHT = new FurnaceBlock(MachineTier.NIGHT);
+        FURNACE_IRIDESCENT = new FurnaceBlock(MachineTier.IRIDESCENT);
+        registerMachines(registry, FURNACE_CRIMSON, FURNACE_REFINED, FURNACE_NIGHT, FURNACE_IRIDESCENT);
 
         // Materials
-        blockCrimson = new StorageBlock(BaseMaterial.CRIMSON);
-        blockCrimsonIron = new StorageBlock(BaseMaterial.CRIMSON_IRON);
-        blockCrimsonSteel = new StorageBlock(BaseMaterial.CRIMSON_STEEL);
-        blockBronze = new StorageBlock(BaseMaterial.BRONZE);
-        blockCopper = new StorageBlock(BaseMaterial.COPPER);
-        blockTin = new StorageBlock(BaseMaterial.TIN);
-        blockIridescent = new StorageBlock(BaseMaterial.IRIDESCENT);
-        blockNight = new StorageBlock(BaseMaterial.NIGHT);
-        registerMaterials(registry, blockCrimson, blockCrimsonIron, blockCrimsonSteel, blockBronze, blockCopper, blockTin, blockIridescent, blockNight);
+        BLOCK_CRIMSON = new StorageBlock(BaseMaterial.CRIMSON);
+        BLOCK_CRIMSON_IRON = new StorageBlock(BaseMaterial.CRIMSON_IRON);
+        BLOCK_CRIMSON_STEEL = new StorageBlock(BaseMaterial.CRIMSON_STEEL);
+        BLOCK_BRONZE = new StorageBlock(BaseMaterial.BRONZE);
+        BLOCK_COPPER = new StorageBlock(BaseMaterial.COPPER);
+        BLOCK_TIN = new StorageBlock(BaseMaterial.TIN);
+        BLOCK_IRIDESCENT = new StorageBlock(BaseMaterial.IRIDESCENT);
+        BLOCK_NIGHT = new StorageBlock(BaseMaterial.NIGHT);
+        registerMaterials(registry, BLOCK_CRIMSON, BLOCK_CRIMSON_IRON, BLOCK_CRIMSON_STEEL, BLOCK_BRONZE, BLOCK_COPPER, BLOCK_TIN, BLOCK_IRIDESCENT, BLOCK_NIGHT);
 
     }
 

@@ -38,6 +38,7 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
     protected boolean blockStateActive = false;
 
     private int counter = 0;
+    private boolean recipesLoaded = false;
 
     public abstract int getInputSlots();
     public abstract int getOutputSlots();
@@ -92,11 +93,11 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
             switch (slot) {
                 case 1:
-                    return ItemStack.areItemsEqual(stack, new ItemStack(ItemRegistration.upgradeSpeed));
+                    return stack.getItem() == ItemRegistration.UPGRADE_SPEED;
                 case 2:
-                    return ItemStack.areItemsEqual(stack, new ItemStack(ItemRegistration.upgradeEfficiency));
+                    return stack.getItem() == ItemRegistration.UPGRADE_EFFICIENCY;
                 case 3:
-                    return ItemStack.areItemsEqual(stack, new ItemStack(ItemRegistration.upgradeLuck));
+                    return stack.getItem() == ItemRegistration.UPGRADE_LUCK;
             }
             return false;
         }
@@ -122,7 +123,6 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
     public AbstractMachineTile(TileEntityType<?> tileEntityTypeIn, MachineTier machineTier) {
         super(tileEntityTypeIn);
         energyStorage = new CustomEnergyStorage(machineTier.getCapacity(), machineTier.getMaxReceive(), 0);
-        ENERGY_RATE = machineTier.getEnergyUse();
         tierOrdinal = machineTier.ordinal();
     }
 
@@ -181,11 +181,18 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
     protected void startUpdate() {
         currentInput = ItemStackHandlerUtil.getStacks(inputHandler);
         int slots = currentInput.length;
-        for (int i = 0; i < slots; i++) {
-            if (!ItemStack.areItemsEqual(currentInput[i], previousInput[i])) {
-                currentRecipe = recipes.getRecipe(currentInput);
-                break;
+        if (recipesLoaded) {
+            for (int i = 0; i < slots; i++) {
+                if (!ItemStack.areItemsEqual(currentInput[i], previousInput[i])) {
+                    currentRecipe = recipes.getRecipe(currentInput);
+                    break;
+                }
             }
+        } else if (recipes.isLoaded()) {
+            // When the server starts or when /reload is used recipes are refreshed, this is here to force
+            // the tile overwrite the cached recipe
+            currentRecipe = recipes.getRecipe(currentInput);
+            recipesLoaded = true;
         }
         int baseEnergyUse = getTier(tierOrdinal).getEnergyUse();
         int speed = upgradeHandler.getStackInSlot(1).getCount();
@@ -193,7 +200,7 @@ public abstract class AbstractMachineTile extends TileEntity implements ITickabl
         double powerMultiplier = Math.pow(1.3, speed) * Math.pow(0.95, efficiency);
         ENERGY_RATE = (int) Math.ceil(baseEnergyUse * powerMultiplier);
         PROGRESS_RATE = baseEnergyUse + (baseEnergyUse * speed) / 2;
-        energyStorage.setMaxReceive(ENERGY_RATE * 5);
+        energyStorage.setMaxReceive(ENERGY_RATE * 6);
     }
 
     // returns true if: inputs are a valid recipe, output has space in output slot,

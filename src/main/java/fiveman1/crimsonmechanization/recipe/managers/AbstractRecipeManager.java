@@ -19,6 +19,7 @@ public abstract class AbstractRecipeManager implements IRecipeManager {
     protected final Object2ObjectOpenHashMap<ComparableStackList, BaseMachineRecipe> recipeHash = new Object2ObjectOpenHashMap<>();
     protected List<BaseMachineRecipe> recipes = new ArrayList<>();
     protected final HashSet<ComparableStack> validInputs = new HashSet<>();
+    protected boolean isLoaded = false;
 
     protected void clear() {
         recipeHash.clear();
@@ -37,6 +38,8 @@ public abstract class AbstractRecipeManager implements IRecipeManager {
         for (BaseMachineRecipe recipe : recipes) {
             CrimsonMechanization.LOGGER.debug(recipe);
         }
+
+        isLoaded = true;
     }
 
     protected abstract void onRefresh(RecipeManager recipeManager);
@@ -59,6 +62,10 @@ public abstract class AbstractRecipeManager implements IRecipeManager {
         return recipes;
     }
 
+    @Override
+    public boolean isLoaded() {
+        return isLoaded;
+    }
 
     protected void addRecipe(List<Ingredient> inputs, List<ItemStack> outputs, List<Integer> outputChances, int energy) {
         List<List<ComparableStack>> stacksList = new ArrayList<>();

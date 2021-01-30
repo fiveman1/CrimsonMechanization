@@ -16,7 +16,7 @@ public class CompactorRecipe extends BaseRecipe {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return RecipeSerializerRegistration.compactorRecipeSerializer;
+        return RecipeSerializerRegistration.COMPACTOR_SERIALIZER;
     }
 
     @Override

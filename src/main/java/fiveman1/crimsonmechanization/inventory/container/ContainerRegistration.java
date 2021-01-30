@@ -1,11 +1,12 @@
 package fiveman1.crimsonmechanization.inventory.container;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
-import fiveman1.crimsonmechanization.blocks.BlockRegistration;
 import fiveman1.crimsonmechanization.blocks.CompactorBlock;
+import fiveman1.crimsonmechanization.blocks.CrusherBlock;
 import fiveman1.crimsonmechanization.blocks.FurnaceBlock;
 import fiveman1.crimsonmechanization.tile.AbstractMachineTile;
 import fiveman1.crimsonmechanization.tile.CompactorTile;
+import fiveman1.crimsonmechanization.tile.CrusherTile;
 import fiveman1.crimsonmechanization.tile.FurnaceTile;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.tileentity.TileEntity;
@@ -18,14 +19,17 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class ContainerRegistration {
 
-    public static ContainerType<CompactorContainer> compactorContainer;
-    public static ContainerType<FurnaceContainer> furnaceContainer;
-    public static ContainerType<UpgradeContainer> upgradeContainer;
+    public static ContainerType<CompactorContainer> COMPACTOR_CONTAINER;
+    public static ContainerType<CrusherContainer> CRUSHER_CONTAINER;
+    public static ContainerType<FurnaceContainer> FURNACE_CONTAINER;
+    public static ContainerType<UpgradeContainer> UPGRADE_CONTAINER;
 
     public static void registerContainers(final RegistryEvent.Register<ContainerType<?>> event) {
         IForgeRegistry<ContainerType<?>> registry = event.getRegistry();
 
-        compactorContainer = IForgeContainerType.create((windowId, inv, data) -> {
+        // TODO: abstract container types
+
+        COMPACTOR_CONTAINER = IForgeContainerType.create((windowId, inv, data) -> {
             BlockPos pos = data.readBlockPos();
             World world = inv.player.world;
             TileEntity te = world.getTileEntity(pos);
@@ -35,10 +39,22 @@ public class ContainerRegistration {
             return null;
         });
 
-        compactorContainer.setRegistryName(new ResourceLocation(CrimsonMechanization.MODID, CompactorBlock.NAME));
-        registry.register(compactorContainer);
+        COMPACTOR_CONTAINER.setRegistryName(new ResourceLocation(CrimsonMechanization.MODID, CompactorBlock.NAME));
+        registry.register(COMPACTOR_CONTAINER);
 
-        furnaceContainer = IForgeContainerType.create((windowId, inv, data) -> {
+        CRUSHER_CONTAINER = IForgeContainerType.create((windowId, inv, data) -> {
+            BlockPos pos = data.readBlockPos();
+            World world = inv.player.world;
+            TileEntity te = world.getTileEntity(pos);
+            if (te instanceof CrusherTile) {
+                return new CrusherContainer(windowId, inv, (CrusherTile) te);
+            }
+            return null;
+        });
+        CRUSHER_CONTAINER.setRegistryName(new ResourceLocation(CrimsonMechanization.MODID, CrusherBlock.NAME));
+        registry.register(CRUSHER_CONTAINER);
+
+        FURNACE_CONTAINER = IForgeContainerType.create((windowId, inv, data) -> {
             BlockPos pos = data.readBlockPos();
             World world = inv.player.world;
             TileEntity te = world.getTileEntity(pos);
@@ -47,10 +63,10 @@ public class ContainerRegistration {
             }
             return null;
         });
-        furnaceContainer.setRegistryName(new ResourceLocation(CrimsonMechanization.MODID, FurnaceBlock.NAME));
-        registry.register(furnaceContainer);
+        FURNACE_CONTAINER.setRegistryName(new ResourceLocation(CrimsonMechanization.MODID, FurnaceBlock.NAME));
+        registry.register(FURNACE_CONTAINER);
 
-        upgradeContainer = IForgeContainerType.create((windowId, inv, data) -> {
+        UPGRADE_CONTAINER = IForgeContainerType.create((windowId, inv, data) -> {
             BlockPos pos = data.readBlockPos();
             World world = inv.player.world;
             TileEntity te = world.getTileEntity(pos);
@@ -60,7 +76,7 @@ public class ContainerRegistration {
             return null;
         });
 
-        upgradeContainer.setRegistryName(new ResourceLocation(CrimsonMechanization.MODID, "upgrades"));
-        registry.register(upgradeContainer);
+        UPGRADE_CONTAINER.setRegistryName(new ResourceLocation(CrimsonMechanization.MODID, "upgrades"));
+        registry.register(UPGRADE_CONTAINER);
     }
 }

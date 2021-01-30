@@ -2,18 +2,14 @@ package fiveman1.crimsonmechanization.inventory.container;
 
 import fiveman1.crimsonmechanization.inventory.slot.SlotOutput;
 import fiveman1.crimsonmechanization.tile.CompactorTile;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 public class CompactorContainer extends MachineContainer {
     public CompactorContainer(int windowID, PlayerInventory playerInventory, CompactorTile machine) {
-        super(windowID, playerInventory, machine, ContainerRegistration.compactorContainer);
+        super(windowID, playerInventory, machine, ContainerRegistration.COMPACTOR_CONTAINER);
     }
 
     @Override

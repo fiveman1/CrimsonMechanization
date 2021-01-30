@@ -11,18 +11,22 @@ import java.util.function.Supplier;
 
 public class TileRegistration {
 
-    public static TileEntityType<CompactorTile> compactorTileType;
-    public static TileEntityType<FurnaceTile> furnaceTileType;
+    public static TileEntityType<CompactorTile> COMPACTOR_TILE;
+    public static TileEntityType<CrusherTile> CRUSHER_TILE;
+    public static TileEntityType<FurnaceTile> FURNACE_TILE;
     private static IForgeRegistry<TileEntityType<?>> registry;
 
     public static void registerTE(RegistryEvent.Register<TileEntityType<?>> event) {
         registry = event.getRegistry();
 
-        compactorTileType = register(CompactorTile::new, BlockRegistration.compactorCrimson, BlockRegistration.compactorRefined,
-                BlockRegistration.compactorNight, BlockRegistration.compactorIridescent);
+        COMPACTOR_TILE = register(CompactorTile::new, BlockRegistration.COMPACTOR_CRIMSON, BlockRegistration.COMPACTOR_REFINED,
+                BlockRegistration.COMPACTOR_NIGHT, BlockRegistration.COMPACTOR_IRIDESCENT);
 
-        furnaceTileType = register(FurnaceTile::new, BlockRegistration.furnaceCrimson, BlockRegistration.furnaceRefined,
-                BlockRegistration.furnaceNight, BlockRegistration.furnaceIridescent);
+        CRUSHER_TILE = register(CrusherTile::new, BlockRegistration.CRUSHER_CRIMSON, BlockRegistration.CRUSHER_REFINED,
+                BlockRegistration.CRUSHER_NIGHT, BlockRegistration.CRUSHER_IRIDESCENT);
+
+        FURNACE_TILE = register(FurnaceTile::new, BlockRegistration.FURNACE_CRIMSON, BlockRegistration.FURNACE_REFINED,
+                BlockRegistration.FURNACE_NIGHT, BlockRegistration.FURNACE_IRIDESCENT);
     }
 
     private static <T extends TileEntity> TileEntityType<T> register(Supplier<T> factoryIn, Block... validBlocks) {

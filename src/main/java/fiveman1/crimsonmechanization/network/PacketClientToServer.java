@@ -2,13 +2,16 @@ package fiveman1.crimsonmechanization.network;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.blocks.CompactorBlock;
+import fiveman1.crimsonmechanization.blocks.CrusherBlock;
 import fiveman1.crimsonmechanization.blocks.FurnaceBlock;
 import fiveman1.crimsonmechanization.inventory.container.CompactorContainer;
+import fiveman1.crimsonmechanization.inventory.container.CrusherContainer;
 import fiveman1.crimsonmechanization.inventory.container.FurnaceContainer;
 import fiveman1.crimsonmechanization.inventory.container.providers.CustomContainerProvider;
 import fiveman1.crimsonmechanization.inventory.container.UpgradeContainer;
 import fiveman1.crimsonmechanization.tile.AbstractMachineTile;
 import fiveman1.crimsonmechanization.tile.CompactorTile;
+import fiveman1.crimsonmechanization.tile.CrusherTile;
 import fiveman1.crimsonmechanization.tile.FurnaceTile;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
@@ -73,6 +76,9 @@ public class PacketClientToServer {
                 } else if (te instanceof FurnaceTile) {
                     containerProvider = new CustomContainerProvider<>(FurnaceBlock.NAME,
                             (id, inv) -> new FurnaceContainer(id, inv, (FurnaceTile) te));
+                } else if (te instanceof CrusherTile) {
+                    containerProvider = new CustomContainerProvider<>(CrusherBlock.NAME,
+                            (id, inv) -> new CrusherContainer(id, inv, (CrusherTile) te));
                 }
                 if (containerProvider != null) {
                     NetworkHooks.openGui(player, containerProvider, pos);

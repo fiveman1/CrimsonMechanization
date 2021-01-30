@@ -1,11 +1,17 @@
 package fiveman1.crimsonmechanization.util;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.text.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TextUtil {
+
+    public static void drawCenteredText(MatrixStack matrixStack, String text, int x, int y, int color, FontRenderer fontRenderer) {
+        fontRenderer.drawString(matrixStack, text, x - fontRenderer.getStringWidth(text) / 2.0f, y, color);
+    }
     
     public static ToolTipBuilder getToolTipBuilder() {
         return new ToolTipBuilder();

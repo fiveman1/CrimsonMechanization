@@ -11,11 +11,11 @@ public class CompactorTile extends AbstractMachineTile {
     public static final int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
 
     public CompactorTile() {
-        super(TileRegistration.compactorTileType);
+        super(TileRegistration.COMPACTOR_TILE);
     }
 
     public CompactorTile(MachineTier machineTier) {
-        super(TileRegistration.compactorTileType, machineTier);
+        super(TileRegistration.COMPACTOR_TILE, machineTier);
     }
 
     @Override

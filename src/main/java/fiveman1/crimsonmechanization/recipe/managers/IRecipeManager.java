@@ -16,4 +16,6 @@ public interface IRecipeManager {
 
     Collection<BaseMachineRecipe> getRecipeCollection();
 
+    boolean isLoaded();
+
 }

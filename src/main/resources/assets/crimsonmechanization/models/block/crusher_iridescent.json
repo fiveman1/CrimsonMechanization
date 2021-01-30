@@ -1,0 +1,6 @@
+{
+  "parent": "crimsonmechanization:block/machine_iridescent",
+  "textures": {
+    "north": "crimsonmechanization:block/crusher_iridescent_off"
+  }
+}

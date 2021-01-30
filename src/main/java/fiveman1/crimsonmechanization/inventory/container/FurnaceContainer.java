@@ -9,7 +9,7 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class FurnaceContainer extends MachineContainer {
     public FurnaceContainer(int windowID, PlayerInventory playerInventory, AbstractMachineTile machine) {
-        super(windowID, playerInventory, machine, ContainerRegistration.furnaceContainer);
+        super(windowID, playerInventory, machine, ContainerRegistration.FURNACE_CONTAINER);
     }
 
     @Override

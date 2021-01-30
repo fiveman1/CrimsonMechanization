@@ -3,7 +3,6 @@ package fiveman1.crimsonmechanization.plugins.jei.categories;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.blocks.BlockRegistration;
-import fiveman1.crimsonmechanization.blocks.CompactorBlock;
 import fiveman1.crimsonmechanization.blocks.FurnaceBlock;
 import fiveman1.crimsonmechanization.recipe.RecipeTypeRegistration;
 import fiveman1.crimsonmechanization.recipe.internal.BaseMachineRecipe;
@@ -34,7 +33,7 @@ public class FurnaceRecipeCategory implements IRecipeCategory<BaseMachineRecipe>
         background = guiHelper.createDrawable(location, 38 ,22, 106, 39);
         IDrawableStatic arrow = guiHelper.createDrawable(location, 176, 0, 23, 16);
         progressBar = guiHelper.createAnimatedDrawable(arrow, 80, IDrawableAnimated.StartDirection.LEFT, false);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockRegistration.furnaceCrimson));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockRegistration.FURNACE_CRIMSON));
     }
 
     @Override

@@ -3,6 +3,7 @@ package fiveman1.crimsonmechanization;
 import fiveman1.crimsonmechanization.blocks.BlockRegistration;
 import fiveman1.crimsonmechanization.client.ClientSetup;
 import fiveman1.crimsonmechanization.datagen.BlockStates;
+import fiveman1.crimsonmechanization.datagen.Recipes;
 import fiveman1.crimsonmechanization.datagen.tags.ModBlockTags;
 import fiveman1.crimsonmechanization.datagen.tags.ModItemTags;
 import fiveman1.crimsonmechanization.datagen.Items;
@@ -28,6 +29,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RecipesUpdatedEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -37,7 +39,6 @@ import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -56,7 +57,7 @@ public class CrimsonMechanization {
     public static final ItemGroup MOD_GROUP = new ItemGroup(MODID) {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ItemRegistration.gemCrimson);
+            return new ItemStack(ItemRegistration.GEM_CRIMSON);
         }
 
         @Override
@@ -166,16 +167,14 @@ public class CrimsonMechanization {
         @SubscribeEvent
         public static void gatherData(GatherDataEvent event) {
             DataGenerator generator = event.getGenerator();
-            if (event.includeClient()) {
-                generator.addProvider(new BlockStates(generator, event.getExistingFileHelper()));
-                generator.addProvider(new Items(generator, event.getExistingFileHelper()));
-            }
-            if (event.includeServer()) {
-                generator.addProvider(new LootTables(generator));
-                ModBlockTags blockTags = new ModBlockTags(generator, event.getExistingFileHelper());
-                generator.addProvider(blockTags);
-                generator.addProvider(new ModItemTags(generator, blockTags, event.getExistingFileHelper()));
-            }
+            ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+            generator.addProvider(new BlockStates(generator, existingFileHelper));
+            generator.addProvider(new Items(generator, existingFileHelper));
+            generator.addProvider(new LootTables(generator));
+            ModBlockTags blockTags = new ModBlockTags(generator, existingFileHelper);
+            generator.addProvider(blockTags);
+            generator.addProvider(new ModItemTags(generator, blockTags, existingFileHelper));
+            generator.addProvider(new Recipes(generator));
         }
     }
 

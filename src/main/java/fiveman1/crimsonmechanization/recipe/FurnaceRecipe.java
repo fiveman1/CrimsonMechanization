@@ -15,7 +15,7 @@ public class FurnaceRecipe extends BaseRecipe {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return RecipeSerializerRegistration.furnaceRecipeSerializer;
+        return RecipeSerializerRegistration.FURNACE_SERIALIZER;
     }
 
     @Override

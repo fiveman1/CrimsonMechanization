@@ -11,7 +11,7 @@ public class RecipeManagerHandler {
     private static final List<IRecipeManager> recipeManagers = new ArrayList<>();
 
     public static void init() {
-        Collections.addAll(recipeManagers, CompactorRecipeManager.instance(), FurnaceRecipeManager.instance());
+        Collections.addAll(recipeManagers, CompactorRecipeManager.instance(), FurnaceRecipeManager.instance(), CrusherRecipeManager.instance());
     }
 
     public static void onRefresh(RecipeManager recipeManager) {

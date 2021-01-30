@@ -14,125 +14,128 @@ public class ItemRegistration {
 
     public static List<Item> ITEMS = new ArrayList<>();
 
-    public static DustItem dustIron;
-    public static DustItem dustGold;
-    public static DustItem dustDiamond;
-    public static DustItem dustEmerald;
-    public static DustItem dustLapis;
-    public static DustItem dustCoal;
-    public static DustItem dustCrimson;
-    public static DustItem dustCrimsonIron;
-    public static DustItem dustCrimsonSteel;
-    public static DustItem dustIridescent;
-    public static DustItem dustCopper;
-    public static DustItem dustTin;
-    public static DustItem dustBronze;
+    public static DustItem DUST_IRON;
+    public static DustItem DUST_GOLD;
+    public static DustItem DUST_DIAMOND;
+    public static DustItem DUST_EMERALD;
+    public static DustItem DUST_LAPIS;
+    public static DustItem DUST_COAL;
+    public static DustItem DUST_CRIMSON;
+    public static DustItem DUST_CRIMSON_IRON;
+    public static DustItem DUST_CRIMSON_STEEL;
+    public static DustItem DUST_IRIDESCENT;
+    public static DustItem DUST_COPPER;
+    public static DustItem DUST_TIN;
+    public static DustItem DUST_BRONZE;
 
-    public static GemItem gemCrimson;
-    public static GemItem gemIridescent;
-    public static GemItem gemNight;
+    public static GemItem GEM_CRIMSON;
+    public static GemItem GEM_IRIDESCENT;
+    public static GemItem GEM_NIGHT;
 
-    public static IngotItem ingotCrimsonIron;
-    public static IngotItem ingotCrimsonSteel;
-    public static IngotItem ingotCopper;
-    public static IngotItem ingotTin;
-    public static IngotItem ingotBronze;
+    public static IngotItem INGOT_CRIMSON_IRON;
+    public static IngotItem INGOT_CRIMSON_STEEL;
+    public static IngotItem INGOT_COPPER;
+    public static IngotItem INGOT_TIN;
+    public static IngotItem INGOT_BRONZE;
 
-    public static NuggetItem nuggetCrimsonIron;
-    public static NuggetItem nuggetCrimsonSteel;
-    public static NuggetItem nuggetCopper;
-    public static NuggetItem nuggetTin;
-    public static NuggetItem nuggetBronze;
+    public static NuggetItem NUGGET_CRIMSON_IRON;
+    public static NuggetItem NUGGET_CRIMSON_STEEL;
+    public static NuggetItem NUGGET_COPPER;
+    public static NuggetItem NUGGET_TIN;
+    public static NuggetItem NUGGET_BRONZE;
 
-    public static PlateItem plateIron;
-    public static PlateItem plateGold;
-    public static PlateItem plateDiamond;
-    public static PlateItem plateEmerald;
-    public static PlateItem plateLapis;
-    public static PlateItem plateCrimson;
-    public static PlateItem plateCrimsonIron;
-    public static PlateItem plateCrimsonSteel;
-    public static PlateItem plateIridescent;
-    public static PlateItem plateCopper;
-    public static PlateItem plateTin;
-    public static PlateItem plateBronze;
+    public static PlateItem PLATE_IRON;
+    public static PlateItem PLATE_GOLD;
+    public static PlateItem PLATE_DIAMOND;
+    public static PlateItem PLATE_EMERALD;
+    public static PlateItem PLATE_LAPIS;
+    public static PlateItem PLATE_CRIMSON;
+    public static PlateItem PLATE_CRIMSON_IRON;
+    public static PlateItem PlATE_CRIMSON_STEEL;
+    public static PlateItem PLATE_IRIDESCENT;
+    public static PlateItem PLATE_COPPER;
+    public static PlateItem PLATE_TIN;
+    public static PlateItem PLATE_BRONZE;
 
-    public static UpgradeItem upgradeSpeed;
-    public static UpgradeItem upgradeEfficiency;
-    public static UpgradeItem upgradeLuck;
+    public static UpgradeItem UPGRADE_SPEED;
+    public static UpgradeItem UPGRADE_EFFICIENCY;
+    public static UpgradeItem UPGRADE_LUCK;
+
+    private static IForgeRegistry<Item> registry;
 
     public static void onItemsRegistration(final RegistryEvent.Register<Item> itemRegisterEvent) {
-        IForgeRegistry<Item> registry = itemRegisterEvent.getRegistry();
+        registry = itemRegisterEvent.getRegistry();
 
         // DUSTS
-        dustIron = new DustItem(BaseMaterial.IRON);
-        dustGold = new DustItem(BaseMaterial.GOLD);
-        dustDiamond = new DustItem(BaseMaterial.DIAMOND);
-        dustEmerald = new DustItem(BaseMaterial.EMERALD);
-        dustLapis = new DustItem(BaseMaterial.LAPIS);
-        dustCoal = new DustItem(BaseMaterial.COAL);
-        dustCrimson = new DustItem(BaseMaterial.CRIMSON);
-        dustCrimsonIron = new DustItem(BaseMaterial.CRIMSON_IRON);
-        dustCrimsonSteel = new DustItem(BaseMaterial.CRIMSON_STEEL);
-        dustIridescent = new DustItem(BaseMaterial.IRIDESCENT);
-        dustCopper = new DustItem(BaseMaterial.COPPER);
-        dustTin = new DustItem(BaseMaterial.TIN);
-        dustBronze = new DustItem(BaseMaterial.BRONZE);
+        DUST_IRON = new DustItem(BaseMaterial.IRON);
+        DUST_GOLD = new DustItem(BaseMaterial.GOLD);
+        DUST_DIAMOND = new DustItem(BaseMaterial.DIAMOND);
+        DUST_EMERALD = new DustItem(BaseMaterial.EMERALD);
+        DUST_LAPIS = new DustItem(BaseMaterial.LAPIS);
+        DUST_COAL = new DustItem(BaseMaterial.COAL);
+        DUST_CRIMSON = new DustItem(BaseMaterial.CRIMSON);
+        DUST_CRIMSON_IRON = new DustItem(BaseMaterial.CRIMSON_IRON);
+        DUST_CRIMSON_STEEL = new DustItem(BaseMaterial.CRIMSON_STEEL);
+        DUST_IRIDESCENT = new DustItem(BaseMaterial.IRIDESCENT);
+        DUST_COPPER = new DustItem(BaseMaterial.COPPER);
+        DUST_TIN = new DustItem(BaseMaterial.TIN);
+        DUST_BRONZE = new DustItem(BaseMaterial.BRONZE);
 
-        registerItems(registry, dustIron, dustGold, dustDiamond, dustEmerald, dustLapis, dustCoal, dustCrimson,
-                dustCrimsonIron, dustCrimsonSteel, dustIridescent, dustCopper, dustTin, dustBronze);
+        registerItems(DUST_IRON, DUST_GOLD, DUST_DIAMOND, DUST_EMERALD, DUST_LAPIS, DUST_COAL, DUST_CRIMSON,
+                DUST_CRIMSON_IRON, DUST_CRIMSON_STEEL, DUST_IRIDESCENT, DUST_COPPER, DUST_TIN, DUST_BRONZE);
 
         // GEMS
-        gemCrimson = new GemItem(BaseMaterial.CRIMSON);
-        gemNight = new GemItem(BaseMaterial.NIGHT);
-        gemIridescent = new GemItem(BaseMaterial.IRIDESCENT);
+        GEM_CRIMSON = new GemItem(BaseMaterial.CRIMSON);
+        GEM_NIGHT = new GemItem(BaseMaterial.NIGHT);
+        GEM_IRIDESCENT = new GemItem(BaseMaterial.IRIDESCENT);
 
-        registerItems(registry, gemCrimson, gemIridescent, gemNight);
+        registerItems(GEM_CRIMSON, GEM_IRIDESCENT, GEM_NIGHT);
 
         // INGOTS
-        ingotCrimsonIron = new IngotItem(BaseMaterial.CRIMSON_IRON);
-        ingotCrimsonSteel = new IngotItem(BaseMaterial.CRIMSON_STEEL);
-        ingotCopper = new IngotItem(BaseMaterial.COPPER);
-        ingotTin = new IngotItem(BaseMaterial.TIN);
-        ingotBronze = new IngotItem(BaseMaterial.BRONZE);
+        INGOT_CRIMSON_IRON = new IngotItem(BaseMaterial.CRIMSON_IRON);
+        INGOT_CRIMSON_STEEL = new IngotItem(BaseMaterial.CRIMSON_STEEL);
+        INGOT_COPPER = new IngotItem(BaseMaterial.COPPER);
+        INGOT_TIN = new IngotItem(BaseMaterial.TIN);
+        INGOT_BRONZE = new IngotItem(BaseMaterial.BRONZE);
 
-        registerItems(registry, ingotCrimsonIron, ingotCrimsonSteel, ingotCopper, ingotTin, ingotBronze);
+        registerItems(INGOT_CRIMSON_IRON, INGOT_CRIMSON_STEEL, INGOT_COPPER, INGOT_TIN, INGOT_BRONZE);
 
         // NUGGETS
-        nuggetBronze = new NuggetItem(BaseMaterial.BRONZE);
-        nuggetCopper = new NuggetItem(BaseMaterial.COPPER);
-        nuggetCrimsonIron = new NuggetItem(BaseMaterial.CRIMSON_IRON);
-        nuggetCrimsonSteel = new NuggetItem(BaseMaterial.CRIMSON_STEEL);
-        nuggetTin = new NuggetItem(BaseMaterial.TIN);
+        NUGGET_BRONZE = new NuggetItem(BaseMaterial.BRONZE);
+        NUGGET_COPPER = new NuggetItem(BaseMaterial.COPPER);
+        NUGGET_CRIMSON_IRON = new NuggetItem(BaseMaterial.CRIMSON_IRON);
+        NUGGET_CRIMSON_STEEL = new NuggetItem(BaseMaterial.CRIMSON_STEEL);
+        NUGGET_TIN = new NuggetItem(BaseMaterial.TIN);
 
-        registerItems(registry, nuggetBronze, nuggetCopper, nuggetCrimsonIron, nuggetCrimsonSteel, nuggetTin);
+        registerItems(NUGGET_BRONZE, NUGGET_COPPER, NUGGET_CRIMSON_IRON, NUGGET_CRIMSON_STEEL, NUGGET_TIN);
 
         // PLATES
-        plateIron = new PlateItem(BaseMaterial.IRON);
-        plateGold = new PlateItem(BaseMaterial.GOLD);
-        plateDiamond = new PlateItem(BaseMaterial.DIAMOND);
-        plateEmerald = new PlateItem(BaseMaterial.EMERALD);
-        plateLapis = new PlateItem(BaseMaterial.LAPIS);
-        plateCrimson = new PlateItem(BaseMaterial.CRIMSON);
-        plateCrimsonIron = new PlateItem(BaseMaterial.CRIMSON_IRON);
-        plateCrimsonSteel = new PlateItem(BaseMaterial.CRIMSON_STEEL);
-        plateIridescent = new PlateItem(BaseMaterial.IRIDESCENT);
-        plateCopper = new PlateItem(BaseMaterial.COPPER);
-        plateTin = new PlateItem(BaseMaterial.TIN);
-        plateBronze = new PlateItem(BaseMaterial.BRONZE);
+        PLATE_IRON = new PlateItem(BaseMaterial.IRON);
+        PLATE_GOLD = new PlateItem(BaseMaterial.GOLD);
+        PLATE_DIAMOND = new PlateItem(BaseMaterial.DIAMOND);
+        PLATE_EMERALD = new PlateItem(BaseMaterial.EMERALD);
+        PLATE_LAPIS = new PlateItem(BaseMaterial.LAPIS);
+        PLATE_CRIMSON = new PlateItem(BaseMaterial.CRIMSON);
+        PLATE_CRIMSON_IRON = new PlateItem(BaseMaterial.CRIMSON_IRON);
+        PlATE_CRIMSON_STEEL = new PlateItem(BaseMaterial.CRIMSON_STEEL);
+        PLATE_IRIDESCENT = new PlateItem(BaseMaterial.IRIDESCENT);
+        PLATE_COPPER = new PlateItem(BaseMaterial.COPPER);
+        PLATE_TIN = new PlateItem(BaseMaterial.TIN);
+        PLATE_BRONZE = new PlateItem(BaseMaterial.BRONZE);
 
-        registerItems(registry, plateIron, plateGold, plateDiamond, plateEmerald, plateLapis, plateCrimson,
-                plateCrimsonIron, plateCrimsonSteel, plateIridescent, plateCopper, plateTin, plateBronze);
+        registerItems(PLATE_IRON, PLATE_GOLD, PLATE_DIAMOND, PLATE_EMERALD, PLATE_LAPIS, PLATE_CRIMSON,
+                PLATE_CRIMSON_IRON, PlATE_CRIMSON_STEEL, PLATE_IRIDESCENT, PLATE_COPPER, PLATE_TIN, PLATE_BRONZE);
 
-        upgradeSpeed = new UpgradeItem(UpgradeItem.Type.SPEED);
-        upgradeEfficiency = new UpgradeItem(UpgradeItem.Type.EFFICIENCY);
-        upgradeLuck = new UpgradeItem(UpgradeItem.Type.LUCK);
+        // UPGRADES
+        UPGRADE_SPEED = new UpgradeItem(UpgradeItem.Type.SPEED);
+        UPGRADE_EFFICIENCY = new UpgradeItem(UpgradeItem.Type.EFFICIENCY);
+        UPGRADE_LUCK = new UpgradeItem(UpgradeItem.Type.LUCK);
 
-        registerItems(registry, upgradeSpeed, upgradeEfficiency, upgradeLuck);
+        registerItems(UPGRADE_SPEED, UPGRADE_EFFICIENCY, UPGRADE_LUCK);
 
     }
 
-    private static void registerItems(IForgeRegistry<Item> registry, Item... items) {
+    private static void registerItems(Item... items) {
         ITEMS.addAll(Arrays.asList(items));
         registry.registerAll(items);
     }

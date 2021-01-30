@@ -11,11 +11,11 @@ public class FurnaceTile extends AbstractMachineTile {
     public static final int SIZE = INPUT_SLOTS + OUTPUT_SLOTS;
 
     public FurnaceTile() {
-        super(TileRegistration.furnaceTileType);
+        super(TileRegistration.FURNACE_TILE);
     }
 
     public FurnaceTile(MachineTier tier) {
-        super(TileRegistration.furnaceTileType, tier);
+        super(TileRegistration.FURNACE_TILE, tier);
     }
 
     @Override

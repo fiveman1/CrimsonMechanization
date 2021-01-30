@@ -13,7 +13,7 @@ public class UpgradeContainer extends AbstractBaseContainer {
     private final AbstractMachineTile machine;
 
     public UpgradeContainer(int windowID, PlayerInventory playerInventory, AbstractMachineTile te) {
-        super(windowID, playerInventory, ContainerRegistration.upgradeContainer);
+        super(windowID, playerInventory, ContainerRegistration.UPGRADE_CONTAINER);
         this.machine = te;
         addSlots();
         addInventorySlots(8, 84);

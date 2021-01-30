@@ -22,7 +22,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecipe> {
-
     private final IDrawable background;
     private final IDrawable progressBar;
     private final IDrawable icon;
@@ -33,7 +32,7 @@ public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecip
         background = guiHelper.createDrawable(location, 38 ,22, 106, 39);
         IDrawableStatic arrow = guiHelper.createDrawable(location, 176, 0, 23, 16);
         progressBar = guiHelper.createAnimatedDrawable(arrow, 80, IDrawableAnimated.StartDirection.LEFT, false);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockRegistration.compactorCrimson));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockRegistration.COMPACTOR_CRIMSON));
     }
 
     @Override
@@ -80,4 +79,5 @@ public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecip
         guiItemStacks.init(1, false, 77, 11);
         guiItemStacks.set(ingredients);
     }
+
 }

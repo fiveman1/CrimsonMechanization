@@ -1,0 +1,6 @@
+{
+  "parent": "crimsonmechanization:block/machine_refined",
+  "textures": {
+    "north": "crimsonmechanization:block/crusher_refined_off"
+  }
+}
