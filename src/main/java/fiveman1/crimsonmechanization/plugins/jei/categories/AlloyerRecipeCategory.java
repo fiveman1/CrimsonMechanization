@@ -2,8 +2,8 @@ package fiveman1.crimsonmechanization.plugins.jei.categories;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.blocks.AlloyerBlock;
 import fiveman1.crimsonmechanization.blocks.BlockRegistration;
-import fiveman1.crimsonmechanization.blocks.CompactorBlock;
 import fiveman1.crimsonmechanization.recipe.RecipeTypeRegistration;
 import fiveman1.crimsonmechanization.recipe.internal.BaseMachineRecipe;
 import fiveman1.crimsonmechanization.util.ColorUtil;
@@ -21,24 +21,24 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecipe> {
+public class AlloyerRecipeCategory implements IRecipeCategory<BaseMachineRecipe> {
 
     private final IDrawable background;
     private final IDrawable progressBar;
     private final IDrawable icon;
 
-    public CompactorRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation location = new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/" + CompactorBlock.NAME + ".png");
+    public AlloyerRecipeCategory(IGuiHelper guiHelper) {
+        ResourceLocation location = new ResourceLocation(CrimsonMechanization.MODID, "textures/gui/" + AlloyerBlock.NAME + ".png");
 
-        background = guiHelper.createDrawable(location, 38 ,22, 106, 39);
+        background = guiHelper.createDrawable(location, 14, 22, 129, 39);
         IDrawableStatic arrow = guiHelper.createDrawable(location, 176, 0, 23, 16);
         progressBar = guiHelper.createAnimatedDrawable(arrow, 80, IDrawableAnimated.StartDirection.LEFT, false);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockRegistration.COMPACTOR_CRIMSON));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(BlockRegistration.ALLOYER_CRIMSON));
     }
 
     @Override
     public ResourceLocation getUid() {
-        return RecipeTypeRegistration.COMPACTOR_RECIPE_ID;
+        return RecipeTypeRegistration.ALLOYER_RECIPE_ID;
     }
 
     @Override
@@ -48,12 +48,12 @@ public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecip
 
     @Override
     public String getTitle() {
-        return I18n.format("container." + CrimsonMechanization.MODID + "." + CompactorBlock.NAME);
+        return I18n.format("container." + CrimsonMechanization.MODID + "." + AlloyerBlock.NAME);
     }
 
     @Override
     public void draw(BaseMachineRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
-        progressBar.draw(matrixStack, 37, 13);
+        progressBar.draw(matrixStack, 61, 13);
         Minecraft.getInstance().fontRenderer.drawString(matrixStack, I18n.format("info.crimsonmechanization.recipe_energy", recipe.getEnergy()), 0, 0, ColorUtil.GREY);
     }
 
@@ -77,8 +77,8 @@ public class CompactorRecipeCategory implements IRecipeCategory<BaseMachineRecip
     public void setRecipe(IRecipeLayout recipeLayout, BaseMachineRecipe recipe, IIngredients ingredients) {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         guiItemStacks.init(0, true, 7, 11);
-        guiItemStacks.init(1, false, 77, 11);
+        guiItemStacks.init(1, true, 31, 11);
+        guiItemStacks.init(2, false, 101, 11);
         guiItemStacks.set(ingredients);
     }
-
 }

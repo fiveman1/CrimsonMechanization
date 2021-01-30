@@ -1,7 +1,7 @@
 package fiveman1.crimsonmechanization.recipe.managers;
 
-import fiveman1.crimsonmechanization.recipe.*;
-import fiveman1.crimsonmechanization.recipe.managers.old.AbstractRecipeManagerOld;
+import fiveman1.crimsonmechanization.recipe.CompactorRecipe;
+import fiveman1.crimsonmechanization.recipe.RecipeTypeRegistration;
 import fiveman1.crimsonmechanization.util.TagUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,9 @@ import net.minecraft.tags.ITagCollection;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class CompactorRecipeManager extends AbstractRecipeManager {
 

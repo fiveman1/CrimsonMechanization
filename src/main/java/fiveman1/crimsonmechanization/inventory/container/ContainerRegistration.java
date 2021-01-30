@@ -1,13 +1,11 @@
 package fiveman1.crimsonmechanization.inventory.container;
 
 import fiveman1.crimsonmechanization.CrimsonMechanization;
+import fiveman1.crimsonmechanization.blocks.AlloyerBlock;
 import fiveman1.crimsonmechanization.blocks.CompactorBlock;
 import fiveman1.crimsonmechanization.blocks.CrusherBlock;
 import fiveman1.crimsonmechanization.blocks.FurnaceBlock;
-import fiveman1.crimsonmechanization.tile.AbstractMachineTile;
-import fiveman1.crimsonmechanization.tile.CompactorTile;
-import fiveman1.crimsonmechanization.tile.CrusherTile;
-import fiveman1.crimsonmechanization.tile.FurnaceTile;
+import fiveman1.crimsonmechanization.tile.*;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -19,6 +17,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class ContainerRegistration {
 
+    public static ContainerType<AlloyerContainer> ALLOYER_CONTAINER;
     public static ContainerType<CompactorContainer> COMPACTOR_CONTAINER;
     public static ContainerType<CrusherContainer> CRUSHER_CONTAINER;
     public static ContainerType<FurnaceContainer> FURNACE_CONTAINER;
@@ -28,6 +27,18 @@ public class ContainerRegistration {
         IForgeRegistry<ContainerType<?>> registry = event.getRegistry();
 
         // TODO: abstract container types
+
+        ALLOYER_CONTAINER = IForgeContainerType.create((windowId, inv, data) -> {
+            BlockPos pos = data.readBlockPos();
+            World world = inv.player.world;
+            TileEntity te = world.getTileEntity(pos);
+            if (te instanceof AlloyerTile) {
+                return new AlloyerContainer(windowId, inv, (AlloyerTile) te);
+            }
+            return null;
+        });
+        ALLOYER_CONTAINER.setRegistryName(new ResourceLocation(CrimsonMechanization.MODID, AlloyerBlock.NAME));
+        registry.register(ALLOYER_CONTAINER);
 
         COMPACTOR_CONTAINER = IForgeContainerType.create((windowId, inv, data) -> {
             BlockPos pos = data.readBlockPos();

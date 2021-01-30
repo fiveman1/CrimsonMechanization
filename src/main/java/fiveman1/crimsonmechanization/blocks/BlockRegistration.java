@@ -22,6 +22,11 @@ public class BlockRegistration {
     public static final List<MaterialBlock> MATERIAL_BLOCKS = new ArrayList<>();
     public static final List<AbstractMachineBlock<?, ?>> MACHINES = new ArrayList<>();
 
+    public static AlloyerBlock ALLOYER_CRIMSON;
+    public static AlloyerBlock ALLOYER_REFINED;
+    public static AlloyerBlock ALLOYER_NIGHT;
+    public static AlloyerBlock ALLOYER_IRIDESCENT;
+
     public static CompactorBlock COMPACTOR_CRIMSON;
     public static CompactorBlock COMPACTOR_REFINED;
     public static CompactorBlock COMPACTOR_NIGHT;
@@ -50,6 +55,12 @@ public class BlockRegistration {
         IForgeRegistry<Block> registry = blockRegistryEvent.getRegistry();
 
         // Machines
+        ALLOYER_CRIMSON = new AlloyerBlock(MachineTier.CRIMSON);
+        ALLOYER_REFINED = new AlloyerBlock(MachineTier.REFINED);
+        ALLOYER_NIGHT = new AlloyerBlock(MachineTier.NIGHT);
+        ALLOYER_IRIDESCENT = new AlloyerBlock(MachineTier.IRIDESCENT);
+        registerMachines(registry, ALLOYER_CRIMSON, ALLOYER_REFINED, ALLOYER_NIGHT, ALLOYER_IRIDESCENT);
+
         COMPACTOR_CRIMSON = new CompactorBlock(MachineTier.CRIMSON);
         COMPACTOR_REFINED = new CompactorBlock(MachineTier.REFINED);
         COMPACTOR_NIGHT = new CompactorBlock(MachineTier.NIGHT);

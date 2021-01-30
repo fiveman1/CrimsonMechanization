@@ -8,14 +8,15 @@ import java.util.List;
 
 public class RecipeManagerHandler {
 
-    private static final List<IRecipeManager> recipeManagers = new ArrayList<>();
+    private static final List<IRecipeManager> RECIPE_MANAGERS = new ArrayList<>();
 
     public static void init() {
-        Collections.addAll(recipeManagers, CompactorRecipeManager.instance(), FurnaceRecipeManager.instance(), CrusherRecipeManager.instance());
+        Collections.addAll(RECIPE_MANAGERS, CompactorRecipeManager.instance(), FurnaceRecipeManager.instance(), CrusherRecipeManager.instance(),
+                AlloyerRecipeManager.instance());
     }
 
     public static void onRefresh(RecipeManager recipeManager) {
-        for (IRecipeManager manager : recipeManagers) {
+        for (IRecipeManager manager : RECIPE_MANAGERS) {
             manager.refresh(recipeManager);
         }
     }

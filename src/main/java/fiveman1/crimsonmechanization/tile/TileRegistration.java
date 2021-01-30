@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 
 public class TileRegistration {
 
+    public static TileEntityType<AlloyerTile> ALLOYER_TILE;
     public static TileEntityType<CompactorTile> COMPACTOR_TILE;
     public static TileEntityType<CrusherTile> CRUSHER_TILE;
     public static TileEntityType<FurnaceTile> FURNACE_TILE;
@@ -18,6 +19,9 @@ public class TileRegistration {
 
     public static void registerTE(RegistryEvent.Register<TileEntityType<?>> event) {
         registry = event.getRegistry();
+
+        ALLOYER_TILE = register(AlloyerTile::new, BlockRegistration.ALLOYER_CRIMSON, BlockRegistration.ALLOYER_REFINED,
+                BlockRegistration.ALLOYER_NIGHT, BlockRegistration.ALLOYER_IRIDESCENT);
 
         COMPACTOR_TILE = register(CompactorTile::new, BlockRegistration.COMPACTOR_CRIMSON, BlockRegistration.COMPACTOR_REFINED,
                 BlockRegistration.COMPACTOR_NIGHT, BlockRegistration.COMPACTOR_IRIDESCENT);

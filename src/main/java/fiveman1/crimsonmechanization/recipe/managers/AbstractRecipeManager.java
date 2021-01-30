@@ -1,7 +1,6 @@
 package fiveman1.crimsonmechanization.recipe.managers;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.recipe.comparables.ComparableStack;
 import fiveman1.crimsonmechanization.recipe.comparables.ComparableStackList;
@@ -84,11 +83,9 @@ public abstract class AbstractRecipeManager implements IRecipeManager {
         }
     }
 
-    protected void setIngredientCount(List<Ingredient> ingredients, int count) {
-        for (Ingredient ingredient : ingredients) {
-            for (ItemStack itemStack : ingredient.getMatchingStacks()) {
-                itemStack.setCount(count);
-            }
+    protected void setIngredientCount(ItemStack[] matchingStacks, int count) {
+        for (ItemStack itemStack : matchingStacks) {
+            itemStack.setCount(count);
         }
     }
 }

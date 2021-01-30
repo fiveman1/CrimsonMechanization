@@ -1,0 +1,6 @@
+{
+  "parent": "crimsonmechanization:block/machine_crimson",
+  "textures": {
+    "north": "crimsonmechanization:block/alloyer_crimson_off"
+  }
+}
