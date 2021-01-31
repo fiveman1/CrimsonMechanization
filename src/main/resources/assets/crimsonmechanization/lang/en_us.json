@@ -25,7 +25,6 @@
   "block.crimsonmechanization.furnace_night": "Night Forger",
   "block.crimsonmechanization.furnace_iridescent": "Iridescent Forger",
 
-
   "block.crimsonmechanization.compactor_crimson": "Crimson Condenser",
   "block.crimsonmechanization.compactor_refined": "Refined Condenser",
   "block.crimsonmechanization.compactor_iridescent": "Iridescent Condenser",
@@ -88,6 +87,7 @@
   "item.crimsonmechanization.dust_tin": "Tin Dust",
   "item.crimsonmechanization.dust_bronze": "Bronze Dust",
   "item.crimsonmechanization.dust_iridescent": "Iridescent Dust",
+  "item.crimsonmechanization.dust_night": "Night Dust",
 
   "item.crimsonmechanization.gem_crimson": "Crimson Crystal",
   "item.crimsonmechanization.gem_iridescent": "Iridescent Crystal",
@@ -117,6 +117,7 @@
   "item.crimsonmechanization.plate_tin": "Tin Plate",
   "item.crimsonmechanization.plate_bronze": "Bronze Plate",
   "item.crimsonmechanization.plate_iridescent": "Iridescent Plate",
+  "item.crimsonmechanization.plate_night": "Night Plate",
 
   "item.crimsonmechanization.upgrade_speed": "Speed Upgrade",
   "item.crimsonmechanization.upgrade_efficiency": "Efficiency Upgrade",

@@ -31,6 +31,7 @@ public class Recipes extends RecipeProvider {
         simpleSmeltingRecipe(consumer, ItemRegistration.DUST_COPPER, ItemRegistration.INGOT_COPPER);
         simpleSmeltingRecipe(consumer, ItemRegistration.DUST_TIN, ItemRegistration.INGOT_TIN);
         simpleSmeltingRecipe(consumer, ItemRegistration.DUST_BRONZE, ItemRegistration.INGOT_BRONZE);
+        simpleSmeltingRecipe(consumer, ItemRegistration.DUST_NIGHT, ItemRegistration.GEM_NIGHT);
     }
 
     private void simpleSmeltingRecipe(Consumer<IFinishedRecipe> consumer, Item input, Item output) {

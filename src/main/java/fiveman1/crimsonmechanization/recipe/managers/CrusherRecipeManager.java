@@ -129,7 +129,7 @@ public class CrusherRecipeManager extends AbstractRecipeManager {
                             ItemStack first = new ItemStack(TagUtil.getModItemFromTag(tagCollection.getTagByID(outputDust), false));
                             first.setCount(2);
                             List<ItemStack> output = Collections.singletonList(first);
-                            List<Integer> chances = Lists.newArrayList(100, 20);
+                            List<Integer> chances = Collections.singletonList(100);
                             addRecipe(input, output, chances, DEFAULT_ENERGY * 2);
                         }
                     }

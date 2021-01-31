@@ -27,6 +27,7 @@ public class ItemRegistration {
     public static DustItem DUST_COPPER;
     public static DustItem DUST_TIN;
     public static DustItem DUST_BRONZE;
+    public static DustItem DUST_NIGHT;
 
     public static GemItem GEM_CRIMSON;
     public static GemItem GEM_IRIDESCENT;
@@ -56,6 +57,7 @@ public class ItemRegistration {
     public static PlateItem PLATE_COPPER;
     public static PlateItem PLATE_TIN;
     public static PlateItem PLATE_BRONZE;
+    public static PlateItem PLATE_NIGHT;
 
     public static UpgradeItem UPGRADE_SPEED;
     public static UpgradeItem UPGRADE_EFFICIENCY;
@@ -80,9 +82,10 @@ public class ItemRegistration {
         DUST_COPPER = new DustItem(BaseMaterial.COPPER);
         DUST_TIN = new DustItem(BaseMaterial.TIN);
         DUST_BRONZE = new DustItem(BaseMaterial.BRONZE);
+        DUST_NIGHT = new DustItem(BaseMaterial.NIGHT);
 
         registerItems(DUST_IRON, DUST_GOLD, DUST_DIAMOND, DUST_EMERALD, DUST_LAPIS, DUST_COAL, DUST_CRIMSON,
-                DUST_CRIMSON_IRON, DUST_CRIMSON_STEEL, DUST_IRIDESCENT, DUST_COPPER, DUST_TIN, DUST_BRONZE);
+                DUST_CRIMSON_IRON, DUST_CRIMSON_STEEL, DUST_IRIDESCENT, DUST_COPPER, DUST_TIN, DUST_BRONZE, DUST_NIGHT);
 
         // GEMS
         GEM_CRIMSON = new GemItem(BaseMaterial.CRIMSON);
@@ -122,9 +125,10 @@ public class ItemRegistration {
         PLATE_COPPER = new PlateItem(BaseMaterial.COPPER);
         PLATE_TIN = new PlateItem(BaseMaterial.TIN);
         PLATE_BRONZE = new PlateItem(BaseMaterial.BRONZE);
+        PLATE_NIGHT = new PlateItem(BaseMaterial.NIGHT);
 
         registerItems(PLATE_IRON, PLATE_GOLD, PLATE_DIAMOND, PLATE_EMERALD, PLATE_LAPIS, PLATE_CRIMSON,
-                PLATE_CRIMSON_IRON, PlATE_CRIMSON_STEEL, PLATE_IRIDESCENT, PLATE_COPPER, PLATE_TIN, PLATE_BRONZE);
+                PLATE_CRIMSON_IRON, PlATE_CRIMSON_STEEL, PLATE_IRIDESCENT, PLATE_COPPER, PLATE_TIN, PLATE_BRONZE, PLATE_NIGHT);
 
         // UPGRADES
         UPGRADE_SPEED = new UpgradeItem(UpgradeItem.Type.SPEED);
