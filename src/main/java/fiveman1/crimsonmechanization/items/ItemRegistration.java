@@ -1,9 +1,17 @@
 package fiveman1.crimsonmechanization.items;
 
+import fiveman1.crimsonmechanization.CrimsonMechanization;
 import fiveman1.crimsonmechanization.enums.BaseMaterial;
+import fiveman1.crimsonmechanization.enums.CMArmorMaterial;
 import fiveman1.crimsonmechanization.items.materials.*;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.ArrayList;
@@ -13,6 +21,7 @@ import java.util.List;
 public class ItemRegistration {
 
     public static List<Item> ITEMS = new ArrayList<>();
+    public static DeferredRegister<Item> ARMOR_ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CrimsonMechanization.MODID);
 
     public static DustItem DUST_IRON;
     public static DustItem DUST_GOLD;
@@ -62,6 +71,31 @@ public class ItemRegistration {
     public static UpgradeItem UPGRADE_SPEED;
     public static UpgradeItem UPGRADE_EFFICIENCY;
     public static UpgradeItem UPGRADE_LUCK;
+
+    public static RegistryObject<ArmorItem> CRIMSON_HELMET;
+    public static RegistryObject<ArmorItem> CRIMSON_CHESTPLATE;
+    public static RegistryObject<ArmorItem> CRIMSON_LEGGINGS;
+    public static RegistryObject<ArmorItem> CRIMSON_BOOTS;
+
+    public static RegistryObject<ArmorItem> CRIMSON_IRON_HELMET;
+    public static RegistryObject<ArmorItem> CRIMSON_IRON_CHESTPLATE;
+    public static RegistryObject<ArmorItem> CRIMSON_IRON_LEGGINGS;
+    public static RegistryObject<ArmorItem> CRIMSON_IRON_BOOTS;
+
+    public static RegistryObject<ArmorItem> CRIMSON_STEEL_HELMET;
+    public static RegistryObject<ArmorItem> CRIMSON_STEEL_CHESTPLATE;
+    public static RegistryObject<ArmorItem> CRIMSON_STEEL_LEGGINGS;
+    public static RegistryObject<ArmorItem> CRIMSON_STEEL_BOOTS;
+
+    public static RegistryObject<ArmorItem> NIGHT_HELMET;
+    public static RegistryObject<ArmorItem> NIGHT_CHESTPLATE;
+    public static RegistryObject<ArmorItem> NIGHT_LEGGINGS;
+    public static RegistryObject<ArmorItem> NIGHT_BOOTS;
+
+    public static RegistryObject<ArmorItem> IRIDESCENT_HELMET;
+    public static RegistryObject<ArmorItem> IRIDESCENT_CHESTPLATE;
+    public static RegistryObject<ArmorItem> IRIDESCENT_LEGGINGS;
+    public static RegistryObject<ArmorItem> IRIDESCENT_BOOTS;
 
     private static IForgeRegistry<Item> registry;
 
@@ -137,10 +171,37 @@ public class ItemRegistration {
 
         registerItems(UPGRADE_SPEED, UPGRADE_EFFICIENCY, UPGRADE_LUCK);
 
+        // ARMOR
+        CRIMSON_HELMET = ARMOR_ITEMS.register("crimson_helmet", () -> new ArmorItem(CMArmorMaterial.CRIMSON, EquipmentSlotType.HEAD, new Item.Properties().group(ItemGroup.COMBAT)));
+        CRIMSON_CHESTPLATE = ARMOR_ITEMS.register("crimson_chestplate", () -> new ArmorItem(CMArmorMaterial.CRIMSON, EquipmentSlotType.CHEST, new Item.Properties().group(ItemGroup.COMBAT)));
+        CRIMSON_LEGGINGS = ARMOR_ITEMS.register("crimson_leggings", () -> new ArmorItem(CMArmorMaterial.CRIMSON, EquipmentSlotType.LEGS, new Item.Properties().group(ItemGroup.COMBAT)));
+        CRIMSON_BOOTS = ARMOR_ITEMS.register("crimson_boots", () -> new ArmorItem(CMArmorMaterial.CRIMSON, EquipmentSlotType.FEET, new Item.Properties().group(ItemGroup.COMBAT)));
+
+        CRIMSON_IRON_HELMET = ARMOR_ITEMS.register("crimsoniron_helmet", () -> new ArmorItem(CMArmorMaterial.CRIMSON_IRON, EquipmentSlotType.HEAD, new Item.Properties().group(ItemGroup.COMBAT)));
+        CRIMSON_IRON_CHESTPLATE = ARMOR_ITEMS.register("crimsoniron_chestplate", () -> new ArmorItem(CMArmorMaterial.CRIMSON_IRON, EquipmentSlotType.CHEST, new Item.Properties().group(ItemGroup.COMBAT)));
+        CRIMSON_IRON_LEGGINGS = ARMOR_ITEMS.register("crimsoniron_leggings", () -> new ArmorItem(CMArmorMaterial.CRIMSON_IRON, EquipmentSlotType.LEGS, new Item.Properties().group(ItemGroup.COMBAT)));;
+        CRIMSON_IRON_BOOTS = ARMOR_ITEMS.register("crimsoniron_boots", () -> new ArmorItem(CMArmorMaterial.CRIMSON_IRON, EquipmentSlotType.FEET, new Item.Properties().group(ItemGroup.COMBAT)));
+
+        CRIMSON_STEEL_HELMET = ARMOR_ITEMS.register("crimsonsteel_helmet", () -> new ArmorItem(CMArmorMaterial.CRIMSON_STEEL, EquipmentSlotType.HEAD, new Item.Properties().group(ItemGroup.COMBAT)));
+        CRIMSON_STEEL_CHESTPLATE = ARMOR_ITEMS.register("crimsonsteel_chestplate", () -> new ArmorItem(CMArmorMaterial.CRIMSON_STEEL, EquipmentSlotType.CHEST, new Item.Properties().group(ItemGroup.COMBAT)));
+        CRIMSON_STEEL_LEGGINGS = ARMOR_ITEMS.register("crimsonsteel_leggings", () -> new ArmorItem(CMArmorMaterial.CRIMSON_STEEL, EquipmentSlotType.LEGS, new Item.Properties().group(ItemGroup.COMBAT)));;
+        CRIMSON_STEEL_BOOTS = ARMOR_ITEMS.register("crimsonsteel_boots", () -> new ArmorItem(CMArmorMaterial.CRIMSON_STEEL, EquipmentSlotType.FEET, new Item.Properties().group(ItemGroup.COMBAT)));
+
+        NIGHT_HELMET = ARMOR_ITEMS.register("night_helmet", () -> new ArmorItem(CMArmorMaterial.NIGHT, EquipmentSlotType.HEAD, new Item.Properties().group(ItemGroup.COMBAT)));
+        NIGHT_CHESTPLATE = ARMOR_ITEMS.register("night_chestplate", () -> new ArmorItem(CMArmorMaterial.NIGHT, EquipmentSlotType.CHEST, new Item.Properties().group(ItemGroup.COMBAT)));
+        NIGHT_LEGGINGS = ARMOR_ITEMS.register("night_leggings", () -> new ArmorItem(CMArmorMaterial.NIGHT, EquipmentSlotType.LEGS, new Item.Properties().group(ItemGroup.COMBAT)));;
+        NIGHT_BOOTS = ARMOR_ITEMS.register("night_boots", () -> new ArmorItem(CMArmorMaterial.NIGHT, EquipmentSlotType.FEET, new Item.Properties().group(ItemGroup.COMBAT)));
+
+        IRIDESCENT_HELMET = ARMOR_ITEMS.register("iridescent_helmet", () -> new ArmorItem(CMArmorMaterial.IRIDESCENT, EquipmentSlotType.HEAD, new Item.Properties().group(ItemGroup.COMBAT)));
+        IRIDESCENT_CHESTPLATE = ARMOR_ITEMS.register("iridescent_chestplate", () -> new ArmorItem(CMArmorMaterial.IRIDESCENT, EquipmentSlotType.CHEST, new Item.Properties().group(ItemGroup.COMBAT)));
+        IRIDESCENT_LEGGINGS = ARMOR_ITEMS.register("iridescent_leggings", () -> new ArmorItem(CMArmorMaterial.IRIDESCENT, EquipmentSlotType.LEGS, new Item.Properties().group(ItemGroup.COMBAT)));;
+        IRIDESCENT_BOOTS = ARMOR_ITEMS.register("iridescent_boots", () -> new ArmorItem(CMArmorMaterial.IRIDESCENT, EquipmentSlotType.FEET, new Item.Properties().group(ItemGroup.COMBAT)));
+
     }
 
     private static void registerItems(Item... items) {
         ITEMS.addAll(Arrays.asList(items));
         registry.registerAll(items);
     }
+
 }
