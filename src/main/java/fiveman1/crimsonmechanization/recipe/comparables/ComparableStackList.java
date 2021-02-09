@@ -34,6 +34,10 @@ public class ComparableStackList {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof ComparableStackList && ((ComparableStackList) obj).stacks.containsAll(this.stacks);
+        if (obj instanceof ComparableStackList) {
+            ComparableStackList other = (ComparableStackList) obj;
+            return this.stacks.size() == other.stacks.size() && this.stacks.containsAll(other.stacks);
+        }
+        return false;
     }
 }
