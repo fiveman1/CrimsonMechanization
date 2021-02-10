@@ -3,7 +3,7 @@ package fiveman1.crimsonmechanization.recipe.comparables;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ComparableStack {
+public class ComparableStack implements Comparable<ComparableStack> {
 
     private final Item item;
     private final int hash;
@@ -21,5 +21,10 @@ public class ComparableStack {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof ComparableStack && ((ComparableStack) obj).item == this.item;
+    }
+
+    @Override
+    public int compareTo(ComparableStack o) {
+        return this.hash - o.hash;
     }
 }
