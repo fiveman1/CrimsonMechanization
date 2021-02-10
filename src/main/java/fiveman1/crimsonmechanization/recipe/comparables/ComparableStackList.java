@@ -3,6 +3,7 @@ package fiveman1.crimsonmechanization.recipe.comparables;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ComparableStackList {
@@ -11,12 +12,13 @@ public class ComparableStackList {
     private final int hashCode;
 
     public ComparableStackList(List<ComparableStack> stackList) {
-        stacks = stackList;
+        stacks = new ArrayList<>(stackList);
         int hash = 0;
         for (ComparableStack stack : stackList) {
             hash += stack.hashCode();
         }
         hashCode = hash;
+        stacks.sort(Comparator.comparingInt(ComparableStack::hashCode));
     }
 
     public static ComparableStackList fromStacks(List<ItemStack> itemStacks) {
@@ -36,7 +38,12 @@ public class ComparableStackList {
     public boolean equals(Object obj) {
         if (obj instanceof ComparableStackList) {
             ComparableStackList other = (ComparableStackList) obj;
-            return this.stacks.size() == other.stacks.size() && this.stacks.containsAll(other.stacks);
+            for (int i = 0; i < this.stacks.size(); i++) {
+                if (!this.stacks.get(i).equals(other.stacks.get(i))) {
+                    return false;
+                }
+            }
+            return true;
         }
         return false;
     }
